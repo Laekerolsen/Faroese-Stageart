@@ -56,7 +56,7 @@
   main {
     flex-direction: column;
     width: 100%;
-    min-height: 100%;
+    min-height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -65,7 +65,7 @@
     position: relative;
   }
 
-  .angular-logo {
+  .angular-logo, .logo {
     max-width: 9.2rem;
   }
 
@@ -73,8 +73,7 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
-    max-width: 700px;
-    margin-bottom: 3rem;
+    max-width: 768px;
   }
 
   .content h1 {
@@ -163,7 +162,7 @@
   @media screen and (max-width: 650px) {
     .content {
       flex-direction: column;
-      width: max-content;
+      /*width: max-content;*/
     }
 
     .divider {

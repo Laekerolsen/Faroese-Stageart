@@ -11,7 +11,9 @@ const urlFor = (source: any) => builder.image(source);
 
 interface Post {
   title: string;
-  body?: string;
+  price: string;
+  slug: { current: string };
+  body?: any[];
   image?: any;
   publishedAt?: string;
   // add other fields your Sanity post has
@@ -27,6 +29,21 @@ export class PostComponent {
   public slug: string | null;
   //public post$ = from(Promise.resolve(null)); // placeholder
   public post$: Observable<Post | null>; // <-- explicitly typed
+
+  public content(input: Post): any[] {
+    console.log(typeof input); 
+    let parsedValue: any[] = [];
+    
+    input.body?.forEach((block: any) => {
+      if (block._type === 'block') {
+        parsedValue.push({ type: 'text', content: block.children.map((child: any) => child.text).join(' ') });
+      } else if (block._type === 'image') {
+        parsedValue.push({ type: 'image', url: urlFor(block).url() });
+      }
+    });
+
+    return parsedValue;
+  }
 
   constructor(private route: ActivatedRoute) {
     this.slug = this.route.snapshot.paramMap.get('slug');

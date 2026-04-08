@@ -1,8 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  h2 {
+    @apply text-xl font-bold;
+  }
+}
+
 .crop {
   width: 200px;
   height: 280px;
   object-fit: cover;       /* fills the box, crops overflow */
   object-position: center; /* change to top, left, etc. */
+}
+
+p {
+  margin-bottom: 1rem;
 }
 
 @media screen and (max-width: 650px) {

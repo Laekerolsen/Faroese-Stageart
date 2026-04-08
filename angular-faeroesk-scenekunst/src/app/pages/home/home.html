@@ -1,12 +1,19 @@
-<main *ngIf="hasLoaded" class="container mx-auto min-h-screen max-w-3xl p-8">
-      <h1 class="text-4xl font-bold mb-8">Posts</h1>
-
+<main *ngIf="hasLoaded" class="container mx-auto max-w-3xl p-8">
+      <h1 class="text-2xl font-bold mb-8">Velkommen til færøsk scenekunst!</h1>
+      <p>Vi glæder os til at vise dig vores fantastiske arbejde!</p>
+      <p>Foreningen for færøsk scenekunst har til formål at fremme og støtte færøsk scenekunst i Esbjerg kommune.</p>
+      <p>Vi arrangerer forestillinger, workshops og andre kulturelle begivenheder for at bringe det bedste af færøsk scenekunst til Esbjerg og omegn.</p>
+      <p>Hold øje med vores kommende arrangementer og støt vores arbejde ved at deltage i vores events og dele vores budskab!</p>
+      <p>Tak for din interesse i færøsk scenekunst, og vi håber at se dig snart!</p>
+      
+      <h2 class="text-xl font-bold mt-8 mb-4">Andre måder at støtte os</h2>
       <ul class="flex flex-col gap-y-4">
         
         <li *ngFor="let post of posts$ | async" class="hover:underline">
-          <a [routerLink]="['/', post.slug.current]">
+          <a [routerLink]="['/salg/', post.slug.current]">
             <h2 class="text-xl font-semibold">{{ post.title }}</h2>
-            <p>{{ post.publishedAt | date }}</p>
+           <p>{{ post.description }}</p>
+            <img class="aspect-video rounded-xl crop" *ngIf="post.image" [src]="urlFor(post.image)" width="100%" />
           </a>
         </li>
       </ul>

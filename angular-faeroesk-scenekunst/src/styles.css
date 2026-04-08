@@ -10,7 +10,46 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    /*padding: 1rem;*/
     box-sizing: inherit;
     position: relative;
+  }
+
+  a {
+    color: #3e82bd !important;
+    text-decoration: none;
+  }
+
+  p {
+  margin-bottom: 1rem;
+  }
+
+  @media screen and (min-width: 768px) {
+
+    main {
+      min-width: 768px;
+    }
+
+  }
+
+  @media screen and (max-width: 650px) {
+
+    main {
+      min-width: 90vw;
+    }
+    .p-8 {
+    padding-top: 2rem;
+    padding-right: 0rem;
+    padding-bottom: 0rem;
+    padding-left: 0rem;
+    }
+
+    .divider {
+        height: 1px;
+        width: 87vw !important;
+        background: var(--red-to-pink-to-purple-horizontal-gradient);
+        margin-block: 0rem !important;
+    }
+
+
   }
