@@ -1,0 +1,25 @@
+    <main class="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
+      
+      <a routerLink="/" class="hover:underline">← Back to posts</a>
+
+      <img *ngIf="imageUrl"
+        [src]="imageUrl"
+        class="aspect-video rounded-xl"
+        width="550"
+        height="310"
+      />
+
+      <h1 class="text-4xl font-bold mb-8">{{ post?.title }}</h1>
+
+      <div class="prose">
+        <p>
+          Published: {{ post?.publishedAt | date }}
+        </p>
+
+        <!-- Simple rendering (PortableText equivalent requires extra lib) -->
+        <div *ngIf="post?.body">
+          <pre>{{ post.body | json }}</pre>
+        </div>
+      </div>
+
+    </main>
