@@ -1,12 +1,17 @@
 {
   "name": "angular-faeroesk-scenekunst",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
+    "generate:routes": "node scripts/generate-routes.mjs",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "prerender": "ng run angular-faeroesk-scenekunst:prerender",
+    "build:ssg": "npm run generate:routes && npm run build && node scripts/post-build.mjs",
+    "serve:ssr:angular-faeroesk-scenekunst": "node dist/angular-faeroesk-scenekunst/server/server.mjs"
   },
   "private": true,
   "packageManager": "npm@11.6.2",
@@ -17,17 +22,23 @@
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/platform-browser-dynamic": "^21.2.6",
+    "@angular/platform-server": "^21.2.0",
     "@angular/router": "^21.2.0",
+    "@angular/ssr": "^21.2.7",
     "@sanity/client": "^7.20.0",
     "@sanity/image-url": "^2.0.3",
+    "express": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^21.2.7",
     "@angular/build": "^21.2.5",
     "@angular/cli": "^21.2.5",
     "@angular/compiler-cli": "^21.2.0",
     "@tailwindcss/postcss": "^4.2.2",
+    "@types/express": "^5.0.1",
+    "@types/node": "^20.17.19",
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
