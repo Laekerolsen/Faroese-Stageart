@@ -1,2 +1,2 @@
 # Faroese-Stageart
-Ticketsystem for foreningen for Færøsk Scenekunst i Esbjerg
+Hjemmeside for foreningen for Færøsk Scenekunst i Esbjerg

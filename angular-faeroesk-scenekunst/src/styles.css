@@ -24,6 +24,10 @@
   margin-bottom: 1rem;
   }
 
+  .breadcrumb {
+    margin-top: 1.5rem !important;
+  }
+
   @media screen and (min-width: 768px) {
 
     main {
