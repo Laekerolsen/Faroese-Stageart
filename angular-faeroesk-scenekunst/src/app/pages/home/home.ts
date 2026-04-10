@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { client } from '../../sanity/client';
 import { NgZone } from '@angular/core';
 import { firstValueFrom, from, Observable } from 'rxjs';
 import { createImageUrlBuilder } from '@sanity/image-url';
+import { SeoMetadata } from '../../services/seo-metadata';
 
 const POSTS_QUERY = `*[_type == "post"&& defined(slug.current)]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt, image}`;
 const builder = createImageUrlBuilder(client);
@@ -30,14 +31,23 @@ interface Post {
 export class HomeComponent implements OnInit {
   posts$ = from(client.fetch(POSTS_QUERY));
 
-  
+  protected readonly title = signal('Færøsk Scenekunst');
+  protected readonly description = signal('Færøsk Scenekunst er en samling av teater, dans og performancekunst fra Færøyene.');
+  protected readonly keywords = signal('Færøsk Scenekunst, teater, dans, performancekunst, Færøyene');
+  seoMetadata: SeoMetadata;
 
   public posts: any[] = [];
   public hasLoaded: boolean = false;
   private zone: NgZone;
 
-  constructor(private ngZone: NgZone) {
+  constructor(private ngZone: NgZone, private _seoMetadata: SeoMetadata) {
     this.zone = ngZone;
+    // Set SEO metadata
+    this.seoMetadata = _seoMetadata;
+    this.seoMetadata.title.set(this.title());
+    this.seoMetadata.description.set(this.description());
+    this.seoMetadata.keywords.set(this.keywords());
+
     console.log('HomeComponent constructor called');
   }
 

@@ -6,6 +6,7 @@ import { App } from './app';
 import { HomeComponent } from './pages/home/home';
 import { PostComponent } from './pages/post/post';
 import { routes } from './app.routes';
+import { SeoMetadata } from './services/seo-metadata';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { routes } from './app.routes';
     RouterModule.forRoot(routes),
     RouterOutlet
   ],
+  providers: [SeoMetadata],
   bootstrap: [App]
 })
 export class AppModule {}

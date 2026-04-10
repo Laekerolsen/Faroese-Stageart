@@ -1,31 +1,33 @@
-<main class="main">
-  <div class="content">
-    <div class="left-side">
-      <a routerLink="/" class="hover:underline">
-      <img src="logo.jpg" alt="Færøsk Scenekunst i Esbjerg Logo" class="logo" />
-      </a>
+
+  <main class="main">
+    <div class="content">
+      <div class="left-side">
+        <a routerLink="/" class="hover:underline">
+        <img src="logo.jpg" alt="Færøsk Scenekunst i Esbjerg Logo" class="logo" />
+        </a>
+      </div>
+      <div class="divider" role="separator" aria-label="Divider"></div>
+      <div class="right-side">
+        <a routerLink="/" class="hover:underline">
+        <p class="h1-header h1 text-4xl font-bold mb-8">Færøsk Scenekunst i Esbjerg</p>
+        <p>Forening med formål at fremme færøsk scenekunst i Esbjerg. 🎉</p>
+        </a>
+      </div>
     </div>
-    <div class="divider" role="separator" aria-label="Divider"></div>
-    <div class="right-side">
-      <a routerLink="/" class="hover:underline">
-      <p class="h1-header h1 text-4xl font-bold mb-8">Færøsk Scenekunst i Esbjerg</p>
-      <p>Forening med formål at fremme færøsk scenekunst i Esbjerg. 🎉</p>
-      </a>
-    </div>
-  </div>
-  <router-outlet />
-  <footer class="footer">
-    <div class="container mx-auto max-w-3xl p-8">
-      <p>&copy; {{ currentYear }} Færøsk Scenekunst i Esbjerg. Alle rettigheder forbeholdes.</p>
-      <nav class="mt-4">
-        <a routerLink="/privatlivspolitik" class="hover:underline">Privatlivspolitik</a> |
-        <a routerLink="/cookiepolitik" class="hover:underline">Cookiepolitik</a> |
-        <a routerLink="/billetbetingelser" class="hover:underline">Event- og billetbetingelser</a> |
-        <a routerLink="/handelsbetingelser" class="hover:underline">Handelsbetingelser</a>
-      </nav>
-    </div>
-  </footer>
-</main>
+    <router-outlet />
+    <footer class="footer">
+      <div class="container mx-auto max-w-3xl p-8">
+        <p>&copy; {{ currentYear }} Færøsk Scenekunst i Esbjerg. Alle rettigheder forbeholdes.</p>
+        <nav class="mt-4">
+          <a routerLink="/privatlivspolitik" class="hover:underline">Privatlivspolitik</a> |
+          <a routerLink="/cookiepolitik" class="hover:underline">Cookiepolitik</a> |
+          <a routerLink="/billetbetingelser" class="hover:underline">Event- og billetbetingelser</a> |
+          <a routerLink="/handelsbetingelser" class="hover:underline">Handelsbetingelser</a>
+        </nav>
+      </div>
+    </footer>
+  </main>
+
 
 
 
