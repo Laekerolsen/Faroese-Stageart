@@ -11,8 +11,8 @@
     "test": "ng test",
     "prerender": "ng run angular-faeroesk-scenekunst:prerender",
     "deploy": "npx angular-cli-ghpages --dir=dist/angular-faeroesk-scenekunst/browser --branch=release --message='Deploy Angular Faeroesk Scenekunst' --no-dotfiles",
-    "build:ssg": "npm run generate:routes && npm run build --base-href /faroese-stageart/ && node scripts/post-build.mjs",
-    "build:ssg-production": "npm run generate:routes && ng build --configuration production --base-href /faroese-stageart/ && node scripts/post-build.mjs",
+    "build:ssg": "npm run generate:routes && npm run build --base-href https://laekerolsen.github.io/Faroese-Stageart/ && node scripts/post-build.mjs",
+    "build:ssg-production": "npm run generate:routes && ng build --configuration production --base-href https://laekerolsen.github.io/Faroese-Stageart/ && node scripts/post-build.mjs",
     "serve:ssr:angular-faeroesk-scenekunst": "node dist/angular-faeroesk-scenekunst/server/server.mjs"
   },
   "private": true,
