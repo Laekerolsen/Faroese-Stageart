@@ -37,10 +37,11 @@ jobs:
 
       - run: npm run build:ssg-production
 
-      - name: Configure Git
+      - name: Configure Git + Auth
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
       - name: Deploy to GitHub Pages
         run: npm run deploy
