@@ -7,6 +7,16 @@
 /.angular/
 .angular/
 
+studio-færøsk-scenekunst/
+/studio-færøsk-scenekunst/
+studio-færøsk-scenekunst/*
+/studio-færøsk-scenekunst/*
+
+angular-faeroesk-scenekunst/
+/angular-faeroesk-scenekunst/
+angular-faeroesk-scenekunst/*
+/angular-faeroesk-scenekunst/*
+
 # Node modules and dependency files
 /node_modules/
 /package-lock.json
