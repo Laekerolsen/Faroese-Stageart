@@ -10,7 +10,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prerender": "ng run angular-faeroesk-scenekunst:prerender",
-    "build:ssg": "npm run generate:routes && npm run build && node scripts/post-build.mjs",
+    "deploy": "npx angular-cli-ghpages --dir=dist/angular-faeroesk-scenekunst --message='Deploy Angular Faeroesk Scenekunst' --dotfiles",
+    "build:ssg": "npm run generate:routes && npm run build --base-href /faroese-stageart/ && node scripts/post-build.mjs",
+    "build:ssg-production": "npm run generate:routes && ng build --configuration production --base-href /faroese-stageart/ && node scripts/post-build.mjs",
     "serve:ssr:angular-faeroesk-scenekunst": "node dist/angular-faeroesk-scenekunst/server/server.mjs"
   },
   "private": true,
@@ -39,6 +41,7 @@
     "@tailwindcss/postcss": "^4.2.2",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "angular-cli-ghpages": "^3.0.2",
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
