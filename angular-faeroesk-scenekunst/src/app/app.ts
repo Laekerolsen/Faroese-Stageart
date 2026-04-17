@@ -23,6 +23,12 @@ export class App {
 
   public basket: ReturnType<BasketStore['basket$']>;
 
+  get hasLines() {
+
+
+    return this.basket && (this.basket.lines?.length || 0) > 0;
+  }
+
   constructor(private _seoMetadata: SeoMetadata, private activatedRoute: ActivatedRoute, private basketStore: BasketStore) {
     this.store = basketStore;
     this.basket = this.store.basket$();
