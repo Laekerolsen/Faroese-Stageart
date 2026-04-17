@@ -1,5 +1,5 @@
 <div class="shipping-container" animate.enter="enter-animation-shipping" animate.leave="leaving-animation-shipping">
-<h4 *ngIf="basket().lines.length;">Fragt</h4>
+<p class="text-2xl font-bold mb-4" *ngIf="basket().lines.length;">Fragt</p>
 <div class="shipping">
 <button *ngIf="basket().lines.length;" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="set(0)">Hent selv (Gratis)</button>
 <button *ngIf="basket().lines.length;" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="set(55.2)">Standard GLS (69 DKK)</button>

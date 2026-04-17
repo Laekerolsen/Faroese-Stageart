@@ -16,10 +16,11 @@
     </div>
 
     <div role="separator" aria-label="Divider" class="divider"></div>
-
+    
+    <div *ngIf="basket().shippingInclVat > 0" class="text-1xl p-right">Fragt: {{ basket().shippingInclVat | number:'1.2-2' }} DKK</div>
     <p class="text-1xl"><strong>Total: {{ basket().totalInclVat | number:'1.2-2' }}</strong></p>
 
     <p>
-      <button class="px-4 py-2 bg-blue-600 text-1xl text-white rounded hover:bg-blue-700" (click)="checkout()">Checkout</button>
+      <button class="px-4 py-2 bg-blue-600 text-1xl text-white rounded hover:bg-blue-700" (click)="checkout()">Gå til kurven</button>
     </p>
 </div>

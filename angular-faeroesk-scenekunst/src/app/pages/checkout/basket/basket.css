@@ -35,6 +35,10 @@
         flex-direction: column;
     }
 
+    .checkout-container {
+        flex-direction: column;
+    }
+
     .left-side, .right-side {
         max-width: 100%;
     }

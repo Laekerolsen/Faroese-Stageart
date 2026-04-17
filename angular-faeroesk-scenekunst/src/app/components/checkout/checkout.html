@@ -1,12 +1,15 @@
-<div *ngIf="basket.lines.length;" class="checkout-button gap-8" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">
-    <label class="label">
+<div *ngIf="basket().lines.length > 0;" class="checkout-button gap-8" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">
+    <span [class.error]="hasCheckoutBeenClicked" *ngIf="!isChecked" (click)="openModal()">Du skal acceptere salgs og leveringsbetingelserne, før du kan gennemføre et køb</span>
+    <div class="terms gap-8">
+    <label [class.error]="hasCheckoutBeenClicked" class="label">
         <span (click)="openModal()">Accepter salgs og leveringsbetingelser</span>
     </label>
-    <label class="checkmark">
-        <input type="checkbox">
+    <label [class.error]="hasCheckoutBeenClicked" class="checkmark">
+        <input type="checkbox" [(ngModel)]="Checked">
         <span></span>
     </label>
-    <button *ngIf="basket.lines.length;" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" [disabled]="!basket.lines.length" (click)="checkout()">Checkout</button>
+    </div>
+    <button [class.disabled]="!basket().lines.length || !isChecked" *ngIf="basket().lines.length > 0;" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" [disabled]="!basket().lines.length" (click)="handleCheckout()">Checkout</button>
 </div>
 
 <div *ngIf="ShowModal()" id="modal" class="modal" animate.enter="enter-animation-modal" animate.leave="leaving-animation-modal">
@@ -167,5 +170,6 @@ Hvis du har en klage, anbefaler vi, at du først kontakter os direkte på <a hre
 <p>
 Hvis du ikke er tilfreds med vores håndtering af din klage, har du som nævnt tidligere mulighed for at indgive en klage til <a href="https://www.naevneneshus.dk" target="_blank">www.naevneneshus.dk</a>, som er en uafhængig klageinstans. Det er vigtigt at følge de relevante procedurer og tidsfrister for at sikre, at din klage behandles korrekt.
 </p>
+<button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" id="closeModal" (click)="ShowModal.set(false)">Close</button>
   </div>
 </div>

@@ -1,27 +1,43 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BasketStore } from '../../services/basket';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-checkout-component',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class CheckoutComponent  {
   private store = inject(BasketStore);
+  basket = this.store.basket$;
 
-  public basket = this.store.basket$();
+  public isChecked: boolean = false;
+
+  public get Checked()
+  {
+    if (this.isChecked)
+      this.hasCheckoutBeenClicked = false;
+    
+    return this.isChecked;
+  }
+
+  public set Checked(inpValue: boolean)
+  {
+    this.hasCheckoutBeenClicked = !inpValue;
+    this.isChecked = inpValue;
+  }
 
   async checkout() {
-    this.basket = this.store.basket$();
+    const basket = this.store.basket$();
 
     const res = await fetch('/api/create-checkout-session', {
       method: 'POST',
-      body: JSON.stringify(this.basket)
+      body: JSON.stringify(basket)
     });
 
     const { url } = await res.json();
@@ -31,5 +47,23 @@ export class CheckoutComponent  {
 
   openModal() {
     this.ShowModal.set(true);
+  }
+
+  public hasCheckoutBeenClicked: boolean = false;
+
+  handleCheckout() {
+    this.hasCheckoutBeenClicked = true;
+
+    if (!this.basket().lines.length) {
+      alert('Din indkøbskurv er tom');
+      return;
+    }
+
+    if (!this.isChecked) {
+      alert('Venligst accepter salgs og leveringsbetingelser først.');
+      return;
+    }
+
+    this.checkout();
   }
 }

@@ -18,6 +18,13 @@
   color: #0087fc;
 }
 
+.terms {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .checkmark {
   display: inline-flex;
   cursor: pointer;
@@ -143,6 +150,36 @@
     .left-side, .right-side {
         max-width: 100%;
     }
+
+    .checkout-button {
+      flex-direction: column;
+    }
+
+    button.disabled {
+  opacity: 0.5;
+  pointer-events: auto; /* important */
+}
+
+  label.error,
+  span.error {
+    color: red;
+  }
+
+  label.error .checkmark,
+  label.error.checkmark,
+  .checkmark.error
+  {
+    border: 2px solid red;
+  }
+
+    .terms {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+
 
     .p-8 {
     padding-top: 2rem;
