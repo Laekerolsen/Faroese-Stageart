@@ -12,7 +12,9 @@
         <p class="h1-header h1 text-2xl font-bold mb-4">Færøsk Scenekunst i Esbjerg</p>
         <p>Forening med formål at fremme færøsk scenekunst i Esbjerg. 🎉</p>
         </a>
-        <app-basket-component></app-basket-component>
+        <div *ngIf="basket.lines?.length > 0">
+          <app-basket-component></app-basket-component>
+        </div>
       </div>
     </div>
     <router-outlet />

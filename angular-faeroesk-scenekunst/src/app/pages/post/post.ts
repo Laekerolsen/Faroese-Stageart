@@ -6,6 +6,8 @@ import { client } from '../../sanity/client';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { SeoMetadata } from '../../services/seo-metadata';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { BasketStore } from '../../services/basket';
+import { Product } from '../../Models/product.model';
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 const builder = createImageUrlBuilder(client);
@@ -37,6 +39,8 @@ export class PostComponent implements OnInit {
   protected readonly keywords = signal('Færøsk Scenekunst, teater, dans, performancekunst, Færøyene');
   seoMetadata: SeoMetadata;
 
+  product: Product | null = null;
+
   public content(input: Post): any[] {
     console.log(typeof input); 
     let parsedValue: any[] = [];
@@ -52,7 +56,7 @@ export class PostComponent implements OnInit {
     return parsedValue;
   }
 
-  constructor(private route: ActivatedRoute, private _seoMetadata: SeoMetadata) {
+  constructor(private route: ActivatedRoute, private _seoMetadata: SeoMetadata, private basketStore: BasketStore) {
     this.slug = this.route.snapshot.paramMap.get('slug');
     // Set SEO metadata
     this.seoMetadata = _seoMetadata;
@@ -90,6 +94,31 @@ export class PostComponent implements OnInit {
   postInline: Signal<Post | null | undefined>;
 
   ngOnInit() {
+  }
+
+  public addToBasket(post: Post) {
+    const item = {
+      id: post.slug.current,
+      title: post.title,
+      price: parseInt(post.price, 10),
+      image: post.image ? urlFor(post.image).width(200).url() : null,
+    };
+
+    const product: Product = {
+      id: item.id,
+      name: item.title,
+      price: item.price,
+      currency: 'DKK',
+      imageUrl: item.image || undefined,
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      description: post.body ? JSON.stringify(post.body) : undefined,
+    };
+
+    // Add to basket logic here
+    console.log('Adding to basket:', item);
+    this.basketStore.add(product);
   }
 
   public urlFor = urlFor;
