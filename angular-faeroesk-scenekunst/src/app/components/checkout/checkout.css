@@ -161,15 +161,18 @@
 }
 
   label.error,
-  span.error {
-    color: red;
+  span.error,
+  .error {
+    color: red !important;
   }
 
   label.error .checkmark,
   label.error.checkmark,
-  .checkmark.error
+  .checkmark.error,
+  .error,
+  .error input
   {
-    border: 2px solid red;
+    border: 2px solid red !important;
   }
 
     .terms {
