@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class DiscountComponent  {
   private store = inject(BasketStore);
+  basket = this.store.basket$;
 
   code = '';
 

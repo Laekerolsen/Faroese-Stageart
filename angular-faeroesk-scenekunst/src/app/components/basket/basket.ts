@@ -41,7 +41,6 @@ export class BasketComponent implements OnInit {
 
   constructor(private ngZone: NgZone) {
     this.zone = ngZone;
-
     console.log('BasketComponent constructor called');
   }
 

@@ -1,26 +1,29 @@
-<p class="text-2xl font-bold mb-8">Indkøbskurv</p>
+<p class="text-2xl font-bold mb-8" animate.enter="enter-animation-full-basket">Indkøbskurv</p>
 
-<div *ngIf="basket().lines.length; else empty">
-    <div *ngFor="let line of basket().lines" class="line">
-      <div>
+<div *ngIf="basket().lines.length; else empty" animate.enter="enter-animation-full-basket" animate.leave="leaving-animation-full-basket">
+    <div *ngFor="let line of basket().lines" class="line flex flex-row gap-8" animate.enter="enter-animation-basket" animate.leave="leaving-animation-basket">
+      <button class="remove-btn px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" (click)="remove(line.productId)">Fjern</button>
+
+      <div class="bline-text">
         {{ line.productName }} x {{ line.quantity }}
       </div>
 
-      <div>
+      <div class="bline-text">
         {{ line.totalInclVat | number:'1.2-2' }} DKK
       </div>
-
-      <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" (click)="remove(line.productId)">Fjern</button>
     </div>
 
-    <hr>
+    <div class="divider divider-horizontal horizontal" role="separator" aria-label="Divider"></div>
 
-    <div>Subtotal: {{ basket().totalExclVat | number:'1.2-2' }}</div>
-    <div>Moms: {{ basket().totalVat | number:'1.2-2' }}</div>
-    <div>Rabat: -{{ basket().totalDiscount | number:'1.2-2' }}</div>
-    <div><strong>Total: {{ basket().totalInclVat | number:'1.2-2' }}</strong></div>
+    <div class="p-right">Subtotal: {{ basket().totalExclVat | number:'1.2-2' }}</div>
+    <div class="p-right">Moms af varer: {{ 0 | number:'1.2-2' }} DKK</div>
+    <div class="p-right">Fragt: {{ basket().shippingInclVat | number:'1.2-2' }} DKK</div>    
+    <div class="p-right">Moms af fragt: {{ basket().shippingVat | number:'1.2-2' }} DKK</div>
+    <div *ngIf="basket().totalDiscount > 0" class="p-right">Rabat: -{{ basket().totalDiscount | number:'1.2-2' }}</div>
+    <div class="p-right">Moms total: {{ basket().totalVat | number:'1.2-2' }}</div>
+    <div class="p-right"><strong>Total: {{ basket().totalInclVat | number:'1.2-2' }}</strong></div>
 </div>
 
 <ng-template #empty>
-  <p>Din kurv er tom</p>
+  <p animate.enter="enter-animation-empty-basket">Din kurv er tom</p>
 </ng-template>

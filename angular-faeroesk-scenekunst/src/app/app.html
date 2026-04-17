@@ -22,7 +22,7 @@
     <div class="left-side">
     <router-outlet />
     </div>
-    <div class="right-side" *ngIf="hasLines && !IsCheckoutRoute" class="basket">
+    <div *ngIf="hasLines && !IsCheckoutRoute" class="basket right-side basket-area">
       <app-basket-small-component></app-basket-small-component>
     </div>
     </div>

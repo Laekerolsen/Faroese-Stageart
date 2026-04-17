@@ -5,6 +5,27 @@
   object-position: center; /* change to top, left, etc. */
 }
 
+.checkout-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.checkout-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.checkout-container {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    flex-direction: row;
+}
+
 @media screen and (max-width: 650px) {
     .content {
       flex-direction: column;

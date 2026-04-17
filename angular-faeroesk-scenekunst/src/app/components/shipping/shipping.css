@@ -5,6 +5,38 @@
   object-position: center; /* change to top, left, etc. */
 }
 
+.shipping {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.enter-animation-shipping {
+  animation: slide-fade-shipping 1s;
+}
+
+.leaving-animation-shipping {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+@keyframes slide-fade-shipping {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media screen and (max-width: 650px) {
     .content {
       flex-direction: column;

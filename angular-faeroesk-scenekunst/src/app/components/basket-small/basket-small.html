@@ -1,6 +1,6 @@
 
 
-<div *ngIf="basket().lines.length;">
+<div *ngIf="basket().lines.length;" animate.enter="enter-animation" animate.leave="leaving">
     <p class="text-1xl font-bold mb-8">Indkøbskurv</p>
 
     <div *ngFor="let line of basket().lines" class="line">

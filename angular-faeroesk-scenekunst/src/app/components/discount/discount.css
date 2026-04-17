@@ -5,6 +5,43 @@
   object-position: center; /* change to top, left, etc. */
 }
 
+.discount {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.input-discount {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.enter-animation-discount {
+  animation: slide-fade-discount 1s;
+}
+
+.leaving-animation-discount {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+@keyframes slide-fade-discount {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media screen and (max-width: 650px) {
     .content {
       flex-direction: column;

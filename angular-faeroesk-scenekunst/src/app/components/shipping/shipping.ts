@@ -13,6 +13,7 @@ import { BasketStore } from '../../services/basket';
 })
 export class ShippingComponent  {
   private store = inject(BasketStore);
+  basket = this.store.basket$;
 
   set(amount: number) {
     this.store.setShipping(amount);

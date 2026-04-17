@@ -5,6 +5,99 @@
   object-position: center; /* change to top, left, etc. */
 }
 
+.line {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.remove-btn {
+  flex: auto;
+}
+
+.bline-text {
+  display: flex;
+  align-items: center;
+}
+
+.divider {
+    width: 1px;
+    background: var(--red-to-pink-to-purple-vertical-gradient);
+    margin-inline: 0rem;
+  }
+
+  .horizontal
+  {
+    width: 100%;
+    height: 1px;
+    background: var(--red-to-pink-to-purple-horizontal-gradient);
+    margin-block: 1.5rem;
+  }
+.p-right {
+  text-align: right;
+}
+
+.enter-animation-full-basket {
+  animation: slide-fade-full-basket 1s;
+}
+
+.enter-animation-empty-basket {
+  animation: slide-fade-empty-basket 3s;
+}
+
+.leaving-animation-full-basket {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+.enter-animation-basket {
+  animation: slide-fade-basket 1s;
+}
+
+.leaving-animation-basket {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+@keyframes slide-fade-basket {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-fade-full-basket {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-fade-empty-basket {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media screen and (max-width: 650px) {
     .content {
       flex-direction: column;

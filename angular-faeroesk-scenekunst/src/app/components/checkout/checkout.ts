@@ -27,4 +27,9 @@ export class CheckoutComponent  {
     const { url } = await res.json();
     window.location.href = url;
   }
+  public ShowModal = signal(false);
+
+  openModal() {
+    this.ShowModal.set(true);
+  }
 }

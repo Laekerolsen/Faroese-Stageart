@@ -18,7 +18,7 @@ import { BasketSmallComponent } from './components/basket-small/basket-small';
 
 @NgModule({
   declarations: [App, HomeComponent, PostComponent, BasketPageComponent],
-  imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes), RouterOutlet, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent],
+  imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes, {enableViewTransitions: true}), RouterOutlet, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent],
   providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore],
   bootstrap: [App],
 })

@@ -10,7 +10,7 @@ export class BasketStore {
   private readonly vatRateShipping = 0.25;
   private readonly storageKey = 'basket';
 
-  private basket = signal<Basket>(this.loadInitial());
+  public basket = signal<Basket>(this.loadInitial());
 
   readonly basket$ = this.basket.asReadonly();
 

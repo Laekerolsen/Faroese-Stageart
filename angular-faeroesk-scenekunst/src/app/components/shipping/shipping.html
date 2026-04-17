@@ -1,4 +1,7 @@
-<h4>Fragt</h4>
-
-<button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="set(0)">Hent selv (Gratis)</button>
-<button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="set(69)">Standard GLS (69 DKK)</button>
+<div class="shipping-container" animate.enter="enter-animation-shipping" animate.leave="leaving-animation-shipping">
+<h4 *ngIf="basket().lines.length;">Fragt</h4>
+<div class="shipping">
+<button *ngIf="basket().lines.length;" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="set(0)">Hent selv (Gratis)</button>
+<button *ngIf="basket().lines.length;" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="set(55.2)">Standard GLS (69 DKK)</button>
+</div>
+</div>
