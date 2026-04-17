@@ -6,7 +6,8 @@ import { Discount } from '../Models/discount.model';
 
 @Injectable({ providedIn: 'root' })
 export class BasketStore {
-  private readonly vatRate = 0.25;
+  private readonly vatRate = 0;
+  private readonly vatRateShipping = 0.25;
   private readonly storageKey = 'basket';
 
   private basket = signal<Basket>(this.loadInitial());
@@ -60,7 +61,7 @@ export class BasketStore {
   }
 
   setShipping(amountExclVat: number) {
-    const vat = amountExclVat * this.vatRate;
+    const vat = amountExclVat * this.vatRateShipping;
 
     this.basket.update(b => ({
       ...b,

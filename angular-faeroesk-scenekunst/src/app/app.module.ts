@@ -14,10 +14,11 @@ import { BasketComponent } from './components/basket/basket';
 import { ShippingComponent } from './components/shipping/shipping';
 import { CheckoutComponent } from './components/checkout/checkout';
 import { DiscountComponent } from './components/discount/discount';
+import { BasketSmallComponent } from './components/basket-small/basket-small';
 
 @NgModule({
   declarations: [App, HomeComponent, PostComponent, BasketPageComponent],
-  imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes), RouterOutlet, BasketComponent, ShippingComponent, DiscountComponent, CheckoutComponent],
+  imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes), RouterOutlet, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent],
   providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore],
   bootstrap: [App],
 })

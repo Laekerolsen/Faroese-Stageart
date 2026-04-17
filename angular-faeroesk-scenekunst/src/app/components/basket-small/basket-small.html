@@ -1,0 +1,25 @@
+
+
+<div *ngIf="basket().lines.length;">
+    <p class="text-1xl font-bold mb-8">Indkøbskurv</p>
+
+    <div *ngFor="let line of basket().lines" class="line">
+      <p class="text-1xl">
+        {{ line.productName }} x {{ line.quantity }}
+      </p>
+
+      <p class="text-1xl">
+        {{ line.totalInclVat | number:'1.2-2' }} DKK
+      </p>
+
+      <button class="px-4 py-2 bg-red-600 text-1xl text-white rounded hover:bg-red-700" (click)="remove(line.productId)">Fjern</button>
+    </div>
+
+    <div role="separator" aria-label="Divider" class="divider"></div>
+
+    <p class="text-1xl"><strong>Total: {{ basket().totalInclVat | number:'1.2-2' }}</strong></p>
+
+    <p>
+      <button class="px-4 py-2 bg-blue-600 text-1xl text-white rounded hover:bg-blue-700" (click)="checkout()">Checkout</button>
+    </p>
+</div>

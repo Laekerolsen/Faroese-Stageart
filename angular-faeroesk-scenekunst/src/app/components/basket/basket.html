@@ -10,7 +10,7 @@
         {{ line.totalInclVat | number:'1.2-2' }} DKK
       </div>
 
-      <button (click)="remove(line.productId)">Fjern</button>
+      <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" (click)="remove(line.productId)">Fjern</button>
     </div>
 
     <hr>
@@ -22,5 +22,5 @@
 </div>
 
 <ng-template #empty>
-  <p>Your basket is empty</p>
+  <p>Din kurv er tom</p>
 </ng-template>

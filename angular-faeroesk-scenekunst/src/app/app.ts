@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { SeoMetadata } from './services/seo-metadata';
 import { BasketComponent } from './components/basket/basket';
@@ -10,7 +10,7 @@ import { BasketStore } from './services/basket';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('Færøsk Scenekunst');
   protected readonly description = signal('Færøsk Scenekunst er en samling av teater, dans og performancekunst fra Færøyene.');
   protected readonly keywords = signal('Færøsk Scenekunst, teater, dans, performancekunst, Færøyene');
@@ -43,5 +43,31 @@ export class App {
       this.seoMetadata.description.set(data['description']);
       this.seoMetadata.keywords.set(data['keywords']);
     });
+  }
+
+  get IsCheckoutRoute() {
+
+    let currentRoute = this.route;
+
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+    }
+
+    const path = currentRoute.snapshot.routeConfig?.path;
+    const isKurv = path === 'kurv';
+
+    console.log('Current route path:', path);
+    console.log('Is checkout route:', isKurv);
+    return isKurv;
+  }
+
+  ngOnInit(): void {
+    let currentRoute = this.route;
+
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+    }
+
+    console.log(currentRoute.snapshot.routeConfig?.path);
   }
 }
