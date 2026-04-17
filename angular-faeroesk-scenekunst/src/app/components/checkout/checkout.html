@@ -1,5 +1,5 @@
-<div *ngIf="basket().lines.length > 0;" class="checkout-button gap-8" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">
-    <span [class.error]="hasCheckoutBeenClicked" *ngIf="!isChecked" (click)="openModal()">Du skal acceptere salgs og leveringsbetingelserne, før du kan gennemføre et køb</span>
+<span *ngIf="basket().lines.length > 0 && !isChecked" [class.error]="hasCheckoutBeenClicked" (click)="openModal()" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">Du skal acceptere salgs og leveringsbetingelserne, før du kan gennemføre et køb</span>
+<div *ngIf="basket().lines.length > 0;" class="checkout-button gap-8" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">    
     <div class="terms gap-8">
     <label [class.error]="hasCheckoutBeenClicked" class="label">
         <span (click)="openModal()">Accepter salgs og leveringsbetingelser</span>
