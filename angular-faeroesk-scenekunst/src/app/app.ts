@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { SeoMetadata } from './services/seo-metadata';
+import { BasketComponent } from './components/basket/basket';
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,26 @@
+<p class="text-2xl font-bold mb-8">Indkøbskurv</p>
+
+<div *ngIf="basket().lines.length; else empty">
+    <div *ngFor="let line of basket().lines" class="line">
+      <div>
+        {{ line.productName }} x {{ line.quantity }}
+      </div>
+
+      <div>
+        {{ line.totalInclVat | number:'1.2-2' }} DKK
+      </div>
+
+      <button (click)="remove(line.productId)">Fjern</button>
+    </div>
+
+    <hr>
+
+    <div>Subtotal: {{ basket().totalExclVat | number:'1.2-2' }}</div>
+    <div>Moms: {{ basket().totalVat | number:'1.2-2' }}</div>
+    <div>Rabat: -{{ basket().totalDiscount | number:'1.2-2' }}</div>
+    <div><strong>Total: {{ basket().totalInclVat | number:'1.2-2' }}</strong></div>
+</div>
+
+<ng-template #empty>
+  <p>Your basket is empty</p>
+</ng-template>
