@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { BasketStore } from '../../services/basket';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class CheckoutComponent  {
   private store = inject(BasketStore);
+  private router = inject(Router)
   basket = this.store.basket$;
 
   public isChecked: boolean = false;
@@ -64,6 +66,7 @@ export class CheckoutComponent  {
       return;
     }
 
-    this.checkout();
+    this.router.navigate(['/adresse']);
+    //this.checkout();
   }
 }

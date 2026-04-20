@@ -1,0 +1,41 @@
+<div class="checkout-container">
+<div class="checkout-left checkout-address">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+  <h2>Fakturaadresse</h2>
+  <div formGroupName="invoiceAddress">
+    <input formControlName="name" placeholder="Navn" />
+    <input formControlName="company" placeholder="Firma" />
+    <input formControlName="street" placeholder="Adresse" />
+    <input formControlName="street2" placeholder="Adresse 2" />
+    <input formControlName="zipCode" placeholder="Postnr." />
+    <input formControlName="city" placeholder="By" />
+    <input formControlName="country" placeholder="Land" />
+    <input formControlName="email" placeholder="Email" />
+    <input formControlName="phone" placeholder="Telefon" />
+  </div>
+
+  <label>
+    <input type="checkbox" formControlName="useSameAddress" />
+    Leveringsadresse er samme som fakturaadresse
+  </label>
+
+  <div *ngIf="!form.get('useSameAddress')?.value">
+    <h2>Leveringsadresse</h2>
+    <div formGroupName="deliveryAddress">
+      <input formControlName="name" placeholder="Navn" />
+      <input formControlName="company" placeholder="Firma" />
+      <input formControlName="street" placeholder="Adresse" />
+      <input formControlName="street2" placeholder="Adresse 2" />
+      <input formControlName="zipCode" placeholder="Postnr." />
+      <input formControlName="city" placeholder="By" />
+      <input formControlName="country" placeholder="Land" />
+      <input formControlName="email" placeholder="Email" />
+      <input formControlName="phone" placeholder="Telefon" />
+    </div>
+  </div>
+
+  <button type="submit">Bestil</button>
+</form>
+</div>
+</div>

@@ -1,13 +1,17 @@
-import { BasketLine } from './basketline.model';
+import { Address } from './address.model';
 import { Discount } from './discount.model';
 import { OrderLine } from './orderline.model';
 
 export type OrderStatus =
   | 'pending'
+  | 'approved'
   | 'confirmed'
   | 'shipped'
   | 'delivered'
-  | 'cancelled';
+  | 'cancelled'
+  | 'created'
+  | 'abandoned'
+  | 'initialized';
 
 export interface Order {
   id: string;
@@ -15,7 +19,7 @@ export interface Order {
 
   orderStatus: OrderStatus;
 
-  lines: BasketLine[];
+  lines: OrderLine[];
 
   discount?: Discount;
 
@@ -29,4 +33,8 @@ export interface Order {
 
   currency: string;
   createdAt: string;
+
+  invoiceAddress: Address;
+  deliveryAddress: Address;
+  useSameAddress: boolean;
 }

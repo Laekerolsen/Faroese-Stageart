@@ -1,3 +1,4 @@
+import { Address } from "./address.model";
 import { BasketLine } from "./basketline.model";
 import { Discount } from "./discount.model";
 
@@ -19,6 +20,10 @@ export interface Basket {
 
   currency: string;
   updatedAt?: Date;
+  
+    invoiceAddress: Address;
+    deliveryAddress: Address;
+    useSameAddress: boolean;
 }
 
 export class BasketModel {
