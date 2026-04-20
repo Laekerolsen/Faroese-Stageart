@@ -5,6 +5,10 @@
   object-position: center; /* change to top, left, etc. */
 }
 
+.left-side{
+    max-width: 900px;
+}
+
 .checkout-left {
     flex: 1;
     display: flex;

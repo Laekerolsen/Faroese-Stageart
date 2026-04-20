@@ -18,8 +18,9 @@
     <div class="top-basket" *ngIf="hasLines && !IsCheckoutRoute" class="basket-top">
       <app-basket-small-component></app-basket-small-component>
     </div>
+    <app-checkout-stepper *ngIf="hasLines && IsCheckoutRoute" [currentStep]="CheckoutStage"></app-checkout-stepper>
     <div class="main-container container mx-auto max-w-13xl flex flex-row gap-4">
-    <div class="left-side">
+    <div class="left-side {{ BasketFlowClass }}">
     <router-outlet />
     </div>
     <div *ngIf="hasLines && !IsCheckoutRoute" class="basket right-side basket-area">

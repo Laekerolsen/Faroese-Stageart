@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { SeoMetadata } from './services/seo-metadata';
 import { BasketComponent } from './components/basket/basket';
 import { BasketStore } from './services/basket';
+import { CheckoutStep, CheckoutStepperComponent } from './components/checkout-stepper/checkout-stepper';
 
 @Component({
   selector: 'app-root',
@@ -45,6 +46,32 @@ export class App implements OnInit {
     });
   }
 
+  get BasketFlowClass()
+  {
+    if (this.IsCheckoutRoute)
+      return 'basket-flow'
+    else 
+      return '';
+  }
+
+  get CheckoutStage(): CheckoutStep
+  {
+    let currentRoute = this.route;
+
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+    }
+
+    const path = currentRoute.snapshot.routeConfig?.path || 'kurv' as CheckoutStep;
+
+    
+
+    if (this.IsCheckoutRoute)
+      return path as CheckoutStep
+    else 
+      return 'kurv' as CheckoutStep;
+  }
+
   get IsCheckoutRoute() {
 
     let currentRoute = this.route;
@@ -54,7 +81,7 @@ export class App implements OnInit {
     }
 
     const path = currentRoute.snapshot.routeConfig?.path;
-    const isKurv = path === 'kurv';
+    const isKurv = path === 'kurv' || path === 'adresse' || path === 'betaling';
 
     console.log('Current route path:', path);
     console.log('Is checkout route:', isKurv);

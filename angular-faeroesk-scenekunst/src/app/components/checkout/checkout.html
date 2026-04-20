@@ -9,7 +9,7 @@
         <span></span>
     </label>
     </div>
-    <button [class.disabled]="!basket().lines.length || !isChecked" *ngIf="basket().lines.length > 0;" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" [disabled]="!basket().lines.length" (click)="handleCheckout()">Checkout</button>
+    <button [class.disabled]="!basket().lines.length || !isChecked" *ngIf="basket().lines.length > 0;" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" [disabled]="!basket().lines.length" (click)="handleCheckout()">Gå til kassen</button>
 </div>
 
 <div *ngIf="ShowModal()" id="modal" class="modal" animate.enter="enter-animation-modal" animate.leave="leaving-animation-modal">

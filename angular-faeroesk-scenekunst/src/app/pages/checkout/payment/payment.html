@@ -1,13 +1,16 @@
-<div class="checkout-container">
+<div *ngIf="store.basket().lines && store.basket().lines.length > 0" class="checkout-container">
 <div class="checkout-left checkout-payment">
 
-<div *ngIf="store.order() as o" class="payment-page">
+  <button class="px-4 py-2 bg-yellow-600 text-1xl text-white rounded hover:bg-yellow-700" (click)="backToAddress()">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M169.4 297.4C156.9 309.9 156.9 330.2 169.4 342.7L361.4 534.7C373.9 547.2 394.2 547.2 406.7 534.7C419.2 522.2 419.2 501.9 406.7 489.4L237.3 320L406.6 150.6C419.1 138.1 419.1 117.8 406.6 105.3C394.1 92.8 373.8 92.8 361.3 105.3L169.3 297.3z"/></svg>
+  Gå tilbage til adresse</button>
 
-  <h1>Order overview</h1>
+<div *ngIf="store.order() as o" class="payment-page">
+  <h1 class="text-2xl font-bold mb-4">Ordreoversigt</h1>
 
   <!-- ITEMS -->
   <div class="box">
-    <h2>Items</h2>
+    <h2 class="text-1xl font-bold">Items</h2>
 
     <div *ngFor="let item of o.lines">
       <div>
@@ -19,40 +22,55 @@
     </div>
   </div>
 
+  <!-- TOTALS -->
+  <div class="box total mb-4">
+    <div>Subtotal: {{ subtotal() }} {{ o.currency }}</div>
+    <div>Fragt: {{ shipping }} {{ o.currency }}</div>
+    <strong>Total: {{ total() }} {{ o.currency }}</strong>
+  </div>
+
   <!-- ADDRESSES -->
   <div class="box">
-    <h3>Invoice address</h3>
+    <h3 class="text-1xl font-bold">Faktura adresse</h3>
     <p>
       {{ o.invoiceAddress.name }}<br />
       {{ o.invoiceAddress.street }}<br />
       {{ o.invoiceAddress.zipCode }} {{ o.invoiceAddress.city }}<br />
-      {{ o.invoiceAddress.country }}
+      {{ o.invoiceAddress.country }}<br />
+      {{ o.invoiceAddress.phone }}<br />
+      {{ o.invoiceAddress.email }}
     </p>
   </div>
 
   <div class="box">
-    <h3>Delivery address</h3>
+    <h3 class="text-1xl font-bold">Leveringsadresse</h3>
     <p>
       {{ o.deliveryAddress.name }}<br />
       {{ o.deliveryAddress.street }}<br />
       {{ o.deliveryAddress.zipCode }} {{ o.deliveryAddress.city }}<br />
-      {{ o.deliveryAddress.country }}
+      {{ o.deliveryAddress.country }}<br />
+      {{ o.deliveryAddress.phone }}<br />
+      {{ o.deliveryAddress.email }}
     </p>
   </div>
 
-  <!-- TOTALS -->
-  <div class="box total">
-    <div>Subtotal: {{ subtotal() }} {{ o.currency }}</div>
-    <div>Shipping: {{ shipping }} {{ o.currency }}</div>
-    <strong>Total: {{ total() }} {{ o.currency }}</strong>
-  </div>
-
   <!-- PAYMENT -->
-  <button (click)="payWithViva()">
-    Pay with Viva Wallet
+  <button class="px-4 py-2 bg-green-600 text-1xl text-white rounded hover:bg-green-700 submit" (click)="payWithViva()">
+    Gennemfør ordre
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M471.1 297.4C483.6 309.9 483.6 330.2 471.1 342.7L279.1 534.7C266.6 547.2 246.3 547.2 233.8 534.7C221.3 522.2 221.3 501.9 233.8 489.4L403.2 320L233.9 150.6C221.4 138.1 221.4 117.8 233.9 105.3C246.4 92.8 266.7 92.8 279.2 105.3L471.2 297.3z"/></svg>
   </button>
 
 </div>
 
 </div>
+
+<div class="checkout-right payment-checkout">
+    <h2 class="text-1xl font-bold">Levering</h2>
+    <p>Levering af fysiske varer foregår igennem GLS Pakkeshop, og levering forekommer indenfor 3-7 dage.</p>
+    <p>Hvis du vil læse mere om vores leveringsbetingelser, så klik på nedenstående knap</p>
+    <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
 </div>
+
+</div>
+
+<app-delivery-modal *ngIf="ShowModal()" [currentShow]="ShowModal()" (currentShowChange)="this.ShowModal.set($event)"></app-delivery-modal>

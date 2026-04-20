@@ -1,0 +1,28 @@
+<div *ngIf="store.basket() as o" class="payment-page">
+
+  <h2 class="text-1xl font-bold">Købsoversigt</h2>
+
+  <!-- ITEMS -->
+  <div class="box">
+    <h3 class="text-0xl font-bold">Varer</h3>
+
+    <div *ngFor="let item of o.lines">
+      <div>
+        {{ item.productName }} (x{{ item.quantity }})
+        <span>
+          {{ item.totalInclVat * item.quantity }} DKK
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div role="separator" aria-label="Divider" class="divider"></div>
+
+  <!-- TOTALS -->
+  <div class="box total">
+    <div *ngIf="o.totalDiscount > 0" class="p-right">Rabat: -{{ o.totalDiscount | number:'1.2-2' }}</div>
+    <div *ngIf="o.shippingInclVat > 0" class="text-1xl p-right">Fragt: {{ o.shippingInclVat | number:'1.2-2' }} DKK</div>
+    <p class="text-1xl"><strong>Total: {{ o.totalInclVat | number:'1.2-2' }}</strong></p>
+  </div>
+
+</div>

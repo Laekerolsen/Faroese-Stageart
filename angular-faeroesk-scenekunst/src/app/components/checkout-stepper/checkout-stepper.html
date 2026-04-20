@@ -1,0 +1,24 @@
+<div *ngIf="store.basket() as b" class="checkout-stepper">
+
+  <div class="stepper">
+  <div
+    class="step"
+    *ngFor="let step of steps"
+    [class.active]="isActive(step)"
+    [class.completed]="isCompleted(step)"
+    (click)="go2Step(step)"
+  >
+    <div class="circle">
+      <span *ngIf="!isCompleted(step)">
+        {{ stepIndex(step) + 1 }}
+      </span>
+      <span *ngIf="isCompleted(step)">✓</span>
+    </div>
+
+    <div class="label">
+      {{ step | titlecase }}
+    </div>
+  </div>
+</div>
+
+</div>

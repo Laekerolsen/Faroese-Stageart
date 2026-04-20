@@ -177,6 +177,16 @@
   .left-side{
     max-width: 720px;
   }
+
+  .main-container .left-side{
+    width: stretch;
+  }
+
+  .basket-flow
+  {
+    max-width: 900px !important;
+  }
+
   .basket {
     max-width: fit-content;
     min-width: 180px;

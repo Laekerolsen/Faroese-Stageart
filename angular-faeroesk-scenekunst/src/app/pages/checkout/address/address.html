@@ -1,9 +1,13 @@
-<div class="checkout-container">
-<div class="checkout-left checkout-address">
-    <form [formGroup]="form" (ngSubmit)="submit()">
+<button *ngIf="isInit && store.basket().lines && store.basket().lines.length > 0" class="px-4 py-2 bg-yellow-600 text-1xl text-white rounded hover:bg-yellow-700" (click)="backToBasket()">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M169.4 297.4C156.9 309.9 156.9 330.2 169.4 342.7L361.4 534.7C373.9 547.2 394.2 547.2 406.7 534.7C419.2 522.2 419.2 501.9 406.7 489.4L237.3 320L406.6 150.6C419.1 138.1 419.1 117.8 406.6 105.3C394.1 92.8 373.8 92.8 361.3 105.3L169.3 297.3z"/></svg>
+  Gå tilbage til indkøbskurv</button>
+<h1 *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" class="text-2xl font-bold mb-8" animate.enter="enter-animation-address" animate.leave="leaving-animation-address">Indtast faktura og leveringsadresse</h1>
+<div *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" class="checkout-container" animate.enter="enter-animation-address" animate.leave="leaving-animation-address">
+<div *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" class="checkout-left checkout-address">
+<form *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" [formGroup]="form" class="gap-4" (ngSubmit)="submit()">
 
-  <h2>Fakturaadresse</h2>
-  <div formGroupName="invoiceAddress">
+  <h2 class="text-1xl font-bold">Faktura adresse</h2>
+  <div class="invoice gap-4" formGroupName="invoiceAddress">
     <input formControlName="name" placeholder="Navn" />
     <input formControlName="company" placeholder="Firma" />
     <input formControlName="street" placeholder="Adresse" />
@@ -12,17 +16,30 @@
     <input formControlName="city" placeholder="By" />
     <input formControlName="country" placeholder="Land" />
     <input formControlName="email" placeholder="Email" />
+    <div *ngIf="invoiceAddress.controls.email.touched">
+      <small *ngIf="invoiceAddress.controls.email.errors?.['required']">
+        Email mangler
+      </small>
+      <small *ngIf="invoiceAddress.controls.email.errors?.['email']">
+        Forkert email format
+      </small>
+    </div>
     <input formControlName="phone" placeholder="Telefon" />
+    <div *ngIf="invoiceAddress.controls.email.touched">
+      <small *ngIf="invoiceAddress.controls.email.errors?.['required']">
+        Du skal indtaste telefonnummer
+      </small>
+    </div>
   </div>
 
   <label>
     <input type="checkbox" formControlName="useSameAddress" />
-    Leveringsadresse er samme som fakturaadresse
+    Leveringsadresse er samme som faktura adresse
   </label>
 
-  <div *ngIf="!form.get('useSameAddress')?.value">
-    <h2>Leveringsadresse</h2>
-    <div formGroupName="deliveryAddress">
+  <div class="delivery-container gap-4" *ngIf="!form.get('useSameAddress')?.value" animate.enter="enter-animation-delivery" animate.leave="leaving-animation-delivery">
+    <h2 class="text-1xl font-bold">Leveringsadresse</h2>
+    <div class="delivery gap-4" formGroupName="deliveryAddress">
       <input formControlName="name" placeholder="Navn" />
       <input formControlName="company" placeholder="Firma" />
       <input formControlName="street" placeholder="Adresse" />
@@ -35,7 +52,30 @@
     </div>
   </div>
 
-  <button type="submit">Bestil</button>
+  <button class="px-4 py-2 bg-green-600 text-1xl text-white rounded hover:bg-green-700 submit" type="submit">
+    Bestil
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M471.1 297.4C483.6 309.9 483.6 330.2 471.1 342.7L279.1 534.7C266.6 547.2 246.3 547.2 233.8 534.7C221.3 522.2 221.3 501.9 233.8 489.4L403.2 320L233.9 150.6C221.4 138.1 221.4 117.8 233.9 105.3C246.4 92.8 266.7 92.8 279.2 105.3L471.2 297.3z"/></svg>
+  </button>
 </form>
 </div>
+
+<div *ngIf="shipping > 0" class="checkout-right shipping-checkout">
+    <app-orderoverview-component></app-orderoverview-component>
+    <h2 class="text-1xl font-bold">Din valgte leveringsmetode</h2>
+    <p>Du har valgt levering med GLS Pakkeshop, vær opmærksom på, at vi har 3-7 dages leveringstid.</p>
+    <p>Levering med GLS er kun muligt, hvis du har valgt at købe en fysisk vare.</p>
+    <p>Hvis du har digitale varer som en del af dit køb, vil de stadig blive leveret digitalt, og har ingenting med GLS leveringen at gøre, det er kun de fysiske varer som du har købt, som bliver leveret med GLS.</p>
+    <p>Hvis du eksempelvis har købt en plakat og en billet med digital levering, så vil din plakat blive leveret med GLS, og din billet vil blive tilsendt på din email.</p>
+    <p>Hvis du vil læse mere om vores leveringsbetingelser, så klik på nedenstående knap</p>
+    <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
 </div>
+<div *ngIf="shipping == 0" class="checkout-right shipping-checkout">
+    <h2 class="text-1xl font-bold">Du har valgt at hente ordren selv</h2>
+    <p>Bemærk at du kan kun hente fysiske varer selv. Digitale varer som billetter og andet kan kun leveres på mail.</p>
+    <p>Hvis du vil læse mere om vores leveringsbetingelser, så klik på nedenstående knap</p>
+    <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
+</div>
+
+</div>
+
+<app-delivery-modal *ngIf="ShowModal()" [currentShow]="ShowModal()" (currentShowChange)="this.ShowModal.set($event)"></app-delivery-modal>

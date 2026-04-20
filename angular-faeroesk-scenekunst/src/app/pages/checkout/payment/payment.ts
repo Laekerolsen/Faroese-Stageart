@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { client } from '../../../sanity/client';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { Order } from '../../../Models/order.model';
 import { stringify } from 'querystring';
 import { OrderLine } from '../../../Models/orderline.model';
+import { Router } from '@angular/router';
 
 const builder = createImageUrlBuilder(client);
 const urlFor = (source: any) => builder.image(source);
@@ -23,12 +24,17 @@ const urlFor = (source: any) => builder.image(source);
 export class PaymentPageComponent implements OnInit {
 
   public store: BasketStore;
+  private router: Router;
 
-  constructor(private fb: FormBuilder, private _store: BasketStore) {
+  constructor(private _store: BasketStore, _router: Router) {
     this.store = _store;
+    this.router = _router;
   }
 
   ngOnInit(): void {
+    if (!this.store.basket().lines || this.store.basket().lines.length == 0)
+      this.router.navigate(['/kurv']);
+
     this.createOrder();
   }
 
@@ -53,7 +59,7 @@ export class PaymentPageComponent implements OnInit {
 
   get shipping()
   {
-    return this.store.order().shippingExclVat + (this.store.order().shippingExclVat * this.store.order().shippingVat);
+    return this.store.order().shippingExclVat + this.store.order().shippingVat;
   }
 
   total = computed(() =>
@@ -110,7 +116,21 @@ export class PaymentPageComponent implements OnInit {
 
   payWithViva() {
   //
-}
+  }
+
+  backToAddress()
+  {
+    this.router.navigate(['/adresse']);
+  }
 
   public urlFor = urlFor;
+
+  public ShowModal = signal(false);
+
+  openModal() {
+    this.ShowModal.set(true);
+    this.show = true;
+  }
+
+  show: boolean = false;
 }

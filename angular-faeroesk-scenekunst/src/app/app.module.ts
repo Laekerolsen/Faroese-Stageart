@@ -18,11 +18,14 @@ import { BasketSmallComponent } from './components/basket-small/basket-small';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressPageComponent } from './pages/checkout/address/address';
 import { PaymentPageComponent } from './pages/checkout/payment/payment';
+import { OrderOverviewComponent } from './components/orderoverview/orderoverview';
+import { CheckoutStepperComponent } from './components/checkout-stepper/checkout-stepper';
+import { DeliveryModalComponent } from './components/delivery-modal/delivery-modal';
 
 @NgModule({
   declarations: [App, HomeComponent, PostComponent, BasketPageComponent, AddressPageComponent, PaymentPageComponent],
   imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes, {enableViewTransitions: true}), 
-    RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent],
+    RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent],
   providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore],
   bootstrap: [App],
 })

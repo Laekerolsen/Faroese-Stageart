@@ -5,6 +5,37 @@
   object-position: center; /* change to top, left, etc. */
 }
 
+form, 
+.delivery-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.invoice,
+.delivery {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-right
+{
+    /*flex-direction: row !important;
+    justify-content: flex-end;*/
+}
+
+app-orderoverview-component,
+    .checkout-right app-orderoverview-component,
+    .checkout-right div {
+        width: stretch;
+    }
+
+
+input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .checkout-left {
     flex: 1;
     display: flex;
@@ -22,9 +53,118 @@
 .checkout-container {
     display: flex;
     gap: 2rem;
-    padding: 2rem;
+    /*padding: 2rem;*/
     flex-direction: row;
 }
+
+button {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: fit-content;
+}
+.submit
+{
+    justify-content: center;
+}
+svg {
+    width: 40px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 100vw;
+    width: min-content;
+    /* overflow: scroll; */
+    max-height: 90vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    /* margin-bottom: 2rem; */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    min-width: 320px;
+}
+
+.enter-animation-address {
+  animation: slide-fade-checkout 1s;
+}
+
+.leaving-animation-address {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+.enter-animation-delivery {
+  animation: slide-fade-delivery 1s;
+}
+
+.leaving-animation-delivery {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+.enter-animation-modal {
+  animation: slide-fade-modal 1s;
+}
+
+.leaving-animation-modal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+@keyframes slide-fade-address {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-fade-delivery {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-fade-modal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 @media screen and (max-width: 650px) {
     .content {
@@ -37,6 +177,19 @@
 
     .checkout-container {
         flex-direction: column;
+    }
+
+    app-orderoverview-component,
+    .checkout-right app-orderoverview-component,
+    .checkout-right div {
+        width: stretch;
+    }
+
+    .checkout-right
+    {
+        /*flex-direction: row !important;*/
+        justify-content: flex-start;
+        width: 100%;
     }
 
     .left-side, .right-side {
