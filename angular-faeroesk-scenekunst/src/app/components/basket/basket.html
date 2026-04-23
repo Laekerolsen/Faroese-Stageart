@@ -1,27 +1,37 @@
 <p class="text-2xl font-bold mb-8" animate.enter="enter-animation-full-basket">Indkøbskurv</p>
 
-<div *ngIf="basket().lines.length; else empty" animate.enter="enter-animation-full-basket" animate.leave="leaving-animation-full-basket">
+<div *ngIf="basket().lines.length; else empty" class="basket-container" animate.enter="enter-animation-full-basket" animate.leave="leaving-animation-full-basket">
     <div *ngFor="let line of basket().lines" class="line flex flex-row gap-8" animate.enter="enter-animation-basket" animate.leave="leaving-animation-basket">
-      <button class="remove-btn px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" (click)="remove(line.productId)">Fjern</button>
+      <button class="remove-btn px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" (click)="remove(line.productId)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg>
+      </button>
 
-      <div class="bline-text">
-        {{ line.productName }} x {{ line.quantity }}
+      <div class="bline-text name-input gap-4">
+        {{ line.productName }} 
       </div>
+      <input
+                                    type="number"
+                                    [(ngModel)]="line.quantity"
+                                    (ngModelChange)="onQuantityChange(line, $event)"
+                                    min="1"
+                                  />
 
       <div class="bline-text">
-        {{ line.totalInclVat | number:'1.2-2' }} DKK
+        {{ line.totalInclVat | number:'1.2-2' }} {{ basket().currency }}
       </div>
     </div>
 
     <div class="divider divider-horizontal horizontal" role="separator" aria-label="Divider"></div>
 
-    <div class="p-right">Subtotal: {{ basket().totalExclVat | number:'1.2-2' }}</div>
-    <div class="p-right">Moms af varer: {{ 0 | number:'1.2-2' }} DKK</div>
-    <div class="p-right">Fragt: {{ basket().shippingInclVat | number:'1.2-2' }} DKK</div>    
-    <div class="p-right">Moms af fragt: {{ basket().shippingVat | number:'1.2-2' }} DKK</div>
-    <div *ngIf="basket().totalDiscount > 0" class="p-right">Rabat: -{{ basket().totalDiscount | number:'1.2-2' }}</div>
-    <div class="p-right">Moms total: {{ basket().totalVat | number:'1.2-2' }}</div>
-    <div class="p-right"><strong>Total: {{ basket().totalInclVat | number:'1.2-2' }}</strong></div>
+    <button class="remove px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" (click)="clear()">Ryd kurven</button>
+
+    <div class="p-right">Subtotal: {{ basket().totalExclVat | number:'1.2-2' }} {{ basket().currency }}</div>
+    <div class="p-right">Moms af varer: {{ 0 | number:'1.2-2' }} {{ basket().currency }}</div>
+    <div class="p-right">Fragt: {{ basket().shippingInclVat | number:'1.2-2' }} {{ basket().currency }}</div>    
+    <div class="p-right">Moms af fragt: {{ basket().shippingVat | number:'1.2-2' }} {{ basket().currency }}</div>
+    <div *ngIf="basket().totalDiscount > 0" class="p-right">Rabat: -{{ basket().totalDiscount | number:'1.2-2' }} {{ basket().currency }}</div>
+    <div class="p-right">Moms total: {{ basket().totalVat | number:'1.2-2' }} {{ basket().currency }}</div>
+    <div class="p-right"><strong>Total: {{ basket().totalInclVat | number:'1.2-2' }} {{ basket().currency }}</strong></div>
 </div>
 
 <ng-template #empty>

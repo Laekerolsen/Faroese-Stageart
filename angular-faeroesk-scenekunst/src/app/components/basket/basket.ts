@@ -6,6 +6,8 @@ import { NgZone } from '@angular/core';
 import { firstValueFrom, from, Observable } from 'rxjs';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { BasketStore } from '../../services/basket';
+import { FormsModule } from '@angular/forms';
+import { BasketLine } from '../../Models/basketline.model';
 
 const builder = createImageUrlBuilder(client);
 const urlFor = (source: any) => builder.image(source);
@@ -23,7 +25,7 @@ interface Post {
 @Component({
   selector: 'app-basket-component',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './basket.html',
   styleUrl: './basket.css',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -34,6 +36,17 @@ export class BasketComponent implements OnInit {
 
   remove(id: string) {
     this.store.remove(id);
+  }
+
+  clear()
+  {
+    this.store.clear();
+  }
+
+  onQuantityChange(line: BasketLine, value: number) {
+    line.quantity = value;
+
+    this.store.update(line.productId);
   }
   
   public hasLoaded: boolean = false;

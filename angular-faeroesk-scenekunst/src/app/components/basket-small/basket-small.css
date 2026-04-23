@@ -16,6 +16,93 @@
   margin-block: 1.5rem;
 }
 
+app-basket-small-component
+{
+  justify-content: stretch;
+  display: flex;
+  width: stretch;
+}
+
+.pname, .quantity, .line-quantity {
+  width: stretch;
+}
+
+.quantity {
+  width: stretch;
+  justify-content: flex-end !important;
+  max-width: 3rem;
+}
+
+.line-quantity {
+  width: stretch;
+  justify-content: flex-end !important;
+  max-width: 2rem;
+}
+
+app-basket-small-component .basket-small,
+.basket-small {
+  display: flex;
+    flex-direction: column;
+    width: stretch;
+    justify-content: flex-end;
+}
+
+.line .text-1xl,
+.line p {
+  text-align: right;
+  margin-bottom: 2px;
+}
+
+.p-right, 
+.basket-small .text-1xl {
+  text-align: right;
+    display: flex;
+}
+
+.basket-small .text-1xl.font-bold {
+  text-align: left;
+}
+
+.line {
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  width: stretch;
+  /*flex-wrap: wrap;*/
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.p-right
+{
+  justify-content: flex-end;
+}
+
+.pleft {
+  text-align: left !important;
+}
+
+.remove {
+  padding: 2px 2px 2px 2px;
+  height: 12px;
+}
+
+svg {
+    width: 8px;
+}
+
+.enter-animation-line {
+  animation: slide-fade-line 1s;
+}
+
+.leaving-line {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
 .enter-animation {
   animation: slide-fade 1s;
 }
@@ -29,6 +116,17 @@
 }
 
 @keyframes slide-fade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-fade-line {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -86,5 +184,11 @@
       width: 100%;
       background: var(--red-to-pink-to-purple-horizontal-gradient);
       margin-block: 1.5rem;
+    }
+
+    .quantity {
+      width: stretch;
+      justify-content: flex-end !important;
+      max-width: 6rem;
     }
   }

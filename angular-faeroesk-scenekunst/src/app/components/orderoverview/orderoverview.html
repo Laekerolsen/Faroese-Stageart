@@ -7,10 +7,10 @@
     <h3 class="text-0xl font-bold">Varer</h3>
 
     <div *ngFor="let item of o.lines">
-      <div>
-        {{ item.productName }} (x{{ item.quantity }})
-        <span>
-          {{ item.totalInclVat * item.quantity }} DKK
+      <div class="pap gap-4">
+        {{ item.productName }}
+        <span class="price">
+          ({{ item.quantity }}x) {{ item.totalInclVat * item.quantity }} DKK
         </span>
       </div>
     </div>

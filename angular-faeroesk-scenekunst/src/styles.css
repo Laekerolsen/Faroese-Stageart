@@ -16,6 +16,13 @@
     text-align: justify;
   }
 
+  app-basket-small-component
+  {
+    justify-content: stretch;
+    display: flex;
+    width: stretch;
+  }
+
   body {
     text-align: justify;
   }

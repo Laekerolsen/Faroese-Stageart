@@ -60,6 +60,12 @@ export class BasketStore {
     this.recalculate();
   }
 
+  update(productId: string)
+  {
+    const basket = this.basket();
+    this.recalculate();
+  }
+
   applyDiscount(discount: Discount) {
     this.basket.update(b => ({ ...b, discount }));
     this.recalculate();

@@ -9,6 +9,12 @@
   font-size: 0.85rem;
 }
 
+.pap {
+    display: flex;
+    width: stretch;
+    flex-direction: row;
+}
+
 .divider {
   height: 1px;
   width: 100%;
