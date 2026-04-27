@@ -6,6 +6,38 @@
   Gå tilbage til adresse</button>
 
 <div *ngIf="store.order() as o" class="payment-page">
+  <!-- ADDRESSES -->
+  <div class="box">
+    <h3 class="text-1xl font-bold">Faktureringsadresse</h3>
+    <p>
+      {{ o.invoiceAddress.name }}<br />
+      {{ o.invoiceAddress.street }}<br />
+      {{ o.invoiceAddress.zipCode }} {{ o.invoiceAddress.city }}<br />
+      {{ o.invoiceAddress.country }}<br />
+      {{ o.invoiceAddress.phone }}<br />
+      {{ o.invoiceAddress.email }}
+    </p>
+  </div>
+
+  <div *ngIf="this.store.basket().shippingExclVat > 0" class="box">
+    <h3 class="text-1xl font-bold">Leveringsadresse</h3>
+    <p>
+      {{ o.deliveryAddress.name }}<br />
+      {{ o.deliveryAddress.street }}<br />
+      {{ o.deliveryAddress.zipCode }} {{ o.deliveryAddress.city }}<br />
+      {{ o.deliveryAddress.country }}<br />
+      {{ o.deliveryAddress.phone }}<br />
+      {{ o.deliveryAddress.email }}
+    </p>
+  </div>
+
+  
+</div>
+
+</div>
+
+<div class="checkout-right payment-checkout">
+  <div *ngIf="store.order() as o" class="payment-page">
   <h1 class="text-2xl font-bold mb-4">Ordreoversigt</h1>
 
   <!-- ITEMS -->
@@ -28,43 +60,15 @@
     <div>Fragt: {{ shipping }} {{ o.currency }}</div>
     <strong>Total: {{ total() }} {{ o.currency }}</strong>
   </div>
-
-  <!-- ADDRESSES -->
-  <div class="box">
-    <h3 class="text-1xl font-bold">Faktureringsadresse</h3>
-    <p>
-      {{ o.invoiceAddress.name }}<br />
-      {{ o.invoiceAddress.street }}<br />
-      {{ o.invoiceAddress.zipCode }} {{ o.invoiceAddress.city }}<br />
-      {{ o.invoiceAddress.country }}<br />
-      {{ o.invoiceAddress.phone }}<br />
-      {{ o.invoiceAddress.email }}
-    </p>
-  </div>
-
-  <div class="box">
-    <h3 class="text-1xl font-bold">Leveringsadresse</h3>
-    <p>
-      {{ o.deliveryAddress.name }}<br />
-      {{ o.deliveryAddress.street }}<br />
-      {{ o.deliveryAddress.zipCode }} {{ o.deliveryAddress.city }}<br />
-      {{ o.deliveryAddress.country }}<br />
-      {{ o.deliveryAddress.phone }}<br />
-      {{ o.deliveryAddress.email }}
-    </p>
-  </div>
-
-  <!-- PAYMENT -->
+  
+</div>
+    <!-- PAYMENT -->
   <button class="px-4 py-2 bg-green-600 text-1xl text-white rounded hover:bg-green-700 submit" (click)="openDynamicModal()">
     Gennemfør ordre
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M471.1 297.4C483.6 309.9 483.6 330.2 471.1 342.7L279.1 534.7C266.6 547.2 246.3 547.2 233.8 534.7C221.3 522.2 221.3 501.9 233.8 489.4L403.2 320L233.9 150.6C221.4 138.1 221.4 117.8 233.9 105.3C246.4 92.8 266.7 92.8 279.2 105.3L471.2 297.3z"/></svg>
   </button>
   <app-dynamic-modal [htmlContent]="htmlContent" [currentShow]="ShowDynamicModal()" (currentShowChange)="this.ShowDynamicModal.set($event)"></app-dynamic-modal>
-</div>
 
-</div>
-
-<div class="checkout-right payment-checkout">
     <h2 class="text-1xl font-bold">Levering</h2>
     <p>Levering af fysiske varer foregår igennem GLS Pakkeshop, og levering forekommer indenfor 3-7 dage.</p>
     <p>Hvis du vil læse mere om vores leveringsbetingelser, så klik på nedenstående knap</p>

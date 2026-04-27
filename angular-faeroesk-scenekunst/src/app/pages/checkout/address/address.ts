@@ -137,6 +137,11 @@ export class AddressPageComponent implements OnInit {
     const invoiceFromBasket = this.store.basket().invoiceAddress;
     const deliveryFromBasket = this.store.basket().deliveryAddress;
 
+    if (this.store.basket().shippingExclVat === 0)
+      same.disable();
+    else
+      same.enable();
+
     this.sameSubscription = same.valueChanges.subscribe(isSame => {
       this.store.basket().useSameAddress = isSame;
 
@@ -239,7 +244,7 @@ export class AddressPageComponent implements OnInit {
   clearForm(event: MouseEvent)
   {
     this.spawnRipple(event);
-    
+
     const invoice = this.form.get('invoiceAddress')!;
     const delivery = this.form.get('deliveryAddress')!;
     const same = this.form.get('useSameAddress')!;
