@@ -73,4 +73,4 @@
 
 </div>
 
-<app-delivery-modal *ngIf="ShowModal()" [currentShow]="ShowModal()" (currentShowChange)="this.ShowModal.set($event)"></app-delivery-modal>
+<app-delivery-modal [currentShow]="ShowModal()" (currentShowChange)="this.ShowModal.set($event)"></app-delivery-modal>

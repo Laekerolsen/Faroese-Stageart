@@ -21,12 +21,15 @@ import { PaymentPageComponent } from './pages/checkout/payment/payment';
 import { OrderOverviewComponent } from './components/orderoverview/orderoverview';
 import { CheckoutStepperComponent } from './components/checkout-stepper/checkout-stepper';
 import { DeliveryModalComponent } from './components/delivery-modal/delivery-modal';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { VivaPaymentIconsComponent } from './components/viva-payment-icons/viva-payment-icons';
+import { TermsModalComponent } from './components/terms-modal/terms-modal';
 
 @NgModule({
   declarations: [App, HomeComponent, PostComponent, BasketPageComponent, AddressPageComponent, PaymentPageComponent],
   imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes, {enableViewTransitions: true}), 
-    RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent],
-  providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore],
+    RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent, VivaPaymentIconsComponent, TermsModalComponent],
+  providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore, provideAnimations()],
   bootstrap: [App],
 })
 export class AppModule {}

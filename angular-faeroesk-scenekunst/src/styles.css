@@ -21,6 +21,7 @@
     justify-content: stretch;
     display: flex;
     width: stretch;
+    flex-direction: column;
   }
 
   body {

@@ -98,7 +98,11 @@
     width: 100%;
     height: 1px;
     background: var(--red-to-pink-to-purple-horizontal-gradient);
-    margin-block: 1.5rem;
+    /*margin-block: 1.5rem;*/
+  }
+
+  .basket-right {
+    max-width: 280px;
   }
 
   .pill-group {
@@ -188,8 +192,25 @@
   }
 
   .basket {
-    max-width: fit-content;
-    min-width: 180px;
+    max-width: stretch;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .basket-right {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .top-payment-div
+  {
+    position: inherit;
+  }
+
+  nav,
+  .footer .container p {
+    text-align: center;
   }
 
   @media screen and (max-width: 650px) {
@@ -213,6 +234,15 @@
       height: 1px;
       width: 100%;
       background: var(--red-to-pink-to-purple-horizontal-gradient);
-      margin-block: 1.5rem;
+      /*margin-block: 1.5rem;*/
+    }
+
+    .basket-right, .basket-area div
+    {
+      max-width: stretch;
+    }
+
+    .footer .container {
+      padding: 0rem;
     }
   }

@@ -5,6 +5,57 @@
   object-position: center; /* change to top, left, etc. */
 }
 
+.htag {
+  cursor: pointer;
+}
+
+.cart-drawer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-inner {
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.cart-drawer.open .drawer-inner {
+  transform: translateX(0);
+}
+
+.cart-drawer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.lines {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  z-index: 2;
+}
+
+.line {
+  transition: transform 250ms ease, opacity 250ms ease;
+}
+
+.line.leaving {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+
+
+
 .text-1xl {
   font-size: 0.85rem;
 }
@@ -21,6 +72,15 @@ app-basket-small-component
   justify-content: stretch;
   display: flex;
   width: stretch;
+  flex-direction: column;
+}
+
+.toggle-basket-container {
+  text-align: right;
+}
+
+.basket-divider {
+
 }
 
 .pname, .quantity, .line-quantity {
@@ -91,6 +151,36 @@ svg {
     width: 8px;
 }
 
+.toggle-basket-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.toggle-basket-content {
+  width: stretch;
+    text-align: right;
+    justify-content: flex-end;
+    display: flex;
+    align-items: baseline;
+}
+
+.toggle-basket {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.toggle-basket svg {
+  width: 20px;
+}
+
+.basket-small-container {
+  overflow: hidden;
+}
+
 .enter-animation-line {
   animation: slide-fade-line 1s;
 }
@@ -104,15 +194,92 @@ svg {
 }
 
 .enter-animation {
-  animation: slide-fade 1s;
+  animation: slide-drawer-physical-down 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.leaving {
+/*.leaving {
   opacity: 0;
   transform: translateY(20px);
   transition:
     opacity 500ms ease-out,
     transform 500ms ease-out;
+}*/
+
+.leaving {
+  opacity: 0;
+  transform: translateY(-100%);
+  transition:
+    transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 350ms ease-out;
+}
+
+
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: transform 120ms ease;
+}
+
+/* press “bounce” */
+.ripple-btn:active {
+  transform: scale(0.92);
+}
+
+/* ripple element */
+.ripple-btn::after {
+  content: "";
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* trigger animation */
+.ripple-btn.ripple::after {
+  animation: ripple 600ms ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(25);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-drawer-down {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-drawer-physical-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  80% {
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slide-fade {

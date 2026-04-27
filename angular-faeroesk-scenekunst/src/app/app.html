@@ -13,20 +13,45 @@
         <p>Forening med formål at fremme færøsk scenekunst i Esbjerg. 🎉</p>
         </a>
       </div>
+      <div class="divider" *ngIf="(isPhone$ | async)?.matches" role="separator" aria-label="Divider"></div>
+      <app-viva-payment-icons [showHeader]="(isPhone$ | async)?.matches" class="top-payment-div"></app-viva-payment-icons>
     </div>
     <div class="divider divider-horizontal horizontal" role="separator" aria-label="Divider"></div>
     <div class="top-basket" *ngIf="hasLines && !IsCheckoutRoute" class="basket-top">
       <app-basket-small-component></app-basket-small-component>
     </div>
     <app-checkout-stepper *ngIf="hasLines && IsCheckoutRoute" [currentStep]="CheckoutStage"></app-checkout-stepper>
-    <div class="main-container container mx-auto max-w-13xl flex flex-row gap-4">
-    <div class="left-side {{ BasketFlowClass }}">
-    <router-outlet />
+    <div class="main-container container mx-auto max-w-13xl flex flex-row gap-8">
+      <div class="left-side {{ BasketFlowClass }}">
+        <router-outlet />
+      </div>
+      <div *ngIf="!IsCheckoutRoute && !(isPhone$ | async)?.matches" class="divider" role="separator" aria-label="Divider"></div>
+      <div *ngIf="!IsCheckoutRoute" class="basket right-side basket-area gap-4">
+        <app-basket-small-component *ngIf="!IsCheckoutRoute && !(isPhone$ | async)?.matches"></app-basket-small-component>
+        <div *ngIf="hasLines && shipping > 0" class="basket-right shipping-checkout gap-4">
+          <h2 class="text-1xl font-bold">Din valgte leveringsmetode</h2>
+          <p>Du har valgt levering med GLS Pakkeshop, vær opmærksom på, at vi har 3-7 dages leveringstid.</p>
+          <p>Levering med GLS er kun muligt, hvis du har valgt at købe en fysisk vare.</p>
+          <p>Hvis du vil læse mere om vores salgs og leveringsbetingelser, så klik på nedenstående knap</p>
+          <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
+        </div>
+        <div *ngIf="hasLines && shipping == 0" class="basket-right shipping-checkout gap-4">
+          <h2 class="text-1xl font-bold">Du har valgt at hente ordren selv</h2>
+          <p>Bemærk at du kan kun hente fysiske varer selv. Digitale varer som billetter og andet kan kun leveres på mail.</p>
+          <p>Hvis du vil læse mere om vores salgs og leveringsbetingelser, så klik på nedenstående knap</p>
+          <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
+        </div>
+        <div *ngIf="!hasLines" class="basket-right shipping-checkout gap-4">
+          <h2 class="text-1xl font-bold">Salgs og leveringsbetingelser</h2>
+          <p>Du kan få fysiske varer leveret med GLS, vær opmærksom på, at vi har 3-7 dages leveringstid.</p>
+          <p>Du kan også hente fysiske varer selv. Digitale varer som billetter og andet kan kun leveres på mail.</p>
+          <p>Hvis du vil læse mere om vores salgs og leveringsbetingelser, så klik på nedenstående knap</p>
+          <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
+        </div>
+        <app-viva-payment-icons [showHeader]="true"></app-viva-payment-icons>
+      </div>
     </div>
-    <div *ngIf="hasLines && !IsCheckoutRoute" class="basket right-side basket-area">
-      <app-basket-small-component></app-basket-small-component>
-    </div>
-    </div>
+    <app-terms-modal [currentShow]="ShowModal()" (currentShowChange)="this.ShowModal.set($event)"></app-terms-modal>
     <div class="divider divider-horizontal horizontal" role="separator" aria-label="Divider"></div>
     <footer class="footer container mx-auto max-w-13xl flex flex-row gap-4">
       <div class="container mx-auto max-w-3xl p-8">

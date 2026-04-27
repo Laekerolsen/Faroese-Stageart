@@ -56,9 +56,9 @@ export class AddressPageComponent implements OnInit {
     this.router = _router;
 
     this.form = this.fb.group({
-        useSameAddress: this.fb.control(true, { nonNullable: true }),
-        invoiceAddress: this.createAddressGroup(),
-        deliveryAddress: this.createAddressGroup()
+        useSameAddress: this.fb.control(this.store.basket().useSameAddress, { nonNullable: true }),
+        invoiceAddress: this.createAddressGroup(true),
+        deliveryAddress: this.createAddressGroup(false)
       });
 
     if ((this.store.basket().useSameAddress && !this.store.basket().invoiceAddress && !this.store.basket().deliveryAddress) ||
@@ -88,17 +88,27 @@ export class AddressPageComponent implements OnInit {
 
 
 
-  createAddressGroup(): FormGroup<AddressForm> {
+  createAddressGroup(isInvoice: boolean): FormGroup<AddressForm> {
+    const inName = isInvoice ? this.store.basket().invoiceAddress.name : this.store.basket().deliveryAddress.name;
+    const inComp = (isInvoice ? this.store.basket().invoiceAddress.company : this.store.basket().deliveryAddress.company) || null;
+    const inStreet = isInvoice ? this.store.basket().invoiceAddress.street : this.store.basket().deliveryAddress.street;
+    const inStreet2 = (isInvoice ? this.store.basket().invoiceAddress.street2 : this.store.basket().deliveryAddress.street2) || null;
+    const inZipCode = isInvoice ? this.store.basket().invoiceAddress.zipCode : this.store.basket().deliveryAddress.zipCode;
+    const inCity = isInvoice ? this.store.basket().invoiceAddress.city : this.store.basket().deliveryAddress.city;
+    const inCountry = (isInvoice ? this.store.basket().invoiceAddress.country : this.store.basket().deliveryAddress.country) || 'Danmark'; 
+    const inPhone = (isInvoice ? this.store.basket().invoiceAddress.phone : this.store.basket().deliveryAddress.phone) || null;
+    const inEmail = (isInvoice ? this.store.basket().invoiceAddress.email : this.store.basket().deliveryAddress.email) || '';
+
     return this.fb.group({
-      name: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
-      company: this.fb.control<string | null>(null),
-      street: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
-      street2: this.fb.control<string | null>(null),
-      zipCode: this.fb.control('', { nonNullable: true, validators: [Validators.required, Validators.pattern(/^\d{4}$/)] }),
-      city: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
-      country: this.fb.control('Danmark', { nonNullable: true, validators: [Validators.required] }),
-      phone: this.fb.control<string | null>(null, { nonNullable: true, validators: [Validators.required, Validators.pattern(/^[0-9+\s]*$/)] }),
-      email: this.fb.control('', { nonNullable: true, validators: [Validators.required, Validators.email] })
+      name: this.fb.control(inName, { nonNullable: true, validators: [Validators.required] }),
+      company: this.fb.control<string | null>(inComp),
+      street: this.fb.control(inStreet, { nonNullable: true, validators: [Validators.required] }),
+      street2: this.fb.control<string | null>(inStreet2),
+      zipCode: this.fb.control(inZipCode, { nonNullable: true, validators: [Validators.required, Validators.pattern(/^\d{4}$/)] }),
+      city: this.fb.control(inCity, { nonNullable: true, validators: [Validators.required] }),
+      country: this.fb.control(inCountry, { nonNullable: true, validators: [Validators.required] }),
+      phone: this.fb.control<string | null>(inPhone, { nonNullable: true, validators: [Validators.required, Validators.pattern(/^[0-9+\s]*$/)] }),
+      email: this.fb.control(inEmail, { nonNullable: true, validators: [Validators.required, Validators.email] })
     });
   }
 
@@ -224,6 +234,79 @@ export class AddressPageComponent implements OnInit {
   get shipping()
   {
     return this.store.basket().shippingInclVat;
+  }
+
+  clearForm(event: MouseEvent)
+  {
+    this.spawnRipple(event);
+    
+    const invoice = this.form.get('invoiceAddress')!;
+    const delivery = this.form.get('deliveryAddress')!;
+    const same = this.form.get('useSameAddress')!;
+
+    invoice.reset({
+          name: '',
+          company: null,
+          street: '',
+          street2: null,
+          zipCode: '',
+          city: '',
+          country: 'Danmark',
+          phone: '',
+          email: ''
+        });
+    this.store.basket().invoiceAddress = {
+          name: '',
+          company: '',
+          street: '',
+          street2: '',
+          zipCode: '',
+          city: '',
+          country: 'Danmark',
+          phone: '',
+          email: ''
+        };
+    delivery.reset({
+          name: '',
+          company: null,
+          street: '',
+          street2: null,
+          zipCode: '',
+          city: '',
+          country: 'Danmark',
+          phone: '',
+          email: ''
+        });
+    this.store.basket().deliveryAddress = {
+          name: '',
+          company: '',
+          street: '',
+          street2: '',
+          zipCode: '',
+          city: '',
+          country: 'Danmark',
+          phone: '',
+          email: ''
+        };
+    same.reset(true);
+    this.store.basket().useSameAddress = true;
+  }
+
+  spawnRipple(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+
+    const rect = button.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    button.style.setProperty('--x', `${x}px`);
+    button.style.setProperty('--y', `${y}px`);
+
+    button.classList.remove('ripple'); // reset animation
+    void button.offsetWidth; // force reflow
+    button.classList.add('ripple');
+
+    setTimeout(() => button.classList.remove('ripple'), 600);
   }
 
   public urlFor = urlFor;

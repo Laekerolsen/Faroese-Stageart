@@ -7,7 +7,7 @@
 <main *ngIf="post$ | async as post; else loading" class="container mx-auto max-w-3xl flex flex-row gap-4">
      
     <div class="left-side">
-      <p class="font-bold">Pris: {{ post.price }},00 DKK <button class="button px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" (click)="addToBasket(post)">Køb</button></p>
+      <p class="font-bold">Pris: {{ post.price }},00 DKK <button class="ripple-btn button px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" (click)="addToBasket(post, $event)">Køb</button></p>
       <img class="aspect-video rounded-xl" *ngIf="post.image && slug!='plakat-saelges'" [src]="urlFor(post.image).width(550).height(310).url()" width="550" height="310" />
       <img class="rounded-xl" *ngIf="post.image && slug=='plakat-saelges'" [src]="urlFor(post.image).url()" />
       </div>

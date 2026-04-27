@@ -1,0 +1,29 @@
+.viva-payment-icons {
+    max-width: 200px;
+}
+
+.top-icons-div,
+.viva-payment-icons.top-icons-div {
+    max-width: 380px;
+}
+
+.viva-payment-icons .relative div
+{
+    max-width: min(100%, 1010px) !important;
+    --icon-width: 20px !important;
+    --icon-gap: 20px !important;
+    --total-icons: 5 !important;
+}
+
+.viva-payment-icons .relative div a,
+.viva-payment-icons .relative div a img
+{
+    width: 80px !important;
+}
+
+ @media screen and (max-width: 650px) {
+    .viva-payment-icons
+    {
+      max-width: stretch !important;
+    }
+  }

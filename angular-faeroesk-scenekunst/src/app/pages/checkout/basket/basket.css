@@ -41,6 +41,7 @@
 
     .checkout-container {
         flex-direction: column;
+        padding: 0rem;
     }
 
     .left-side, .right-side {

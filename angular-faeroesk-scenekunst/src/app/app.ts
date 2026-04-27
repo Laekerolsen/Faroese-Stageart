@@ -1,15 +1,17 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { SeoMetadata } from './services/seo-metadata';
 import { BasketComponent } from './components/basket/basket';
 import { BasketStore } from './services/basket';
 import { CheckoutStep, CheckoutStepperComponent } from './components/checkout-stepper/checkout-stepper';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
   standalone: false,
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  changeDetection: ChangeDetectionStrategy.Eager
 })
 export class App implements OnInit {
   protected readonly title = signal('Færøsk Scenekunst');
@@ -24,10 +26,14 @@ export class App implements OnInit {
 
   public basket: ReturnType<BasketStore['basket$']>;
 
+  private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+
+  isPhone$ = this.breakpointObserver.observe([Breakpoints.Handset]);
+
   get hasLines() {
 
 
-    return this.basket && (this.basket.lines?.length || 0) > 0;
+    return this.store.basket() && this.store.basket().lines?.length > 0;
   }
 
   constructor(private _seoMetadata: SeoMetadata, private activatedRoute: ActivatedRoute, private basketStore: BasketStore) {
@@ -72,6 +78,11 @@ export class App implements OnInit {
       return 'kurv' as CheckoutStep;
   }
 
+  get shipping()
+  {
+    return this.store.basket().shippingInclVat;
+  }
+
   get IsCheckoutRoute() {
 
     let currentRoute = this.route;
@@ -83,8 +94,6 @@ export class App implements OnInit {
     const path = currentRoute.snapshot.routeConfig?.path;
     const isKurv = path === 'kurv' || path === 'adresse' || path === 'betaling';
 
-    console.log('Current route path:', path);
-    console.log('Is checkout route:', isKurv);
     return isKurv;
   }
 
@@ -94,7 +103,11 @@ export class App implements OnInit {
     while (currentRoute.firstChild) {
       currentRoute = currentRoute.firstChild;
     }
+  }
 
-    console.log(currentRoute.snapshot.routeConfig?.path);
+  public ShowModal = signal(false);
+
+  openModal() {
+    this.ShowModal.set(true);
   }
 }

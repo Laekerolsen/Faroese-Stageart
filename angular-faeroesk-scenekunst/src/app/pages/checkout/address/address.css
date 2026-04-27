@@ -132,6 +132,49 @@ svg {
     transform 500ms ease-out;
 }
 
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: transform 120ms ease;
+}
+
+/* press “bounce” */
+.ripple-btn:active {
+  transform: scale(0.92);
+}
+
+/* ripple element */
+.ripple-btn::after {
+  content: "";
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* trigger animation */
+.ripple-btn.ripple::after {
+  animation: ripple 600ms ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(25);
+    opacity: 0;
+  }
+}
+
 @keyframes slide-fade-address {
   from {
     opacity: 0;

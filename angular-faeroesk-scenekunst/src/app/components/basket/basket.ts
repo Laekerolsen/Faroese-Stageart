@@ -44,22 +44,41 @@ export class BasketComponent implements OnInit {
   }
 
   onQuantityChange(line: BasketLine, value: number) {
-    line.quantity = value;
+    let corrected = value;
+
+    if (isNaN(corrected)) {
+      corrected = 1;
+    }
+
+    if (corrected < 0) {
+      corrected = Math.abs(corrected);
+    }
+
+    if (corrected === 0) {
+      corrected = 1;
+    }
+
+    line.quantity = corrected;
 
     this.store.update(line.productId);
   }
+
+  onQuantityBlur(line: BasketLine) {
+  if (!line.quantity || line.quantity < 1) {
+    line.quantity = 1;
+  }
+
+  this.store.update(line.productId);
+}
   
   public hasLoaded: boolean = false;
   private zone: NgZone;
 
   constructor(private ngZone: NgZone) {
     this.zone = ngZone;
-    console.log('BasketComponent constructor called');
   }
 
   ngOnInit() {
-    //this.posts = await client.fetch(POSTS_QUERY);
-    console.log('BasketComponent ngOnInit called');
     this.zone.run(() => {
 
       this.hasLoaded = true;

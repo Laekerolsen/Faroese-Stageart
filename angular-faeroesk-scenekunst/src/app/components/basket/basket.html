@@ -13,6 +13,7 @@
                                     type="number"
                                     [(ngModel)]="line.quantity"
                                     (ngModelChange)="onQuantityChange(line, $event)"
+                                    (blur)="onQuantityBlur(line)"
                                     min="1"
                                   />
 

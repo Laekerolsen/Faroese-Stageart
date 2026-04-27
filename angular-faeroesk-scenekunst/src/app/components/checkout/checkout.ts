@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { BasketStore } from '../../services/basket';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TermsModalComponent } from '../terms-modal/terms-modal';
 
 
 @Component({
   selector: 'app-checkout-component',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TermsModalComponent],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
   changeDetection: ChangeDetectionStrategy.Eager,

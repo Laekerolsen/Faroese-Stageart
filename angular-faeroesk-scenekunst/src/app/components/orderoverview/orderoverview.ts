@@ -44,13 +44,9 @@ export class OrderOverviewComponent implements OnInit {
   constructor(private ngZone: NgZone, private _router: Router) {
     this.zone = ngZone;
     this.router = _router;
-
-    console.log('BasketComponent constructor called');
   }
 
   ngOnInit() {
-    //this.posts = await client.fetch(POSTS_QUERY);
-    console.log('BasketComponent ngOnInit called');
     this.zone.run(() => {
 
       this.hasLoaded = true;

@@ -47,18 +47,12 @@ export class HomeComponent implements OnInit {
     this.seoMetadata.title.set(this.title());
     this.seoMetadata.description.set(this.description());
     this.seoMetadata.keywords.set(this.keywords());
-
-    console.log('HomeComponent constructor called');
   }
 
   ngOnInit() {
-    //this.posts = await client.fetch(POSTS_QUERY);
-    console.log('HomeComponent ngOnInit called');
     this.zone.run(() => {
       
       this.posts$ = from(client.fetch(POSTS_QUERY));
-
-      console.log('Fetched posts in ngOnInit:', this.posts$);
 
       this.hasLoaded = true;
       });

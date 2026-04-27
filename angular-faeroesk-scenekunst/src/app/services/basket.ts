@@ -25,13 +25,13 @@ export class BasketStore {
     });
   }
 
+  basketIsTouched: boolean = false;
+
   // 🛒 Add product
   add(product: any, quantity = 1) {
     const basket = this.basket();
 
     const existing = basket.lines.find(l => l.productId === product.id);
-
-
 
     if (existing) {
       existing.quantity += quantity;
@@ -135,6 +135,8 @@ export class BasketStore {
       totalDiscount,
       totalInclVat
     });
+
+    this.basketIsTouched = true;
   }
 
   // 💾 Persistence

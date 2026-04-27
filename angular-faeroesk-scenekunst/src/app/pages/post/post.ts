@@ -42,7 +42,6 @@ export class PostComponent implements OnInit {
   product: Product | null = null;
 
   public content(input: Post): any[] {
-    console.log(typeof input); 
     let parsedValue: any[] = [];
     
     input.body?.forEach((block: any) => {
@@ -96,7 +95,26 @@ export class PostComponent implements OnInit {
   ngOnInit() {
   }
 
-  public addToBasket(post: Post) {
+  spawnRipple(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+
+    const rect = button.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    button.style.setProperty('--x', `${x}px`);
+    button.style.setProperty('--y', `${y}px`);
+
+    button.classList.remove('ripple'); // reset animation
+    void button.offsetWidth; // force reflow
+    button.classList.add('ripple');
+
+    setTimeout(() => button.classList.remove('ripple'), 600);
+  }
+
+  public addToBasket(post: Post, event: MouseEvent) {
+    this.spawnRipple(event);
+
     const item = {
       id: post.slug.current,
       title: post.title,
@@ -117,7 +135,6 @@ export class PostComponent implements OnInit {
     };
 
     // Add to basket logic here
-    console.log('Adding to basket:', item);
     this.basketStore.add(product);
   }
 
