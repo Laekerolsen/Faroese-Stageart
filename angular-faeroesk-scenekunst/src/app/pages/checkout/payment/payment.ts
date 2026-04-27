@@ -132,5 +132,14 @@ export class PaymentPageComponent implements OnInit {
     this.show = true;
   }
 
+  public htmlContent: string = `<h2 class="text-2xl font-bold">Betaling er ikke implementeret endnu</h2>
+                                <p>Kom tilbage når shoppen er aktiv, eller klik rundt og se om der er noget du ellers kan bruge</p>`;
+
+  public ShowDynamicModal = signal(false);
+
+  openDynamicModal() {
+    this.ShowDynamicModal.set(true);
+  }
+
   show: boolean = false;
 }
