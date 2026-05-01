@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { SeoMetadata } from './services/seo-metadata';
 import { BasketComponent } from './components/basket/basket';
 import { BasketStore } from './services/basket';
 import { CheckoutStep, CheckoutStepperComponent } from './components/checkout-stepper/checkout-stepper';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +30,12 @@ export class App implements OnInit {
 
   private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
 
-  isPhone$ = this.breakpointObserver.observe([Breakpoints.Handset]);
+  isPhone$ = this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.Handset, Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape]);
+
+  isPhone = toSignal(this.isPhone$.pipe(
+    map(state => state.matches)
+  ),
+  { initialValue: false });
 
   get hasLines() {
 

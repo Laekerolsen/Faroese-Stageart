@@ -90,7 +90,7 @@
   background: white;
     padding: 5px 5px 5px 20px;
     border-radius: 8px 8px 0px 0px;
-    max-width: 60vw;
+    max-width: 40vw;
     width: stretch;
     /* overflow: scroll; */
     margin-left: auto;
@@ -107,10 +107,10 @@
   background: white;
     padding: 20px;
     border-radius: 0px 0px 0px 0px;
-    max-width: 60vw;
+    max-width: 40vw;
     width: stretch;
     /* overflow: scroll; */
-    max-height: 78vh;
+    max-height: 68vh;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0rem;
@@ -124,7 +124,7 @@
   background: white;
     padding: 20px;
     border-radius: 0px 0px 8px 8px;
-    max-width: 60vw;
+    max-width: 40vw;
     width: stretch;
     /* overflow: scroll; */
     margin-left: auto;
@@ -225,5 +225,9 @@ svg {
     .modal-footer {
       width: stretch;
       max-width: 90vw;
+    }
+
+    .modal-content {
+      max-height: 78vh;
     }
   }

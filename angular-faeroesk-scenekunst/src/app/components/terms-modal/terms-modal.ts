@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, ErrorHandler, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ErrorHandler, inject, input, OnInit, output, Renderer2, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BasketStore } from '../../services/basket';
@@ -24,7 +24,7 @@ export class TermsModalComponent implements OnInit {
 
   currentShowChange = output<boolean>();
 
-  constructor(){
+  constructor(private renderer: Renderer2){
     
 
     effect(() => {
@@ -34,7 +34,20 @@ export class TermsModalComponent implements OnInit {
       let signalBool = this.currentShow();
 
       this.ShowModal.set(signalBool);
+
+      if (signalBool === true)
+        this.disableScroll();
+      else
+        this.enableScroll();
     });
+  }
+
+  disableScroll() {
+    this.renderer.setStyle(document.body, 'overflow', 'hidden');
+  }
+
+  enableScroll() {
+    this.renderer.removeStyle(document.body, 'overflow');
   }
 
   ngOnInit(): void {
@@ -53,11 +66,17 @@ export class TermsModalComponent implements OnInit {
 
   openModal() {
     this.ShowModal.set(true);
+    this.disableScroll();
     this.currentShowChange.emit(!this.currentShow());
   }
 
   toggle() {
     this.currentShowChange.emit(!this.currentShow());
     this.ShowModal.set(!this.currentShow());
+    
+    if (this.ShowModal() === true)
+      this.disableScroll();
+    else
+      this.enableScroll();
   }
 }

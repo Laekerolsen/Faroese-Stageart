@@ -29,7 +29,7 @@ import { GlobalErrorHandler } from './handlers/global-error-handler';
 
 @NgModule({
   declarations: [App, HomeComponent, PostComponent, BasketPageComponent, AddressPageComponent, PaymentPageComponent],
-  imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes, {enableViewTransitions: true}), 
+  imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes, {enableViewTransitions: true, scrollPositionRestoration: 'enabled'}), 
     RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent, VivaPaymentIconsComponent, TermsModalComponent, DynamicModalComponent],
   providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore, provideAnimations(), { provide: ErrorHandler, useClass: GlobalErrorHandler }],
   bootstrap: [App],

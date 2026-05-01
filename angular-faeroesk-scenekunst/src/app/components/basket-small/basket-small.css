@@ -53,9 +53,6 @@
   transform: translateX(20px);
 }
 
-
-
-
 .text-1xl {
   font-size: 0.85rem;
 }
@@ -172,7 +169,7 @@ svg {
   width: stretch;
     text-align: right;
     justify-content: flex-end;
-    display: flex;
+    display: none;
     align-items: baseline;
 }
 
@@ -334,6 +331,11 @@ svg {
     .divider {
       margin-top: 1rem;
       margin-bottom: 1rem;
+    }
+
+    .toggle-basket-content
+    {
+      display: flex;
     }
 
     .p-8 {

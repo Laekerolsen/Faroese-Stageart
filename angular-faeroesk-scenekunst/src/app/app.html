@@ -1,6 +1,6 @@
 
   <main class="main p-8 gap-4">
-    <div class="content mx-auto max-w-13xl flex flex-row gap-4">
+    <div class="content header-content mx-auto max-w-13xl flex flex-row gap-4">
       <div class="left-side">
         <a routerLink="/" class="hover:underline">
         <img src="logo3.png" alt="Færøsk Scenekunst i Esbjerg Logo" class="logo" />
@@ -13,11 +13,11 @@
         <p>Forening med formål at fremme færøsk scenekunst i Esbjerg. 🎉</p>
         </a>
       </div>
-      <div class="divider" *ngIf="(isPhone$ | async)?.matches" role="separator" aria-label="Divider"></div>
-      <app-viva-payment-icons [showHeader]="(isPhone$ | async)?.matches" class="top-payment-div"></app-viva-payment-icons>
+      <div class="divider" *ngIf="isPhone()" role="separator" aria-label="Divider"></div>
+      <app-viva-payment-icons [showHeader]="false" class="top-payment-div"></app-viva-payment-icons>
     </div>
     <div class="divider divider-horizontal horizontal" role="separator" aria-label="Divider"></div>
-    <div class="top-basket" *ngIf="hasLines && !IsCheckoutRoute" class="basket-top">
+    <div class="top-basket" *ngIf="hasLines && !IsCheckoutRoute && isPhone()" class="basket-top">
       <app-basket-small-component></app-basket-small-component>
     </div>
     <app-checkout-stepper *ngIf="hasLines && IsCheckoutRoute" [currentStep]="CheckoutStage"></app-checkout-stepper>
@@ -27,7 +27,7 @@
       </div>
       <div *ngIf="!IsCheckoutRoute && !(isPhone$ | async)?.matches" class="divider" role="separator" aria-label="Divider"></div>
       <div *ngIf="!IsCheckoutRoute" class="basket right-side basket-area gap-8">
-        <app-basket-small-component class="{{ ShowHideBasketClass(hasLines) }}" *ngIf="!IsCheckoutRoute && !(isPhone$ | async)?.matches"></app-basket-small-component>
+        <app-basket-small-component class="{{ ShowHideBasketClass(hasLines) }}" *ngIf="!IsCheckoutRoute"></app-basket-small-component>
         <div *ngIf="hasLines && shipping > 0" class="basket-right shipping-checkout gap-4">
           <h2 class="text-1xl font-bold">Din valgte leveringsmetode</h2>
           <p>Du har valgt levering med GLS Pakkeshop, vær opmærksom på, at vi har 3-7 dages leveringstid.</p>
