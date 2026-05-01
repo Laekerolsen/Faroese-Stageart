@@ -75,6 +75,8 @@ export class AddressPageComponent implements OnInit {
   ngOnInit(): void {
     if (!this.store.basket().lines || this.store.basket().lines.length == 0 || !this.store.TermsAccepted())
       this.router.navigate(['/kurv']);
+
+    this.store.TermsAccepted.set(true);
   }
 
   public ShowModal = signal(false);
@@ -214,7 +216,11 @@ export class AddressPageComponent implements OnInit {
     this.sameSubscription?.unsubscribe();
     this.invoiceSubscription?.unsubscribe();
 
+    this.store.TermsAccepted.set(true);
     this.store.AddressConfirmed.set(true);
+
+    this.store.saveTermsAccepted();
+    this.store.saveAddressConfirmed();
 
     this.router.navigate(['/betaling']);
   }

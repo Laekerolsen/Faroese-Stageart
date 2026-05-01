@@ -38,11 +38,15 @@ export class AuthGuard implements CanActivate {
       const IsLoginRequired = requiredPermissions.filter(permission => permission === 'islogin')?.length > 0;
       const IsHasLinesRequired = requiredPermissions.filter(permission => permission === 'haslines')?.length > 0;
 
+      const hasLines = this.store.basket().lines.length > 0 || false;
+
+      console.log(this.store.TermsAccepted(), this.store.AddressConfirmed(), hasLines);
+
       if (IsLoginRequired && this.isLoggedIn)
       {
         if (this.isLoggedIn)
         {
-          if ((IsConfirmedRequired && !this.store.TermsAccepted()) || (IsHasAddressRequired && !this.store.AddressConfirmed()) || (IsHasLinesRequired && !this.store.basket().lines.length))
+          if ((IsConfirmedRequired && !this.store.TermsAccepted()) || (IsHasAddressRequired && !this.store.AddressConfirmed()) || (IsHasLinesRequired && !hasLines))
           {
             this.router.navigate([RedirectUrl]);
             return false;
@@ -57,7 +61,7 @@ export class AuthGuard implements CanActivate {
             this.router.navigate([RedirectUrl]);
             return false;
           }
-          else if (IsHasLinesRequired && !this.store.basket().lines.length)
+          else if (IsHasLinesRequired && !hasLines)
           {
             this.router.navigate([RedirectUrl]);
             return false;

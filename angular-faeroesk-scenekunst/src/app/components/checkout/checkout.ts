@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, ErrorHandler, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ErrorHandler, inject, OnInit, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BasketStore } from '../../services/basket';
 import { FormsModule } from '@angular/forms';
@@ -19,24 +19,32 @@ import { GlobalErrorHandler } from '../../handlers/global-error-handler';
     { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ]
 })
-export class CheckoutComponent  {
+export class CheckoutComponent implements OnInit {
   private store = inject(BasketStore);
   private router = inject(Router)
   basket = this.store.basket$;
 
   public isChecked: boolean = false;
 
+  IsChecked = output<boolean>();
+
   constructor(){
     this.Checked = this.store.TermsAccepted();
-    
+
     effect(() => {
       const b = this.store.basket();
+      const s = this.store;
       if (!b) return;
 
-      if (!this.store.TermsAccepted())
-        this.Checked = false;
-
+      //this.Checked = s.TermsAccepted();
+      
+      
     });
+  }
+
+  ngOnInit(): void {
+    this.Checked = this.store.TermsAccepted();
+    this.IsChecked.emit(this.Checked);
   }
 
   public get Checked()
@@ -51,12 +59,19 @@ export class CheckoutComponent  {
   {
     this.hasCheckoutBeenClicked = false;
     this.store.TermsAccepted.set(inpValue)
+    this.IsChecked.emit(inpValue);
     this.isChecked = inpValue;
   }
 
-  public setChecked(inpChecked: boolean)
+  public setChecked()
   {
-    this.Checked = inpChecked;
+    this.Checked = !this.Checked;
+
+    this.store.TermsAccepted.set(!this.Checked)
+
+    this.store.saveTermsAccepted();
+    
+    this.IsChecked.emit(this.Checked);
   }
 
   async checkout() {
@@ -94,6 +109,7 @@ export class CheckoutComponent  {
     }
 
     this.store.TermsAccepted.set(true);
+    this.Checked = true;
 
     this.router.navigate(['/adresse']);
     //this.checkout();

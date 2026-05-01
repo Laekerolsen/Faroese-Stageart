@@ -5,6 +5,7 @@ import { NgZone } from '@angular/core';
 import { firstValueFrom, from, Observable } from 'rxjs';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { client } from '../../../sanity/client';
+import { BasketStore } from '../../../services/basket';
 
 const builder = createImageUrlBuilder(client);
 const urlFor = (source: any) => builder.image(source);
@@ -27,8 +28,9 @@ interface Post {
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BasketPageComponent implements OnInit {
-
-  constructor() {
+  store: BasketStore;
+  constructor(private _store: BasketStore) {
+    this.store = _store;
   }
 
   ngOnInit() {

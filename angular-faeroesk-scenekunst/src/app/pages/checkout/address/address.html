@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <label *ngIf="this.store.basket().shippingExclVat > 0">
+  <label class="same" *ngIf="this.store.basket().shippingExclVat > 0">
     <input type="checkbox" formControlName="useSameAddress" />
     Leveringsadresse er samme som faktura adresse
   </label>

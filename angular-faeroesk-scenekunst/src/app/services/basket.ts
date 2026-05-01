@@ -1,4 +1,4 @@
-import { Injectable, computed, signal, effect } from '@angular/core';
+import { Injectable, computed, signal, effect, OnInit } from '@angular/core';
 import { Basket } from '../Models/basket.model';
 import { Product } from '../Models/product.model';
 import { BasketLine } from '../Models/basketline.model';
@@ -8,10 +8,12 @@ import { Address } from '../Models/address.model';
 import { OrderLine } from '../Models/orderline.model';
 
 @Injectable({ providedIn: 'root' })
-export class BasketStore {
+export class BasketStore implements OnInit {
   private readonly vatRate = 0;
   private readonly vatRateShipping = 0.25;
   private readonly storageKey = 'basket';
+  private readonly storageKeyIsConfirmed = 'isconfirmed';
+  private readonly storageKeyHasAddress = 'hasaddress';
   private readonly storageOrderKey = 'order';
 
   public TermsAccepted = signal(false);
@@ -25,7 +27,23 @@ export class BasketStore {
   constructor() {
     effect(() => {
       localStorage.setItem(this.storageKey, JSON.stringify(this.basket()));
+      localStorage.setItem(this.storageKeyIsConfirmed, JSON.stringify(this.TermsAccepted()));
+      localStorage.setItem(this.storageKeyHasAddress, JSON.stringify(this.AddressConfirmed()));
     });
+  }
+
+  saveTermsAccepted()
+  {
+    localStorage.setItem(this.storageKeyIsConfirmed, JSON.stringify(this.TermsAccepted()));
+  }
+
+  saveAddressConfirmed()
+  {
+    localStorage.setItem(this.storageKeyHasAddress, JSON.stringify(this.AddressConfirmed()));
+  }
+
+  ngOnInit(): void {
+    
   }
 
   basketIsTouched: boolean = false;
@@ -145,6 +163,12 @@ export class BasketStore {
   // 💾 Persistence
   private loadInitial(): Basket {
     const raw = localStorage.getItem(this.storageKey);
+    const rawIsConfirmed = localStorage.getItem(this.storageKeyIsConfirmed);
+    const rawHasAddress = localStorage.getItem(this.storageKeyHasAddress);
+
+    if (rawIsConfirmed) this.TermsAccepted.set(JSON.parse(rawIsConfirmed));
+
+    if (rawHasAddress) this.AddressConfirmed.set(JSON.parse(rawHasAddress));
 
     if (raw) return JSON.parse(raw);
 
@@ -225,6 +249,9 @@ export class BasketStore {
 
   clear() {
     localStorage.removeItem(this.storageKey);
+    localStorage.removeItem(this.storageKeyIsConfirmed);
+    localStorage.removeItem(this.storageKeyHasAddress);
+    localStorage.removeItem(this.storageOrderKey);
     this.basket.set(this.loadInitial());
   }
 }

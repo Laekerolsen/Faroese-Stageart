@@ -4,7 +4,7 @@
 <div *ngIf="basket().lines.length > 0;" class="checkout-button gap-8" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">    
     <div class="terms">
     <label [class.error]="hasCheckoutBeenClicked && !Checked" class="label">
-        <span (click)="setChecked(!Checked)">Accepter salgs og leveringsbetingelser</span>
+        <span (click)="setChecked()">Accepter salgs og leveringsbetingelser</span>
     </label>
     <label [class.error]="hasCheckoutBeenClicked && !Checked" class="checkmark">
         <input type="checkbox" [(ngModel)]="Checked">

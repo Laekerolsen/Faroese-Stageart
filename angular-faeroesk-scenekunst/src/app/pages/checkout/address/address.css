@@ -21,6 +21,10 @@ form,
     flex-direction: column;
 }
 
+.same {
+  cursor: pointer;
+}
+
 .checkout-right
 {
     /*flex-direction: row !important;
