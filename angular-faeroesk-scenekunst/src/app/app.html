@@ -50,6 +50,7 @@
         </div>
         <app-viva-payment-icons [showHeader]="true"></app-viva-payment-icons>
       </div>
+      <div *ngIf="!IsCheckoutRoute && !(isPhone$ | async)?.matches" class="divider" role="separator" aria-label="Divider"></div>
     </div>
     <app-terms-modal [currentShow]="ShowModal()" (currentShowChange)="this.ShowModal.set($event)"></app-terms-modal>
     <div class="divider divider-horizontal horizontal" role="separator" aria-label="Divider"></div>
