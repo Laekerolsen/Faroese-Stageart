@@ -198,6 +198,10 @@
     flex-direction: column;
   }
 
+  .basket-area {
+    overflow: hidden;
+  }
+
   .basket-right {
     display: flex;
     flex-direction: column;
@@ -211,6 +215,14 @@
   nav,
   .footer .container p {
     text-align: center;
+  }
+
+  .hide-basket {
+    margin-top: -2rem;
+  }
+
+  .show-basket {
+    margin-top: 0rem;
   }
 
   @media screen and (max-width: 650px) {

@@ -1,7 +1,7 @@
 <button *ngIf="store.basket().lines && store.basket().lines.length > 0" class="px-4 py-2 bg-yellow-600 text-1xl text-white rounded hover:bg-yellow-700" (click)="backToBasket()">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M169.4 297.4C156.9 309.9 156.9 330.2 169.4 342.7L361.4 534.7C373.9 547.2 394.2 547.2 406.7 534.7C419.2 522.2 419.2 501.9 406.7 489.4L237.3 320L406.6 150.6C419.1 138.1 419.1 117.8 406.6 105.3C394.1 92.8 373.8 92.8 361.3 105.3L169.3 297.3z"/></svg>
   Gå tilbage til indkøbskurv</button>
-<h1 *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" class="text-2xl font-bold mb-8" animate.enter="enter-animation-address" animate.leave="leaving-animation-address">Indtast faktura og leveringsadresse</h1>
+<h1 *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" class="text-3xl font-bold mb-8 header-text" animate.enter="enter-animation-address" animate.leave="leaving-animation-address">Indtast faktura og leveringsadresse</h1>
 <div *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" class="checkout-container" animate.enter="enter-animation-address" animate.leave="leaving-animation-address">
 <div *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" class="checkout-left checkout-address">
   <button class="ripple-btn px-4 py-2 bg-red-600 text-1xl text-white rounded hover:bg-red-700" (click)="clearForm($event)">
@@ -9,7 +9,7 @@
   </button>
 <form *ngIf="isInit && this.store.basket().lines && this.store.basket().lines.length > 0" [formGroup]="form" class="gap-4" (ngSubmit)="submit()">
 
-  <h2 class="text-1xl font-bold">Faktureringsadresse</h2>
+  <h2 class="text-2xl font-bold">Faktureringsadresse</h2>
   <div class="invoice gap-4" formGroupName="invoiceAddress">
     <input formControlName="name" placeholder="Navn" />
     <input formControlName="company" placeholder="Firma" />
@@ -41,7 +41,7 @@
   </label>
 
   <div class="delivery-container gap-4" *ngIf="!form.get('useSameAddress')?.value" animate.enter="enter-animation-delivery" animate.leave="leaving-animation-delivery">
-    <h2 class="text-1xl font-bold">Leveringsadresse</h2>
+    <h2 class="text-2xl font-bold">Leveringsadresse</h2>
     <div class="delivery gap-4" formGroupName="deliveryAddress">
       <input formControlName="name" placeholder="Navn" />
       <input formControlName="company" placeholder="Firma" />

@@ -1,18 +1,23 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ErrorHandler, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BasketStore } from '../../services/basket';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TermsModalComponent } from '../terms-modal/terms-modal';
+import { DynamicModalComponent } from '../dynamic-modal/dynamic-modal';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 
 @Component({
   selector: 'app-checkout-component',
   standalone: true,
-  imports: [CommonModule, FormsModule, TermsModalComponent],
+  imports: [CommonModule, FormsModule, TermsModalComponent, DynamicModalComponent],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
   changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class CheckoutComponent  {
   private store = inject(BasketStore);
@@ -20,6 +25,19 @@ export class CheckoutComponent  {
   basket = this.store.basket$;
 
   public isChecked: boolean = false;
+
+  constructor(){
+    this.Checked = this.store.TermsAccepted();
+    
+    effect(() => {
+      const b = this.store.basket();
+      if (!b) return;
+
+      if (!this.store.TermsAccepted())
+        this.Checked = false;
+
+    });
+  }
 
   public get Checked()
   {
@@ -31,8 +49,14 @@ export class CheckoutComponent  {
 
   public set Checked(inpValue: boolean)
   {
-    this.hasCheckoutBeenClicked = !inpValue;
+    this.hasCheckoutBeenClicked = false;
+    this.store.TermsAccepted.set(inpValue)
     this.isChecked = inpValue;
+  }
+
+  public setChecked(inpChecked: boolean)
+  {
+    this.Checked = inpChecked;
   }
 
   async checkout() {
@@ -58,16 +82,40 @@ export class CheckoutComponent  {
     this.hasCheckoutBeenClicked = true;
 
     if (!this.basket().lines.length) {
-      alert('Din indkøbskurv er tom');
+      //alert('Din indkøbskurv er tom');
+      this.openEmptyBasketModal();
       return;
     }
 
     if (!this.isChecked) {
-      alert('Venligst accepter salgs og leveringsbetingelser først.');
+      //alert('Venligst accepter salgs og leveringsbetingelser først.');
+      this.openDynamicModal();
       return;
     }
 
+    this.store.TermsAccepted.set(true);
+
     this.router.navigate(['/adresse']);
     //this.checkout();
+  }
+
+  public htmlContent: string = `<h2 class="text-2xl font-bold">Venligst accepter salgs og leveringsbetingelser først.</h2>
+                                <p>Du skal acceptere salgs og leveringsbetingelserne, før du kan gennemføre et køb.</p>
+                                <p>Udfyld checkboksen og accepter vores salgs og leveringsbetingelser.</p>`;
+
+  public ShowDynamicModal = signal(false);
+
+  openDynamicModal() {
+    this.ShowDynamicModal.set(true);
+  }
+
+  public htmlContentEmptyBasket: string = `<h2 class="text-2xl font-bold">Din indkøbskurv er tom.</h2>
+                                <p>Du skal tilføje mindst én vare, fysisk eller digital til kurven, før du kan gennemføre et køb.</p>
+                                <p>Husk også at udfylde checkboksen og acceptere vores salgs og leveringsbetingelser.</p>`;
+
+  public ShowEmptyBasketModal = signal(false);
+
+  openEmptyBasketModal() {
+    this.ShowEmptyBasketModal.set(true);
   }
 }

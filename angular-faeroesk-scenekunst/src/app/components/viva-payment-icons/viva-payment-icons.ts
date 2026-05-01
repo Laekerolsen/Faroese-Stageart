@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ErrorHandler, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 @Component({
   selector: 'app-viva-payment-icons',
@@ -7,7 +8,10 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './viva-payment-icons.html',
   styleUrl: './viva-payment-icons.css',
-  changeDetection: ChangeDetectionStrategy.Eager
+  changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class VivaPaymentIconsComponent {
   showHeader = input.required<boolean | undefined>();

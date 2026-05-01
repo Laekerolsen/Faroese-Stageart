@@ -73,7 +73,7 @@ export class AddressPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.store.basket().lines || this.store.basket().lines.length == 0)
+    if (!this.store.basket().lines || this.store.basket().lines.length == 0 || !this.store.TermsAccepted())
       this.router.navigate(['/kurv']);
   }
 
@@ -89,15 +89,15 @@ export class AddressPageComponent implements OnInit {
 
 
   createAddressGroup(isInvoice: boolean): FormGroup<AddressForm> {
-    const inName = isInvoice ? this.store.basket().invoiceAddress.name : this.store.basket().deliveryAddress.name;
-    const inComp = (isInvoice ? this.store.basket().invoiceAddress.company : this.store.basket().deliveryAddress.company) || null;
-    const inStreet = isInvoice ? this.store.basket().invoiceAddress.street : this.store.basket().deliveryAddress.street;
-    const inStreet2 = (isInvoice ? this.store.basket().invoiceAddress.street2 : this.store.basket().deliveryAddress.street2) || null;
-    const inZipCode = isInvoice ? this.store.basket().invoiceAddress.zipCode : this.store.basket().deliveryAddress.zipCode;
-    const inCity = isInvoice ? this.store.basket().invoiceAddress.city : this.store.basket().deliveryAddress.city;
-    const inCountry = (isInvoice ? this.store.basket().invoiceAddress.country : this.store.basket().deliveryAddress.country) || 'Danmark'; 
-    const inPhone = (isInvoice ? this.store.basket().invoiceAddress.phone : this.store.basket().deliveryAddress.phone) || null;
-    const inEmail = (isInvoice ? this.store.basket().invoiceAddress.email : this.store.basket().deliveryAddress.email) || '';
+    const inName = isInvoice ? this.store.basket().invoiceAddress.name || '' : this.store.basket().deliveryAddress.name || '';
+    const inComp = (isInvoice ? this.store.basket().invoiceAddress.company || '' : this.store.basket().deliveryAddress.company || '') || null;
+    const inStreet = isInvoice ? this.store.basket().invoiceAddress.street || '' : this.store.basket().deliveryAddress.street || '';
+    const inStreet2 = (isInvoice ? this.store.basket().invoiceAddress.street2 || '' : this.store.basket().deliveryAddress.street2 || '') || null;
+    const inZipCode = isInvoice ? this.store.basket().invoiceAddress.zipCode || '' : this.store.basket().deliveryAddress.zipCode || '';
+    const inCity = isInvoice ? this.store.basket().invoiceAddress.city || '' : this.store.basket().deliveryAddress.city || '';
+    const inCountry = (isInvoice ? this.store.basket().invoiceAddress.country || 'Danmark' : this.store.basket().deliveryAddress.country || 'Danmark') || 'Danmark'; 
+    const inPhone = (isInvoice ? this.store.basket().invoiceAddress.phone || '' : this.store.basket().deliveryAddress.phone || '') || null;
+    const inEmail = (isInvoice ? this.store.basket().invoiceAddress.email || '' : this.store.basket().deliveryAddress.email || '') || '';
 
     return this.fb.group({
       name: this.fb.control(inName, { nonNullable: true, validators: [Validators.required] }),
@@ -113,17 +113,18 @@ export class AddressPageComponent implements OnInit {
   }
 
   private mapToAddress(address: any): Address {
-  return {
-    name: address.name,
-    company: address.company,
-    street: address.street,
-    street2: address.street2,
-    zipCode: address.zipCode,
-    city: address.city,
-    country: address.country,
-    phone: address.phone,
-    email: address.email
-  };
+    const addresFromInput: Address = {
+      name: address.name,
+      company: address.company,
+      street: address.street,
+      street2: address.street2,
+      zipCode: address.zipCode,
+      city: address.city,
+      country: address.country,
+      phone: address.phone,
+      email: address.email
+    };
+  return addresFromInput;
 }
 
   sameSubscription: Subscription | null = null;
@@ -213,6 +214,8 @@ export class AddressPageComponent implements OnInit {
     this.sameSubscription?.unsubscribe();
     this.invoiceSubscription?.unsubscribe();
 
+    this.store.AddressConfirmed.set(true);
+
     this.router.navigate(['/betaling']);
   }
 
@@ -231,6 +234,8 @@ export class AddressPageComponent implements OnInit {
 
       this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
       this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+
+      this.store.TermsAccepted.set(true);
 
       this.destroySubs();
     }

@@ -26,8 +26,8 @@
         <router-outlet />
       </div>
       <div *ngIf="!IsCheckoutRoute && !(isPhone$ | async)?.matches" class="divider" role="separator" aria-label="Divider"></div>
-      <div *ngIf="!IsCheckoutRoute" class="basket right-side basket-area gap-4">
-        <app-basket-small-component *ngIf="!IsCheckoutRoute && !(isPhone$ | async)?.matches"></app-basket-small-component>
+      <div *ngIf="!IsCheckoutRoute" class="basket right-side basket-area gap-8">
+        <app-basket-small-component class="{{ ShowHideBasketClass(hasLines) }}" *ngIf="!IsCheckoutRoute && !(isPhone$ | async)?.matches"></app-basket-small-component>
         <div *ngIf="hasLines && shipping > 0" class="basket-right shipping-checkout gap-4">
           <h2 class="text-1xl font-bold">Din valgte leveringsmetode</h2>
           <p>Du har valgt levering med GLS Pakkeshop, vær opmærksom på, at vi har 3-7 dages leveringstid.</p>

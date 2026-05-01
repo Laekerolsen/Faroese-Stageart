@@ -51,6 +51,33 @@ input {
   }
 .p-right {
   text-align: right;
+  width: stretch;
+}
+
+.bline-left,
+.total-title {
+  display: flex;
+  text-align: left;
+  width: stretch;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.bline-right,
+.total-result {
+  display: flex;
+  text-align: right;
+  width: stretch;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.bline-text {
+  width: auto !important;
+}
+
+.pname {
+  width: stretch;
 }
 
 svg {

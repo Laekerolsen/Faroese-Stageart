@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ErrorHandler, inject, input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { client } from '../../sanity/client';
@@ -6,6 +6,7 @@ import { NgZone } from '@angular/core';
 import { firstValueFrom, from, Observable } from 'rxjs';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { BasketStore } from '../../services/basket';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 export type CheckoutStep = 'kurv' | 'adresse' | 'betaling';
 
@@ -16,6 +17,9 @@ export type CheckoutStep = 'kurv' | 'adresse' | 'betaling';
   templateUrl: './checkout-stepper.html',
   styleUrl: './checkout-stepper.css',
   changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class CheckoutStepperComponent {
   public store = inject(BasketStore);

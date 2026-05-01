@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ErrorHandler, inject, input, OnInit, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BasketStore } from '../../services/basket';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 @Component({
   selector: 'app-dynamic-modal',
@@ -11,6 +12,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   templateUrl: './dynamic-modal.html',
   styleUrl: './dynamic-modal.css',
   changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class DynamicModalComponent implements OnInit {
   public store = inject(BasketStore);

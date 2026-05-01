@@ -22,8 +22,14 @@
 .terms {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
   align-items: center;
+  width: stretch;
+  justify-content: center;
+}
+
+.terms .label,
+.terms label {
+  width: fit-content;
 }
 
 .checkmark {

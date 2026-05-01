@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ErrorHandler, inject, input, OnInit, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BasketStore } from '../../services/basket';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 @Component({
   selector: 'app-terms-modal',
@@ -10,6 +11,9 @@ import { BasketStore } from '../../services/basket';
   templateUrl: './terms-modal.html',
   styleUrl: './terms-modal.css',
   changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class TermsModalComponent implements OnInit {
   public store = inject(BasketStore);

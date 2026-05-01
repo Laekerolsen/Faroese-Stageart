@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ErrorHandler, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BasketStore } from '../../services/basket';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 
 @Component({
@@ -10,6 +11,9 @@ import { BasketStore } from '../../services/basket';
   templateUrl: './shipping.html',
   styleUrl: './shipping.css',
   changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class ShippingComponent  {
   private store = inject(BasketStore);

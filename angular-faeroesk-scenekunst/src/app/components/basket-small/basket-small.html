@@ -27,13 +27,27 @@
       </p>
     </div>
 
+    <div *ngIf="basket().shippingInclVat > 0 || basket().totalDiscount > 0" role="separator" aria-label="Divider" class="divider"></div>
+    <div *ngIf="basket().shippingInclVat > 0 || basket().totalDiscount > 0" class="text-1xl p-right flex flex-row">
+      <div class="total-title">Subtotal: </div>
+      <div class="total-result">{{ subTotal | number:'1.2-2' }} DKK</div>
+    </div>
+    <div *ngIf="basket().shippingInclVat > 0" class="text-1xl p-right flex flex-row gap-4">
+      <div class="total-title">Fragt: </div>
+      <div class="total-result">{{ basket().shippingInclVat | number:'1.2-2' }} {{ basket().currency }}</div>
+    </div>
+    <div *ngIf="basket().totalDiscount > 0" class="p-right flex flex-row">
+      <div class="total-title">Rabat: </div>
+      <div class="total-result">-{{ basket().totalDiscount | number:'1.2-2' }}</div>
+    </div>
     <div role="separator" aria-label="Divider" class="divider"></div>
-    
-    <div *ngIf="basket().shippingInclVat > 0" class="text-1xl p-right">Fragt: {{ basket().shippingInclVat | number:'1.2-2' }} {{ basket().currency }}</div>
-    <p class="text-1xl p-right"><strong>Total: {{ basket().totalInclVat | number:'1.2-2' }} {{ basket().currency }}</strong></p>
+    <div class="text-1xl p-right flex flex-row gap-4">
+      <div class="total-title"><strong>Total: </strong></div>
+      <div class="total-result"><strong>{{ basket().totalInclVat | number:'1.2-2' }} {{ basket().currency }}</strong></div>
+    </div>
 
-    <p>
-      <button class="px-4 py-2 bg-blue-600 text-1xl text-white rounded hover:bg-blue-700" (click)="checkout()">Gå til kurven</button>
+    <p class="text-1xl p-right flex flex-row gap-4 basket-button-container">
+      <button class="basket-button px-4 py-2 bg-blue-600 text-1xl text-white rounded hover:bg-blue-700" (click)="checkout()">Gå til kurven</button>
     </p>
 </div>
 </div>

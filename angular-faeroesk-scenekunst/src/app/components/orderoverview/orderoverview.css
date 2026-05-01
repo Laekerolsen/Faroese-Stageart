@@ -15,6 +15,18 @@
     flex-direction: row;
 }
 
+.price, 
+div.price,
+.p-price,
+.total-result {
+  text-align: right;
+  width: stretch;
+}
+
+.pname {
+  width: stretch;
+}
+
 .divider {
   height: 1px;
   width: 100%;

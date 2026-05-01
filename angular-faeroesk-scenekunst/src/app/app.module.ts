@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
@@ -25,12 +25,13 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { VivaPaymentIconsComponent } from './components/viva-payment-icons/viva-payment-icons';
 import { TermsModalComponent } from './components/terms-modal/terms-modal';
 import { DynamicModalComponent } from './components/dynamic-modal/dynamic-modal';
+import { GlobalErrorHandler } from './handlers/global-error-handler';
 
 @NgModule({
   declarations: [App, HomeComponent, PostComponent, BasketPageComponent, AddressPageComponent, PaymentPageComponent],
   imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes, {enableViewTransitions: true}), 
     RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent, VivaPaymentIconsComponent, TermsModalComponent, DynamicModalComponent],
-  providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore, provideAnimations()],
+  providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore, provideAnimations(), { provide: ErrorHandler, useClass: GlobalErrorHandler }],
   bootstrap: [App],
 })
 export class AppModule {}

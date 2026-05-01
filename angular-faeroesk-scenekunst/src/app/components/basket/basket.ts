@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ErrorHandler, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { client } from '../../sanity/client';
@@ -8,6 +8,7 @@ import { createImageUrlBuilder } from '@sanity/image-url';
 import { BasketStore } from '../../services/basket';
 import { FormsModule } from '@angular/forms';
 import { BasketLine } from '../../Models/basketline.model';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 const builder = createImageUrlBuilder(client);
 const urlFor = (source: any) => builder.image(source);
@@ -29,6 +30,9 @@ interface Post {
   templateUrl: './basket.html',
   styleUrl: './basket.css',
   changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class BasketComponent implements OnInit {
   private store = inject(BasketStore);
@@ -41,6 +45,9 @@ export class BasketComponent implements OnInit {
   clear()
   {
     this.store.clear();
+    
+    this.store.TermsAccepted.set(false);
+    this.store.AddressConfirmed.set(false);
   }
 
   onQuantityChange(line: BasketLine, value: number) {

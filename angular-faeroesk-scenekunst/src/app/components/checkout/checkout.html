@@ -1,10 +1,12 @@
-<span *ngIf="basket().lines.length > 0 && !isChecked" [class.error]="hasCheckoutBeenClicked" (click)="openModal()" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">Du skal acceptere salgs og leveringsbetingelserne, før du kan gennemføre et køb</span>
+<span *ngIf="basket().lines.length > 0 && !isChecked" [class.error]="hasCheckoutBeenClicked" (click)="openModal()" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">
+    Du skal acceptere salgs og leveringsbetingelserne, før du kan gennemføre et køb, tryk på knappen her for at <button class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700" (click)="openModal()">læse mere</button>
+</span>
 <div *ngIf="basket().lines.length > 0;" class="checkout-button gap-8" animate.enter="enter-animation-checkout" animate.leave="leaving-animation-checkout">    
-    <div class="terms gap-8">
-    <label [class.error]="hasCheckoutBeenClicked" class="label">
-        <span (click)="openModal()">Accepter salgs og leveringsbetingelser</span>
+    <div class="terms">
+    <label [class.error]="hasCheckoutBeenClicked && !Checked" class="label">
+        <span (click)="setChecked(!Checked)">Accepter salgs og leveringsbetingelser</span>
     </label>
-    <label [class.error]="hasCheckoutBeenClicked" class="checkmark">
+    <label [class.error]="hasCheckoutBeenClicked && !Checked" class="checkmark">
         <input type="checkbox" [(ngModel)]="Checked">
         <span></span>
     </label>
@@ -13,3 +15,6 @@
 </div>
 
 <app-terms-modal [currentShow]="ShowModal()" (currentShowChange)="this.ShowModal.set($event)"></app-terms-modal>
+
+<app-dynamic-modal [htmlContent]="htmlContent" [currentShow]="ShowDynamicModal()" (currentShowChange)="this.ShowDynamicModal.set($event)"></app-dynamic-modal>
+<app-dynamic-modal [htmlContent]="htmlContentEmptyBasket" [currentShow]="ShowEmptyBasketModal()" (currentShowChange)="this.ShowEmptyBasketModal.set($event)"></app-dynamic-modal>

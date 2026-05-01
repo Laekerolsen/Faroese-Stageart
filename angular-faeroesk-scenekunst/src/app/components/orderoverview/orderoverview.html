@@ -1,28 +1,46 @@
 <div *ngIf="store.basket() as o" class="payment-page">
 
-  <h2 class="text-1xl font-bold">Købsoversigt</h2>
+  <h2 class="text-2xl font-bold">Købsoversigt</h2>
 
   <!-- ITEMS -->
   <div class="box">
-    <h3 class="text-0xl font-bold">Varer</h3>
+    <h3 class="text-1xl font-bold">Varer</h3>
 
     <div *ngFor="let item of o.lines">
-      <div class="pap gap-4">
-        {{ item.productName }}
-        <span class="price">
+      <div class="pap gap-4 flex flex-row">
+        <div class="pname">
+          {{ item.productName }}
+        </div>
+        <div class="p-price price line-price">
+          <span class="price">
           ({{ item.quantity }}x) {{ item.totalInclVat * item.quantity }} DKK
         </span>
+        </div>
       </div>
     </div>
   </div>
 
-  <div role="separator" aria-label="Divider" class="divider"></div>
+  <div *ngIf="o.shippingInclVat > 0 || o.totalDiscount > 0" role="separator" aria-label="Divider" class="divider"></div>
 
   <!-- TOTALS -->
   <div class="box total">
-    <div *ngIf="o.totalDiscount > 0" class="p-right">Rabat: -{{ o.totalDiscount | number:'1.2-2' }}</div>
-    <div *ngIf="o.shippingInclVat > 0" class="text-1xl p-right">Fragt: {{ o.shippingInclVat | number:'1.2-2' }} DKK</div>
-    <p class="text-1xl"><strong>Total: {{ o.totalInclVat | number:'1.2-2' }}</strong></p>
+    <div *ngIf="o.shippingInclVat > 0 || o.totalDiscount > 0" class="text-1xl flex flex-row">
+      <div class="total-title">Subtotal: </div>
+      <div class="total-result">{{ subTotal | number:'1.2-2' }} DKK</div>
+    </div>
+    <div *ngIf="o.totalDiscount > 0" class="p-right flex flex-row">
+      <div class="total-title">Rabat: </div>
+      <div class="total-result">-{{ o.totalDiscount | number:'1.2-2' }}</div>
+    </div>
+    <div *ngIf="o.shippingInclVat > 0" class="text-1xl p-right flex flex-row">
+      <div class="total-title">Fragt: </div>
+      <div class="total-result">{{ o.shippingInclVat | number:'1.2-2' }} DKK</div>
+    </div>
+    <div role="separator" aria-label="Divider" class="divider"></div>
+    <div class="text-1xl flex flex-row">
+      <div class="total-title"><strong>Total: </strong></div>
+      <div class="total-result"><strong>{{ o.totalInclVat | number:'1.2-2' }} DKK</strong></div>
+    </div>
   </div>
 
 </div>

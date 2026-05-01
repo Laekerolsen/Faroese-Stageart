@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ErrorHandler, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { client } from '../../sanity/client';
@@ -8,6 +8,7 @@ import { createImageUrlBuilder } from '@sanity/image-url';
 import { BasketStore } from '../../services/basket';
 import { BasketLine } from '../../Models/basketline.model';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 const builder = createImageUrlBuilder(client);
 const urlFor = (source: any) => builder.image(source);
@@ -28,7 +29,10 @@ interface Post {
   imports: [CommonModule],
   templateUrl: './basket-small.html',
   styleUrl: './basket-small.css',
-  changeDetection: ChangeDetectionStrategy.Eager
+  changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class BasketSmallComponent implements OnInit {
 
@@ -96,6 +100,22 @@ export class BasketSmallComponent implements OnInit {
       return this.hideBasketText;
     else
       return this.showBasketText;
+  }
+
+  get subTotal()
+  {
+    if (this.store.basket().lines)
+    {
+      let subtotal: number = 0;
+
+      this.store.basket().lines.forEach(line =>{
+        subtotal = subtotal + (line.totalInclVat * line.quantity);
+      });
+
+      return subtotal;
+    }
+    else
+      return 0;
   }
 
   toggleShowBasket(event: MouseEvent)

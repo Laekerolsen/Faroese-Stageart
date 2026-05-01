@@ -110,4 +110,12 @@ export class App implements OnInit {
   openModal() {
     this.ShowModal.set(true);
   }
+
+  ShowHideBasketClass(inpShow: boolean)
+  {
+    if (!inpShow)
+      return "hide-basket";
+    else
+      return "show-basket";
+  }
 }

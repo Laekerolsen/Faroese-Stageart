@@ -5,6 +5,10 @@
   object-position: center; /* change to top, left, etc. */
 }
 
+.header-text {
+  margin-top: 1rem;
+}
+
 form, 
 .delivery-container {
     display: flex;

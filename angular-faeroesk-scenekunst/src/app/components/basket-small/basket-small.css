@@ -79,12 +79,23 @@ app-basket-small-component
   text-align: right;
 }
 
-.basket-divider {
+.total-title {
+  text-align: left;
+  width: stretch;
+}
 
+.total-result {
+  text-align: right;
+  width: stretch;
 }
 
 .pname, .quantity, .line-quantity {
   width: stretch;
+}
+
+.basket-button-container
+{
+  margin-top: 1rem;
 }
 
 .quantity {

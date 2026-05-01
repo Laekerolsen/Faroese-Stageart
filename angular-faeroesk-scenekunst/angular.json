@@ -42,23 +42,17 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/angular-faeroesk-scenekunst",
-            "allowedCommonJsDependencies": [
-              "@sanity/eventsource",
-              "event-source-polyfill"
-            ],
+            "allowedCommonJsDependencies": ["@sanity/eventsource", "event-source-polyfill"],
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public",
-                "ignore": [
-                  "angular-faeroesk-scenekunst/**",
-                  "studio-færøsk-scenekunst/**"
-                ]
+                "ignore": ["angular-faeroesk-scenekunst/**", "studio-færøsk-scenekunst/**"]
               }
             ],
-            "styles": ["src/styles.css"],
+            "styles": ["src/material-theme.scss", "src/styles.css"],
             "security": {
               "allowedHosts": []
             }
@@ -68,12 +62,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "700kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "900kB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10kB",
+                  "maximumWarning": "12kB",
                   "maximumError": "16kB"
                 }
               ],
@@ -104,7 +98,14 @@
           "options": {
             "browserTarget": "angular-faeroesk-scenekunst:build:production",
             "routesFile": "prerender-routes.json",
-            "routes": ["/", "/billetbetingelser", "/handelsbetingelser", "/privatlivspolitik", "/cookies", "/salg/plakat-saelges"]
+            "routes": [
+              "/",
+              "/billetbetingelser",
+              "/handelsbetingelser",
+              "/privatlivspolitik",
+              "/cookies",
+              "/salg/plakat-saelges"
+            ]
           }
         }
       }

@@ -14,6 +14,9 @@ export class BasketStore {
   private readonly storageKey = 'basket';
   private readonly storageOrderKey = 'order';
 
+  public TermsAccepted = signal(false);
+  public AddressConfirmed = signal(false);
+
   public basket = signal<Basket>(this.loadInitial());
   public order = signal<Order>(this.loadInitialOrder());
 

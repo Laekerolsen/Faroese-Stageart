@@ -32,8 +32,10 @@ export class PaymentPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.store.basket().lines || this.store.basket().lines.length == 0)
+    if (!this.store.basket().lines || this.store.basket().lines.length == 0 || !this.store.TermsAccepted())
       this.router.navigate(['/kurv']);
+    else if (this.store.TermsAccepted() && !this.store.AddressConfirmed())
+      this.router.navigate(['/adresse']);
 
     this.createOrder();
   }

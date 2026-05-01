@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ErrorHandler, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BasketStore } from '../../services/basket';
 import { FormsModule } from '@angular/forms';
+import { GlobalErrorHandler } from '../../handlers/global-error-handler';
 
 
 @Component({
@@ -11,6 +12,9 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './discount.html',
   styleUrl: './discount.css',
   changeDetection: ChangeDetectionStrategy.Eager,
+  providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ]
 })
 export class DiscountComponent  {
   private store = inject(BasketStore);
