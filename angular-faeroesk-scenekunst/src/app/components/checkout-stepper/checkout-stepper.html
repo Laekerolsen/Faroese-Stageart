@@ -22,26 +22,3 @@
 </div>
 
 </div>
-
-<div *ngIf="IsConfirmationRoute" class="checkout-stepper">
-
-  <div class="stepper">
-  <div
-    class="step"
-    *ngFor="let step of steps"
-    [class.completed]="IsConfirmationRoute"
-  >
-    <div class="circle">
-      <span *ngIf="!IsConfirmationRoute">
-        {{ stepIndex(step) + 1 }}
-      </span>
-      <span *ngIf="IsConfirmationRoute">✓</span>
-    </div>
-
-    <div class="label">
-      {{ step | titlecase }}
-    </div>
-  </div>
-</div>
-
-</div>

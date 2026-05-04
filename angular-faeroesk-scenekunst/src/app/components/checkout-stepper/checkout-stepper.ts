@@ -31,6 +31,8 @@ export class CheckoutStepperComponent {
 
   steps: CheckoutStep[] = ['kurv', 'adresse', 'betaling'];
 
+  lastStep = this.steps[this.steps.length - 1];
+
   stepIndex = (step: CheckoutStep) => this.steps.indexOf(step);
 
   currentIndex = computed(() =>
@@ -52,6 +54,13 @@ export class CheckoutStepperComponent {
       return;
     
     this.router.navigate(['/' + step.toString().toLowerCase()])
+  }
+
+  get IsLastStepCompleted() {
+    const lastStepIndex = this.stepIndex(this.lastStep);
+    const currentStepIndex = this.currentIndex();
+
+    return currentStepIndex >= lastStepIndex;
   }
 
   get IsConfirmationRoute() {
