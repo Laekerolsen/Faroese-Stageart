@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { client } from '../../../sanity/client';
@@ -31,7 +31,7 @@ type AddressForm = {
   styleUrl: './address.css',
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class AddressPageComponent implements OnInit {
+export class AddressPageComponent implements OnInit, OnDestroy {
 
   public store: BasketStore;
   private router: Router;
@@ -51,6 +51,18 @@ export class AddressPageComponent implements OnInit {
     return this.form.get('deliveryAddress') as FormGroup<AddressForm>;
   }
 
+  setInvoiceAddress(address: Address) {
+    this.store.basket.update(b => ({ ...b, invoiceAddress: { ...address } }));
+  }
+
+  setDeliveryAddress(address: Address) {
+    this.store.basket.update(b => ({ ...b, deliveryAddress: { ...address } }));
+  }
+
+  setUseSameAddress(value: boolean) {
+    this.store.basket.update(b => ({ ...b, useSameAddress: value }));
+  }
+
   constructor(private fb: FormBuilder, private _store: BasketStore, private _router: Router) {
     this.store = _store;
     this.router = _router;
@@ -63,13 +75,7 @@ export class AddressPageComponent implements OnInit {
         deliveryAddress: this.createAddressGroup(false)
       });
 
-    if ((this.store.basket().useSameAddress && !this.store.basket().invoiceAddress && !this.store.basket().deliveryAddress) ||
-        !this.store.basket().invoiceAddress)
-    {
-      this.handleAddressSync();
-    }
-    else
-      this.handleAddressSync();
+    this.handleAddressSync();
 
     this.isInit = true;
   }
@@ -78,7 +84,11 @@ export class AddressPageComponent implements OnInit {
     if (!this.store.basket().lines || this.store.basket().lines.length == 0 || !this.store.TermsAccepted())
       this.router.navigate(['/kurv']);
 
-    this.store.TermsAccepted.set(true);
+    //this.store.TermsAccepted.set(true);
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubs();
   }
 
   public ShowModal = signal(false);
@@ -89,8 +99,6 @@ export class AddressPageComponent implements OnInit {
   }
 
   show: boolean = false;
-
-
 
   createAddressGroup(isInvoice: boolean): FormGroup<AddressForm> {
     const inName = isInvoice ? this.store.basket().invoiceAddress.name || '' : this.store.basket().deliveryAddress.name || '';
@@ -148,7 +156,8 @@ export class AddressPageComponent implements OnInit {
       same.enable();
 
     this.sameSubscription = same.valueChanges.subscribe(isSame => {
-      this.store.basket().useSameAddress = isSame;
+      //this.store.basket().useSameAddress = isSame;
+      this.store.setUseSameAddress(isSame);
 
       if (isSame) {
         delivery.disable();
@@ -156,8 +165,11 @@ export class AddressPageComponent implements OnInit {
 
         const value = this.form.getRawValue();
 
-        this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
-        this.store.basket().deliveryAddress = this.mapToAddress(value.invoiceAddress);
+        //this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
+        //this.store.basket().deliveryAddress = this.mapToAddress(value.invoiceAddress);
+
+        this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
+        this.store.setDeliveryAddress(this.mapToAddress(value.invoiceAddress));
       } else {
         delivery.enable();
         delivery.reset({
@@ -174,12 +186,15 @@ export class AddressPageComponent implements OnInit {
 
         const value = this.form.getRawValue();
 
-        this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
-        this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+        //this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
+        //this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+
+        this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
+        this.store.setDeliveryAddress(this.mapToAddress(value.deliveryAddress));
       }
     });
 
-    invoice.valueChanges.subscribe(() => {
+    this.invoiceSubscription = invoice.valueChanges.subscribe(() => {
       if (same.value) {
         const value = this.form.getRawValue();
         delivery.patchValue(invoice.getRawValue());
@@ -218,9 +233,6 @@ export class AddressPageComponent implements OnInit {
     this.sameSubscription?.unsubscribe();
     this.invoiceSubscription?.unsubscribe();
 
-    this.store.TermsAccepted.set(true);
-    this.store.AddressConfirmed.set(true);
-
     this.store.saveTermsAccepted();
     this.store.saveAddressConfirmed();
 
@@ -240,10 +252,16 @@ export class AddressPageComponent implements OnInit {
 
       this.store.basket().useSameAddress = value.useSameAddress;
 
-      this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
-      this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+      //this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
+      //this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+
+      this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
+      this.store.setDeliveryAddress(this.mapToAddress(value.deliveryAddress));
 
       this.store.TermsAccepted.set(true);
+      this.store.TermsAccepted.update(v => true);
+      this.store.AddressConfirmed.set(true);
+      this.store.AddressConfirmed.update(v => true);
 
       this.destroySubs();
     }
@@ -262,52 +280,15 @@ export class AddressPageComponent implements OnInit {
     const delivery = this.form.get('deliveryAddress')!;
     const same = this.form.get('useSameAddress')!;
 
-    invoice.reset({
-          name: '',
-          company: null,
-          street: '',
-          street2: null,
-          zipCode: '',
-          city: '',
-          country: 'Danmark',
-          phone: '',
-          email: ''
-        });
-    this.store.basket().invoiceAddress = {
-          name: '',
-          company: '',
-          street: '',
-          street2: '',
-          zipCode: '',
-          city: '',
-          country: 'Danmark',
-          phone: '',
-          email: ''
-        };
-    delivery.reset({
-          name: '',
-          company: null,
-          street: '',
-          street2: null,
-          zipCode: '',
-          city: '',
-          country: 'Danmark',
-          phone: '',
-          email: ''
-        });
-    this.store.basket().deliveryAddress = {
-          name: '',
-          company: '',
-          street: '',
-          street2: '',
-          zipCode: '',
-          city: '',
-          country: 'Danmark',
-          phone: '',
-          email: ''
-        };
+    invoice.reset({ name: '', company: null, street: '', street2: null, zipCode: '', city: '', country: 'Danmark', phone: '', email: '' });
+    this.store.setInvoiceAddress({ name: '', company: '', street: '', street2: '', zipCode: '', city: '', country: 'Danmark', phone: '', email: '' });
+
+    delivery.reset({ name: '', company: null, street: '', street2: null, zipCode: '', city: '', country: 'Danmark', phone: '', email: '' });
+    this.store.setDeliveryAddress({ name: '', company: '', street: '', street2: '', zipCode: '', city: '', country: 'Danmark', phone: '', email: '' });
+    
     same.reset(true);
-    this.store.basket().useSameAddress = true;
+
+    this.store.setUseSameAddress(true);
   }
 
   spawnRipple(event: MouseEvent) {

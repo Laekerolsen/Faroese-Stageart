@@ -58,7 +58,8 @@ export class CheckoutComponent implements OnInit {
   public set Checked(inpValue: boolean)
   {
     this.hasCheckoutBeenClicked = false;
-    this.store.TermsAccepted.set(inpValue)
+    this.store.TermsAccepted.set(inpValue);
+    this.store.TermsAccepted.update(v => inpValue);
     this.IsChecked.emit(inpValue);
     this.isChecked = inpValue;
   }
@@ -68,6 +69,7 @@ export class CheckoutComponent implements OnInit {
     this.Checked = !this.Checked;
 
     this.store.TermsAccepted.set(!this.Checked)
+    this.store.TermsAccepted.update(v => !this.Checked);
 
     this.store.saveTermsAccepted();
     
@@ -109,6 +111,8 @@ export class CheckoutComponent implements OnInit {
     }
 
     this.store.TermsAccepted.set(true);
+    this.store.TermsAccepted.update(v => true);
+
     this.Checked = true;
 
     this.router.navigate(['/adresse']);

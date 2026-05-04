@@ -30,9 +30,9 @@ export class ConfirmationPageComponent implements OnInit {
     this.store = _store;
     this.router = _router;
 
-    this.store.order().orderStatus = 'confirmed';
-    this.store.order().invoiceAddress = this.store.basket().invoiceAddress;
-    this.store.order().deliveryAddress = this.store.basket().deliveryAddress;  
+    this.store.order.update(o => ({ ...o, invoiceAddress: this.store.basket().invoiceAddress }));
+    this.store.order.update(o => ({ ...o, deliveryAddress: this.store.basket().deliveryAddress }));
+    this.store.order.update(o => ({ ...o, orderStatus: 'confirmed' }));
 
     this.store.clearOnOrderConfirmation();
   }
@@ -40,8 +40,6 @@ export class ConfirmationPageComponent implements OnInit {
   ngOnInit(): void {
     if (this.store.order().orderStatus !== 'confirmed')
       this.router.navigate(['/betaling']);
-
-    //this.createOrder();
   }
 
   orderConfirmed()

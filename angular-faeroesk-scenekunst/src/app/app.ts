@@ -57,6 +57,16 @@ export class App implements OnInit {
       this.seoMetadata.description.set(data['description']);
       this.seoMetadata.keywords.set(data['keywords']);
     });
+
+    try
+    {
+      if (!this.IsCheckoutRoute)
+        this.store.clearOrder();
+    }
+    catch (error)
+    {
+
+    }
   }
 
   get BasketFlowClass()
@@ -101,6 +111,9 @@ export class App implements OnInit {
     const path = currentRoute.snapshot.routeConfig?.path;
     const isKurv = path === 'kurv' || path === 'adresse' || path === 'betaling' || path === 'betalt' || path === 'bekræftelse';
 
+    //if (!isKurv)
+      //this.store.clearOrder();
+
     return isKurv;
   }
 
@@ -109,6 +122,16 @@ export class App implements OnInit {
 
     while (currentRoute.firstChild) {
       currentRoute = currentRoute.firstChild;
+    }
+
+    try
+    {
+      if (!this.IsCheckoutRoute)
+        this.store.clearOrder();
+    }
+    catch (error)
+    {
+      
     }
   }
 

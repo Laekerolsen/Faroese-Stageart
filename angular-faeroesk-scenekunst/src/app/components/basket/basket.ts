@@ -47,7 +47,9 @@ export class BasketComponent implements OnInit {
     this.store.clear();
     
     this.store.TermsAccepted.set(false);
+    this.store.TermsAccepted.update(v => false);
     this.store.AddressConfirmed.set(false);
+    this.store.AddressConfirmed.update(v => false);
   }
 
   onQuantityChange(line: BasketLine, value: number) {

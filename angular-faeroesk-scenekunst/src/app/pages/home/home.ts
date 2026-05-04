@@ -6,6 +6,7 @@ import { NgZone } from '@angular/core';
 import { firstValueFrom, from, Observable } from 'rxjs';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { SeoMetadata } from '../../services/seo-metadata';
+import { BasketStore } from '../../services/basket';
 
 const POSTS_QUERY = `*[_type == "post"&& defined(slug.current)]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt, image}`;
 const builder = createImageUrlBuilder(client);
@@ -40,19 +41,24 @@ export class HomeComponent implements OnInit {
   public hasLoaded: boolean = false;
   private zone: NgZone;
 
-  constructor(private ngZone: NgZone, private _seoMetadata: SeoMetadata) {
+  private store: BasketStore;
+
+  constructor(private ngZone: NgZone, private _seoMetadata: SeoMetadata, private _store: BasketStore) {
     this.zone = ngZone;
+    this.store = _store;
     // Set SEO metadata
     this.seoMetadata = _seoMetadata;
     this.seoMetadata.title.set(this.title());
     this.seoMetadata.description.set(this.description());
     this.seoMetadata.keywords.set(this.keywords());
+    this.store.clearOrder();
   }
 
   ngOnInit() {
+    this.store.clearOrder();
     this.zone.run(() => {
       
-      this.posts$ = from(client.fetch(POSTS_QUERY));
+      //this.posts$ = from(client.fetch(POSTS_QUERY));
 
       this.hasLoaded = true;
       });

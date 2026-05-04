@@ -64,7 +64,7 @@ export class OrderOverviewComponent implements OnInit {
       let subtotal: number = 0;
 
       this.store.basket().lines.forEach(line =>{
-        subtotal = subtotal + (line.totalInclVat * line.quantity);
+        subtotal = subtotal + (line.totalInclVat);
       });
 
       return subtotal;

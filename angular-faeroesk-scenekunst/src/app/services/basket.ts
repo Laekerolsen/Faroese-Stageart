@@ -1,4 +1,4 @@
-import { Injectable, computed, signal, effect, OnInit } from '@angular/core';
+import { Injectable, computed, signal, effect } from '@angular/core';
 import { Basket } from '../Models/basket.model';
 import { Product } from '../Models/product.model';
 import { BasketLine } from '../Models/basketline.model';
@@ -8,7 +8,7 @@ import { Address } from '../Models/address.model';
 import { OrderLine } from '../Models/orderline.model';
 
 @Injectable({ providedIn: 'root' })
-export class BasketStore implements OnInit {
+export class BasketStore {
   private readonly vatRate = 0;
   private readonly vatRateShipping = 0.25;
   private readonly storageKey = 'basket';
@@ -42,42 +42,37 @@ export class BasketStore implements OnInit {
     localStorage.setItem(this.storageKeyHasAddress, JSON.stringify(this.AddressConfirmed()));
   }
 
-  ngOnInit(): void {
-    
-  }
-
   basketIsTouched: boolean = false;
 
   // 🛒 Add product
   add(product: any, quantity = 1) {
-    const basket = this.basket();
+    const newLine = {
+      productId: product.id,
+      productName: product.name,
+      product: product,
+      quantity,
+      unitPriceExclVat: product.price,
+      vatRate: this.vatRate,
+      discountAmount: 0,
+      totalExclVat: 0,
+      totalVat: 0,
+      totalInclVat: 0,
+      totalPrice: 0
+    };
 
-    const existing = basket.lines.find(l => l.productId === product.id);
-
-    if (existing) {
-      existing.quantity += quantity;
-    } else {
-      basket.lines.push({
-        productId: product.id,
-        productName: product.name,
-        product: product,
-        quantity,
-        unitPriceExclVat: product.price,
-        vatRate: this.vatRate,
-        discountAmount: 0,
-        totalExclVat: 0,
-        totalVat: 0,
-        totalInclVat: 0,
-        totalPrice: 0
-      });
-    }
+    this.basket.update(b => {
+      const exists = b.lines.some(l => l.productId === product.id);
+      const lines = exists
+        ? b.lines.map(l => l.productId === product.id ? { ...l, quantity: l.quantity + quantity } : l)
+        : [...b.lines, newLine];
+      return { ...b, lines };
+    });
 
     this.recalculate();
   }
 
   remove(productId: string) {
-    const basket = this.basket();
-    basket.lines = basket.lines.filter(l => l.productId !== productId);
+    this.basket.update(b => ({ ...b, lines: b.lines.filter(l => l.productId !== productId) }));
     this.recalculate();
   }
 
@@ -85,6 +80,18 @@ export class BasketStore implements OnInit {
   {
     const basket = this.basket();
     this.recalculate();
+  }
+
+  setInvoiceAddress(address: Address) {
+    this.basket.update(b => ({ ...b, invoiceAddress: { ...address } }));
+  }
+
+  setDeliveryAddress(address: Address) {
+    this.basket.update(b => ({ ...b, deliveryAddress: { ...address } }));
+  }
+
+  setUseSameAddress(value: boolean) {
+    this.basket.update(b => ({ ...b, useSameAddress: value }));
   }
 
   applyDiscount(discount: Discount) {
@@ -261,7 +268,7 @@ export class BasketStore implements OnInit {
     localStorage.removeItem(this.storageKeyHasAddress);
     this.TermsAccepted.set(false);
     this.AddressConfirmed.set(false);
-    
+
     this.basket.set(this.loadInitial());
 
   }
