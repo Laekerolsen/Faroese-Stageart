@@ -77,6 +77,9 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
     this.handleAddressSync();
 
+    if (!this.store.AddressConfirmed())
+      this.initiateForm();
+
     this.isInit = true;
   }
 
@@ -294,6 +297,26 @@ export class AddressPageComponent implements OnInit, OnDestroy {
     same.reset(true);
 
     this.store.setUseSameAddress(true);
+  }
+
+  initiateForm() {
+    const invoice = this.form.get('invoiceAddress')!;
+    const delivery = this.form.get('deliveryAddress')!;
+    const same = this.form.get('useSameAddress')!;
+
+    if (this.store.basket().invoiceAddress.name != '')
+    {
+      invoice.reset({ name: '', company: null, street: '', street2: null, zipCode: '', city: '', country: 'Danmark', phone: '', email: '' });
+      this.store.setInvoiceAddress({ name: '', company: '', street: '', street2: '', zipCode: '', city: '', country: 'Danmark', phone: '', email: '' });
+    }
+
+    if (this.store.basket().deliveryAddress.name != '')
+    {
+      delivery.reset({ name: '', company: null, street: '', street2: null, zipCode: '', city: '', country: 'Danmark', phone: '', email: '' });
+      this.store.setDeliveryAddress({ name: '', company: '', street: '', street2: '', zipCode: '', city: '', country: 'Danmark', phone: '', email: '' });
+    }
+
+    same.reset(this.store.basket().useSameAddress);
   }
 
   spawnRipple(event: MouseEvent) {
