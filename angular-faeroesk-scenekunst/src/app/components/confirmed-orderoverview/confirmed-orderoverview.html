@@ -1,4 +1,4 @@
-<div *ngIf="store.basket() as o" class="payment-page">
+<div *ngIf="store.order() as o" class="payment-page">
 
   <h2 class="text-2xl font-bold">Købsoversigt</h2>
 
@@ -13,18 +13,18 @@
         </div>
         <div class="p-price price line-price">
           <span class="price">
-          ({{ item.quantity }}x) {{ item.unitPriceExclVat | number:'1.2-2' }} {{ o.currency }}
+          ({{ item.quantity }}x) {{ item.unitPrice | number:'1.2-2' }} {{ o.currency }}
         </span>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="o.shippingInclVat > 0 || o.totalDiscount > 0" role="separator" aria-label="Divider" class="divider"></div>
+  <div *ngIf="o.shippingExclVat > 0 || o.totalDiscount > 0" role="separator" aria-label="Divider" class="divider"></div>
 
   <!-- TOTALS -->
   <div class="box total">
-    <div *ngIf="o.shippingInclVat > 0 || o.totalDiscount > 0" class="text-1xl flex flex-row">
+    <div *ngIf="o.shippingExclVat > 0 || o.totalDiscount > 0" class="text-1xl flex flex-row">
       <div class="total-title">Subtotal: </div>
       <div class="total-result">{{ o.totalExclVat | number:'1.2-2' }} {{ o.currency }}</div>
     </div>
@@ -32,9 +32,9 @@
       <div class="total-title">Rabat: </div>
       <div class="total-result">-{{ o.totalDiscount | number:'1.2-2' }} {{ o.currency }}</div>
     </div>
-    <div *ngIf="o.shippingInclVat > 0" class="text-1xl p-right flex flex-row">
+    <div *ngIf="o.shippingExclVat > 0" class="text-1xl p-right flex flex-row">
       <div class="total-title">Fragt: </div>
-      <div class="total-result">{{ o.shippingInclVat | number:'1.2-2' }} {{ o.currency }}</div>
+      <div class="total-result">{{ o.shippingExclVat | number:'1.2-2' }} {{ o.currency }}</div>
     </div>
     <div role="separator" aria-label="Divider" class="divider"></div>
     <div class="text-1xl flex flex-row">

@@ -99,7 +99,7 @@ export class App implements OnInit {
     }
 
     const path = currentRoute.snapshot.routeConfig?.path;
-    const isKurv = path === 'kurv' || path === 'adresse' || path === 'betaling';
+    const isKurv = path === 'kurv' || path === 'adresse' || path === 'betaling' || path === 'betalt' || path === 'bekræftelse';
 
     return isKurv;
   }

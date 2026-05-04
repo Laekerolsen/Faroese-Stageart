@@ -15,13 +15,13 @@ const urlFor = (source: any) => builder.image(source);
 
 
 @Component({
-  selector: 'app-payment',
+  selector: 'app-confirmation',
   standalone: false,
-  templateUrl: './payment.html',
-  styleUrl: './payment.css',
+  templateUrl: './confirmation.html',
+  styleUrl: './confirmation.css',
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class PaymentPageComponent implements OnInit {
+export class ConfirmationPageComponent implements OnInit {
 
   public store: BasketStore;
   private router: Router;
@@ -30,16 +30,18 @@ export class PaymentPageComponent implements OnInit {
     this.store = _store;
     this.router = _router;
 
-    this.store.clearOrder();
+    this.store.order().orderStatus = 'confirmed';
+    this.store.order().invoiceAddress = this.store.basket().invoiceAddress;
+    this.store.order().deliveryAddress = this.store.basket().deliveryAddress;  
+
+    this.store.clearOnOrderConfirmation();
   }
 
   ngOnInit(): void {
-    if (!this.store.basket().lines || this.store.basket().lines.length == 0 || !this.store.TermsAccepted())
-      this.router.navigate(['/kurv']);
-    else if (this.store.TermsAccepted() && !this.store.AddressConfirmed())
-      this.router.navigate(['/adresse']);
+    if (this.store.order().orderStatus !== 'confirmed')
+      this.router.navigate(['/betaling']);
 
-    this.createOrder();
+    //this.createOrder();
   }
 
   orderConfirmed()
@@ -102,7 +104,7 @@ export class PaymentPageComponent implements OnInit {
       invoiceAddress: this.store.basket().invoiceAddress,
       deliveryAddress: this.store.basket().deliveryAddress,
       id: this.store.basket().id,
-      orderStatus: 'confirmed',
+      orderStatus: 'initialized',
       lines: orderlines,
       shippingExclVat: this.store.basket().shippingExclVat,
       shippingVat: this.store.basket().shippingVat,
@@ -120,8 +122,6 @@ export class PaymentPageComponent implements OnInit {
 
   payWithViva() {
   //
-    this.createOrder();
-    this.router.navigate(['/betalt']);
   }
 
   backToAddress()

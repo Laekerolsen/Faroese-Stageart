@@ -54,7 +54,7 @@
 }
 
 .text-1xl {
-  font-size: 0.85rem;
+  font-size: 0.80rem;
 }
 
 .divider {
@@ -62,6 +62,24 @@
   width: 100%;
   background: var(--red-to-pink-to-purple-vertical-gradient);
   margin-block: 1.5rem;
+}
+
+.pap {
+    display: flex;
+    width: stretch;
+    flex-direction: row;
+}
+
+.price, 
+div.price,
+.p-price,
+.total-result {
+  text-align: right;
+  width: stretch;
+}
+
+.pname {
+  width: stretch;
 }
 
 app-basket-small-component
@@ -98,13 +116,21 @@ app-basket-small-component
 .quantity {
   width: stretch;
   justify-content: flex-end !important;
-  max-width: 3rem;
 }
 
 .line-quantity {
   width: stretch;
   justify-content: flex-end !important;
   max-width: 2rem;
+}
+
+.left-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: flex-start;
+  width: stretch;
 }
 
 app-basket-small-component .basket-small,
@@ -121,8 +147,7 @@ app-basket-small-component .basket-small,
   margin-bottom: 2px;
 }
 
-.p-right, 
-.basket-small .text-1xl {
+.p-right {
   text-align: right;
     display: flex;
 }

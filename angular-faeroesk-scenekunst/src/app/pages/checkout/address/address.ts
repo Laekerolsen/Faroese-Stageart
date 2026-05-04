@@ -55,6 +55,8 @@ export class AddressPageComponent implements OnInit {
     this.store = _store;
     this.router = _router;
 
+    this.store.clearOrder();
+
     this.form = this.fb.group({
         useSameAddress: this.fb.control(this.store.basket().useSameAddress, { nonNullable: true }),
         invoiceAddress: this.createAddressGroup(true),

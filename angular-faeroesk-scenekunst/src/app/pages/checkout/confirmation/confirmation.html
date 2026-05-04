@@ -1,0 +1,59 @@
+<div *ngIf="store.order() as o" class="checkout-container">
+  <div class="checkout-left checkout-payment">
+
+  <div class="confirmation-page-container">
+    <div class="confirmation-page">
+      <h1 class="text-2xl font-bold mb-4">Din ordre er modtaget</h1>
+      <p>Ordre ID: {{ o.id }}</p>
+      <app-confirmed-orderoverview-component></app-confirmed-orderoverview-component>
+
+      <div class="confirmation-details">
+        <p class="text-1xl">Tak for din ordre, {{ o.invoiceAddress.name }}! Vi har sendt en ordrebekræftelse til {{ o.invoiceAddress.email }}.</p>
+        <p class="text-1xl">Vi behandler din ordre og sender dig endnu en bekræftelse på e-mail, når vi afsender den.</p>
+        <p class="text-1xl">Hvis du har spørgsmål til din ordre, er du velkommen til at kontakte os på <a href="mailto:nielsjuel.njp@gmail.com">nielsjuel.njp@gmail.com</a>.</p>
+      </div>  
+    </div>
+
+  </div>
+
+  </div>
+
+  <div class="checkout-right payment-checkout">
+  
+    <!-- ADDRESSES -->
+    <div class="box">
+      <h3 class="text-1xl font-bold">Faktureringsadresse</h3>
+      <p>
+        {{ o.invoiceAddress.name }}<br />
+        {{ o.invoiceAddress.street }}<br />
+        {{ o.invoiceAddress.zipCode }} {{ o.invoiceAddress.city }}<br />
+        {{ o.invoiceAddress.country }}<br />
+        {{ o.invoiceAddress.phone }}<br />
+        {{ o.invoiceAddress.email }}
+      </p>
+    </div>
+
+    <div *ngIf="o.shippingExclVat > 0" class="box">
+      <h3 class="text-1xl font-bold">Leveringsadresse</h3>
+      <p>
+        {{ o.deliveryAddress.name }}<br />
+        {{ o.deliveryAddress.street }}<br />
+        {{ o.deliveryAddress.zipCode }} {{ o.deliveryAddress.city }}<br />
+        {{ o.deliveryAddress.country }}<br />
+        {{ o.deliveryAddress.phone }}<br />
+        {{ o.deliveryAddress.email }}
+      </p>
+    </div>
+
+    <div class="box">
+      <h2 class="text-1xl font-bold">Levering</h2>
+      <p>Levering af fysiske varer foregår igennem GLS Pakkeshop, og levering forekommer indenfor 3-7 dage.</p>
+      <p>Hvis du vil læse mere om vores leveringsbetingelser, så klik på nedenstående knap</p>
+      <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
+    </div>
+  </div>
+
+</div>
+
+<app-dynamic-modal [htmlContent]="htmlContent" [currentShow]="ShowDynamicModal()" (currentShowChange)="this.ShowDynamicModal.set($event)"></app-dynamic-modal>
+<app-delivery-modal [currentShow]="ShowModal()" (currentShowChange)="this.ShowModal.set($event)"></app-delivery-modal>

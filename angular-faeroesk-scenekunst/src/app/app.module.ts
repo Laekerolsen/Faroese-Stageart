@@ -26,11 +26,13 @@ import { VivaPaymentIconsComponent } from './components/viva-payment-icons/viva-
 import { TermsModalComponent } from './components/terms-modal/terms-modal';
 import { DynamicModalComponent } from './components/dynamic-modal/dynamic-modal';
 import { GlobalErrorHandler } from './handlers/global-error-handler';
+import { ConfirmationPageComponent } from './pages/checkout/confirmation/confirmation';
+import { ConfirmedOrderOverviewComponent } from './components/confirmed-orderoverview/confirmed-orderoverview';
 
 @NgModule({
-  declarations: [App, HomeComponent, PostComponent, BasketPageComponent, AddressPageComponent, PaymentPageComponent],
+  declarations: [App, HomeComponent, PostComponent, BasketPageComponent, AddressPageComponent, PaymentPageComponent, ConfirmationPageComponent],
   imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes, {enableViewTransitions: true, scrollPositionRestoration: 'enabled'}), 
-    RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent, VivaPaymentIconsComponent, TermsModalComponent, DynamicModalComponent],
+    RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, ConfirmedOrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent, VivaPaymentIconsComponent, TermsModalComponent, DynamicModalComponent],
   providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore, provideAnimations(), { provide: ErrorHandler, useClass: GlobalErrorHandler }],
   bootstrap: [App],
 })

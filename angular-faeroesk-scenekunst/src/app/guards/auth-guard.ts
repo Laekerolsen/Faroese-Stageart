@@ -37,16 +37,18 @@ export class AuthGuard implements CanActivate {
       const IsHasAddressRequired = requiredPermissions.filter(permission => permission === 'hasaddress')?.length > 0;
       const IsLoginRequired = requiredPermissions.filter(permission => permission === 'islogin')?.length > 0;
       const IsHasLinesRequired = requiredPermissions.filter(permission => permission === 'haslines')?.length > 0;
+      const IsHasPaymentRequired = requiredPermissions.filter(permission => permission === 'haspayment')?.length > 0;
 
       const hasLines = this.store.basket().lines.length > 0 || false;
+      const hasPayment = this.store.order().orderStatus === 'confirmed' || false;
 
-      console.log(this.store.TermsAccepted(), this.store.AddressConfirmed(), hasLines);
+      console.log(this.store.TermsAccepted(), this.store.AddressConfirmed(), hasLines, hasPayment);
 
       if (IsLoginRequired && this.isLoggedIn)
       {
         if (this.isLoggedIn)
         {
-          if ((IsConfirmedRequired && !this.store.TermsAccepted()) || (IsHasAddressRequired && !this.store.AddressConfirmed()) || (IsHasLinesRequired && !hasLines))
+          if ((IsConfirmedRequired && !this.store.TermsAccepted()) || (IsHasAddressRequired && !this.store.AddressConfirmed()) || (IsHasLinesRequired && !hasLines) || (IsHasPaymentRequired && !hasPayment))
           {
             this.router.navigate([RedirectUrl]);
             return false;
@@ -77,7 +79,7 @@ export class AuthGuard implements CanActivate {
       }
       else
       {
-        if ((IsConfirmedRequired && !this.store.TermsAccepted()) || (IsHasAddressRequired && !this.store.AddressConfirmed()) || (IsHasLinesRequired && !this.store.basket().lines.length))
+        if ((IsConfirmedRequired && !this.store.TermsAccepted()) || (IsHasAddressRequired && !this.store.AddressConfirmed()) || (IsHasLinesRequired && !this.store.basket().lines.length) || (IsHasPaymentRequired && !hasPayment))
           {
             this.router.navigate([RedirectUrl]);
             return false;

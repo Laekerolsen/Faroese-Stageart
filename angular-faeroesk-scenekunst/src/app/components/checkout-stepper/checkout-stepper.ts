@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, ErrorHandler, inject, input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterModule } from '@angular/router';
 import { client } from '../../sanity/client';
 import { NgZone } from '@angular/core';
 import { firstValueFrom, from, Observable } from 'rxjs';
@@ -23,7 +23,8 @@ export type CheckoutStep = 'kurv' | 'adresse' | 'betaling';
 })
 export class CheckoutStepperComponent {
   public store = inject(BasketStore);
-  private router = inject(Router)
+  private router = inject(Router);
+  private activerouteSnapshot = inject(ActivatedRoute);
   basket = this.store.basket$;
 
   currentStep = input.required<CheckoutStep>();
@@ -51,5 +52,21 @@ export class CheckoutStepperComponent {
       return;
     
     this.router.navigate(['/' + step.toString().toLowerCase()])
+  }
+
+  get IsConfirmationRoute() {
+
+    let currentRoute = this.activerouteSnapshot;
+
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+    }
+
+    const path = currentRoute.snapshot.routeConfig?.path;
+    const isConfirmation = path === '/betalt' || path === 'betalt';
+
+    //console.log('Current path:', path, 'Is confirmation route:', isConfirmation);
+
+    return isConfirmation;
   }
 }

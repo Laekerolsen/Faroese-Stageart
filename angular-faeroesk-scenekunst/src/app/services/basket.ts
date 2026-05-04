@@ -254,4 +254,19 @@ export class BasketStore implements OnInit {
     localStorage.removeItem(this.storageOrderKey);
     this.basket.set(this.loadInitial());
   }
+
+  clearOnOrderConfirmation() {
+    localStorage.removeItem(this.storageKey);
+    localStorage.removeItem(this.storageKeyIsConfirmed);
+    localStorage.removeItem(this.storageKeyHasAddress);
+    this.TermsAccepted.set(false);
+    this.AddressConfirmed.set(false);
+    
+    this.basket.set(this.loadInitial());
+
+  }
+  clearOrder() {
+    localStorage.removeItem(this.storageOrderKey);
+    this.order.set(this.loadInitialOrder());
+  }
 }

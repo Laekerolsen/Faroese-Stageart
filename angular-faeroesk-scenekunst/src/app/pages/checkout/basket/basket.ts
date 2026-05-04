@@ -31,6 +31,7 @@ export class BasketPageComponent implements OnInit {
   store: BasketStore;
   constructor(private _store: BasketStore) {
     this.store = _store;
+    this.store.clearOrder();
   }
 
   ngOnInit() {
