@@ -233,10 +233,10 @@ export class AddressPageComponent implements OnInit, OnDestroy {
     this.sameSubscription?.unsubscribe();
     this.invoiceSubscription?.unsubscribe();
 
-    this.store.saveTermsAccepted();
-    this.store.saveAddressConfirmed();
+    //this.store.saveTermsAccepted();
+    //this.store.saveAddressConfirmed();
 
-    this.router.navigate(['/betaling']);
+    //this.router.navigate(['/betaling']);
   }
 
   backToBasket()
@@ -264,6 +264,11 @@ export class AddressPageComponent implements OnInit, OnDestroy {
       this.store.AddressConfirmed.update(v => true);
 
       this.destroySubs();
+
+      this.store.saveTermsAccepted();
+      this.store.saveAddressConfirmed();
+
+      this.router.navigate(['/betaling']);
     }
   }
 

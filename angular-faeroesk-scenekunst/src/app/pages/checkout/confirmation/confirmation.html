@@ -3,15 +3,15 @@
 
   <div class="confirmation-page-container">
     <div class="confirmation-page">
-      <h1 class="text-2xl font-bold mb-4">Din ordre er modtaget</h1>
-      <p>Ordre ID: {{ o.id }}</p>
-      <app-confirmed-orderoverview-component></app-confirmed-orderoverview-component>
-
+      <h1 class="text-3xl font-bold mb-4">Betaling er gennemført!</h1>
+      <h2 class="text-2xl font-bold mb-4">Vi har modtaget din ordre.</h2>
       <div class="confirmation-details">
+        <p class="text-1xl"><strong>Ordre ID:</strong> {{ o.id }}</p>
         <p class="text-1xl">Tak for din ordre, {{ o.invoiceAddress.name }}! Vi har sendt en ordrebekræftelse til {{ o.invoiceAddress.email }}.</p>
         <p class="text-1xl">Vi behandler din ordre og sender dig endnu en bekræftelse på e-mail, når vi afsender den.</p>
         <p class="text-1xl">Hvis du har spørgsmål til din ordre, er du velkommen til at kontakte os på <a href="mailto:nielsjuel.njp@gmail.com">nielsjuel.njp@gmail.com</a>.</p>
-      </div>  
+      </div>
+      <app-confirmed-orderoverview-component></app-confirmed-orderoverview-component>      
     </div>
 
   </div>
