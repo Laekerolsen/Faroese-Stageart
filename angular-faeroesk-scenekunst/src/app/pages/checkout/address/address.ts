@@ -69,6 +69,8 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
     this.store.clearOrder();
 
+    this.store.loadAddressesFromStorage();
+
     this.form = this.fb.group({
         useSameAddress: this.fb.control(this.store.basket().useSameAddress, { nonNullable: true }),
         invoiceAddress: this.createAddressGroup(true),
@@ -77,7 +79,7 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
     this.handleAddressSync();
 
-    if (!this.store.AddressConfirmed())
+    if (!this.store.AddressConfirmed() && this.store.addresses().length == 0)
       this.initiateForm();
 
     this.isInit = true;
@@ -270,6 +272,10 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
       this.store.saveTermsAccepted();
       this.store.saveAddressConfirmed();
+
+      this.store.synchronizeAddresses();
+
+      this.store.saveAddresses();
 
       this.router.navigate(['/betaling']);
     }

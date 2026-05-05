@@ -15,12 +15,55 @@ export class BasketStore {
   private readonly storageKeyIsConfirmed = 'isconfirmed';
   private readonly storageKeyHasAddress = 'hasaddress';
   private readonly storageOrderKey = 'order';
+  private readonly storageAddressesKey = 'addresses';
 
   public TermsAccepted = signal(false);
   public AddressConfirmed = signal(false);
 
   public basket = signal<Basket>(this.loadInitial());
   public order = signal<Order>(this.loadInitialOrder());
+
+  public addresses = signal<Address[]>([]);
+
+  public synchronizeAddresses() {
+
+    if (this.AddressesFromStorage.length > 0) {
+      this.addresses.set(this.AddressesFromStorage);
+      this.setInvoiceAddress(this.AddressesFromStorage[0]);
+
+      if (this.basket().useSameAddress) 
+        this.setDeliveryAddress(this.AddressesFromStorage[0]);
+      else
+        this.setDeliveryAddress(this.AddressesFromStorage[1]);
+    }
+
+    const invoice = this.basket().invoiceAddress;
+    const invoiceFromStorage = this.AddressesFromStorage.length > 0 ? this.AddressesFromStorage[0] : null;
+    const delivery = this.basket().deliveryAddress;
+    const deliveryFromStorage = this.AddressesFromStorage.length > 1 ? this.AddressesFromStorage[1] : null; 
+
+    const uniqueAddresses: Address[] = [];
+
+    if (invoice && !uniqueAddresses.some(a => JSON.stringify(a) === JSON.stringify(invoice))) {
+      if (invoiceFromStorage && invoice !== invoiceFromStorage && invoice.name !== '')
+        uniqueAddresses.push(invoice);
+      else if (invoiceFromStorage)
+        uniqueAddresses.push(invoiceFromStorage);
+      else
+        uniqueAddresses.push(invoice);
+    }
+
+    if (delivery && !uniqueAddresses.some(a => JSON.stringify(a) === JSON.stringify(delivery))) {
+      if (this.basket().useSameAddress && deliveryFromStorage)
+        uniqueAddresses.push(deliveryFromStorage);
+      else if (this.basket().useSameAddress)
+        uniqueAddresses.push(delivery);
+      else
+        uniqueAddresses.push(invoice);
+    }
+
+    this.addresses.set(uniqueAddresses);
+  }
 
   readonly basket$ = this.basket.asReadonly();
 
@@ -30,6 +73,32 @@ export class BasketStore {
       localStorage.setItem(this.storageKeyIsConfirmed, JSON.stringify(this.TermsAccepted()));
       localStorage.setItem(this.storageKeyHasAddress, JSON.stringify(this.AddressConfirmed()));
     });
+  }
+
+  get AddressesFromStorage(): Address[] {
+    const raw = localStorage.getItem(this.storageAddressesKey);
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  loadAddressesFromStorage() {
+    const raw = localStorage.getItem(this.storageAddressesKey);
+    if (raw) {
+      this.addresses.set(JSON.parse(raw));
+      const storedAddresses: Address[] = JSON.parse(raw);
+      if (storedAddresses.length > 0) {
+        this.setInvoiceAddress(storedAddresses[0]);
+        if (this.basket().useSameAddress) {
+          this.setDeliveryAddress(storedAddresses[0]);
+        } else if (storedAddresses.length > 1) {
+          this.setDeliveryAddress(storedAddresses[1]);
+        }
+      }
+    }
+  }
+
+  saveAddresses()
+  {
+    localStorage.setItem(this.storageAddressesKey, JSON.stringify(this.addresses()));
   }
 
   saveTermsAccepted()
