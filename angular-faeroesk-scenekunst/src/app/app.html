@@ -20,7 +20,7 @@
     <div class="top-basket" *ngIf="hasLines && !IsCheckoutRoute && isPhone()" class="basket-top">
       <app-basket-small-component></app-basket-small-component>
     </div>
-    <app-checkout-stepper *ngIf="hasLines && IsCheckoutRoute && !IsAdminRoute" [currentStep]="CheckoutStage"></app-checkout-stepper>
+    <app-checkout-stepper *ngIf="hasLines && ShowStepper" [currentStep]="CheckoutStage"></app-checkout-stepper>
     <div class="main-container container mx-auto max-w-13xl flex flex-row gap-8">
       <div class="left-side {{ BasketFlowClass }}">
         <router-outlet />

@@ -100,6 +100,23 @@ export class App implements OnInit {
     return this.store.basket().shippingInclVat;
   }
 
+  get ShowStepper() {
+
+    let currentRoute = this.route;
+
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+    }
+
+    const path = currentRoute.snapshot.routeConfig?.path;
+    const showStepper = path === 'kurv' || path === 'adresse' || path === 'betaling' || path === 'betalt' || path === 'bekræftelse';
+
+    //if (!isKurv)
+      //this.store.clearOrder();
+
+    return showStepper;
+  }
+
   get IsCheckoutRoute() {
 
     let currentRoute = this.route;
@@ -109,12 +126,12 @@ export class App implements OnInit {
     }
 
     const path = currentRoute.snapshot.routeConfig?.path;
-    const isKurv = path === 'kurv' || path === 'adresse' || path === 'betaling' || path === 'betalt' || path === 'bekræftelse';
+    const isCheckout = path === 'kurv' || path === 'adresse' || path === 'betaling' || path === 'betalt' || path === 'bekræftelse' || path === 'admin' || path === 'min-side' || path === 'ordrer' || path === 'ordre/:id';
 
     //if (!isKurv)
       //this.store.clearOrder();
 
-    return isKurv;
+    return isCheckout;
   }
 
   get IsAdminRoute() {
