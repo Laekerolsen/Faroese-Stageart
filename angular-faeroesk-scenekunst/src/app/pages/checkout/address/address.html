@@ -42,7 +42,7 @@
     Leveringsadresse er samme som faktura adresse
   </label>
 
-  <div class="delivery-container gap-4" *ngIf="!form.get('useSameAddress')?.value" animate.enter="enter-animation-delivery" animate.leave="leaving-animation-delivery">
+  <div class="delivery-container gap-4" *ngIf="!form.get('useSameAddress')?.value && this.store.basket().shippingExclVat > 0" animate.enter="enter-animation-delivery" animate.leave="leaving-animation-delivery">
     <h2 class="text-2xl font-bold">Leveringsadresse</h2>
     <div class="delivery gap-4" formGroupName="deliveryAddress">
       <input formControlName="name" placeholder="Navn" />
