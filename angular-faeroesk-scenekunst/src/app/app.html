@@ -20,7 +20,7 @@
     <div class="top-basket" *ngIf="hasLines && !IsCheckoutRoute && isPhone()" class="basket-top">
       <app-basket-small-component></app-basket-small-component>
     </div>
-    <app-checkout-stepper *ngIf="hasLines && IsCheckoutRoute" [currentStep]="CheckoutStage"></app-checkout-stepper>
+    <app-checkout-stepper *ngIf="hasLines && IsCheckoutRoute && !IsAdminRoute" [currentStep]="CheckoutStage"></app-checkout-stepper>
     <div class="main-container container mx-auto max-w-13xl flex flex-row gap-8">
       <div class="left-side {{ BasketFlowClass }}">
         <router-outlet />
@@ -29,26 +29,23 @@
       <div *ngIf="!IsCheckoutRoute" class="basket right-side basket-area gap-8">
         <app-basket-small-component class="{{ ShowHideBasketClass(hasLines) }}" *ngIf="!IsCheckoutRoute"></app-basket-small-component>
         
-        <app-profile-component *ngIf="!IsCheckoutRoute" [showOrdersListPageLink]="true"></app-profile-component>
+        <app-profile-component *ngIf="!IsAdminRoute && !IsCheckoutRoute" [showOrdersListPageLink]="true"></app-profile-component>
         
         <div *ngIf="hasLines && shipping > 0" class="basket-right shipping-checkout gap-4">
           <h2 class="text-1xl font-bold">Din valgte leveringsmetode</h2>
           <p>Du har valgt levering med GLS Pakkeshop, vær opmærksom på, at vi har 3-7 dages leveringstid.</p>
           <p>Levering med GLS er kun muligt, hvis du har valgt at købe en fysisk vare.</p>
-          <p>Hvis du vil læse mere om vores salgs og leveringsbetingelser, så klik på nedenstående knap</p>
           <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
         </div>
         <div *ngIf="hasLines && shipping == 0" class="basket-right shipping-checkout gap-4">
           <h2 class="text-1xl font-bold">Du har valgt at hente ordren selv</h2>
           <p>Bemærk at du kan kun hente fysiske varer selv. Digitale varer som billetter og andet kan kun leveres på mail.</p>
-          <p>Hvis du vil læse mere om vores salgs og leveringsbetingelser, så klik på nedenstående knap</p>
           <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
         </div>
         <div *ngIf="!hasLines" class="basket-right shipping-checkout gap-4">
           <h2 class="text-1xl font-bold">Salgs og leveringsbetingelser</h2>
           <p>Du kan få fysiske varer leveret med GLS, vær opmærksom på, at vi har 3-7 dages leveringstid.</p>
           <p>Du kan også hente fysiske varer selv. Digitale varer som billetter og andet kan kun leveres på mail.</p>
-          <p>Hvis du vil læse mere om vores salgs og leveringsbetingelser, så klik på nedenstående knap</p>
           <button class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700" (click)="openModal()">Læs mere</button>
         </div>
         <app-viva-payment-icons [showHeader]="true"></app-viva-payment-icons>
