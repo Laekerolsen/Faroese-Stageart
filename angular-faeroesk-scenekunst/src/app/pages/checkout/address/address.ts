@@ -146,6 +146,7 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
   sameSubscription: Subscription | null = null;
   invoiceSubscription: Subscription | null = null;
+  deliverySubscription: Subscription | null = null;
 
   handleAddressSync() {
     const invoice = this.form.get('invoiceAddress')!;
@@ -162,22 +163,28 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
     this.sameSubscription = same.valueChanges.subscribe(isSame => {
       //this.store.basket().useSameAddress = isSame;
-      this.store.setUseSameAddress(isSame);
+      //this.store.setUseSameAddress(isSame);
 
       if (isSame) {
         delivery.disable();
+
+        let invoiceValue = invoice.getRawValue();
+
         delivery.patchValue(invoice.getRawValue());
+
+
 
         const value = this.form.getRawValue();
 
-        //this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
-        //this.store.basket().deliveryAddress = this.mapToAddress(value.invoiceAddress);
+        this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
+        this.store.basket().deliveryAddress = this.mapToAddress(value.invoiceAddress);
 
-        this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
-        this.store.setDeliveryAddress(this.mapToAddress(value.invoiceAddress));
+        //this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
+        //this.store.setDeliveryAddress(this.mapToAddress(value.invoiceAddress));
       } else {
         delivery.enable();
-        delivery.reset({
+
+        const resetValue = this.store.AddressesFromStorage.length > 1 ? this.mapAddressToForm(this.store.AddressesFromStorage[1]) : {
           name: '',
           company: null,
           street: '',
@@ -187,24 +194,53 @@ export class AddressPageComponent implements OnInit, OnDestroy {
           country: 'Danmark',
           phone: '',
           email: ''
-        });
+        };
+
+        delivery.reset(resetValue);
 
         const value = this.form.getRawValue();
 
-        //this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
-        //this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+        //delivery.patchValue(value.deliveryAddress);
 
-        this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
-        this.store.setDeliveryAddress(this.mapToAddress(value.deliveryAddress));
+        this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
+        this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+
+        //this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
+        //this.store.setDeliveryAddress(this.mapToAddress(value.deliveryAddress));
       }
     });
 
     this.invoiceSubscription = invoice.valueChanges.subscribe(() => {
       if (same.value) {
+        try {
+        const value = this.form.getRawValue();
+        delivery.patchValue(invoice.getRawValue());
+        this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
+        this.store.basket().deliveryAddress = this.mapToAddress(value.invoiceAddress);
+        } catch (error) {
+          //console.error('Error patching invoice address:', error);
+        }
+      }
+      else if (same.value) {
+        try {
         const value = this.form.getRawValue();
         delivery.patchValue(invoice.getRawValue());
         this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
         this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+        } catch (error) {
+          //console.error('Error patching invoice address:', error);
+        }
+      }
+    });
+
+    this.deliverySubscription = delivery.valueChanges.subscribe(() => {
+      if (!same.value) {
+        const value = this.form.getRawValue();
+        this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+      }
+      else if (same.value) {
+        const value = this.form.getRawValue();
+        this.store.basket().deliveryAddress = this.mapToAddress(value.invoiceAddress);
       }
     });
 
@@ -237,6 +273,7 @@ export class AddressPageComponent implements OnInit, OnDestroy {
   {
     this.sameSubscription?.unsubscribe();
     this.invoiceSubscription?.unsubscribe();
+    this.deliverySubscription?.unsubscribe();
 
     //this.store.saveTermsAccepted();
     //this.store.saveAddressConfirmed();
@@ -257,8 +294,8 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
       this.store.basket().useSameAddress = value.useSameAddress;
 
-      //this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
-      //this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
+      this.store.basket().invoiceAddress = this.mapToAddress(value.invoiceAddress);
+      this.store.basket().deliveryAddress = this.mapToAddress(value.deliveryAddress);
 
       this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
       this.store.setDeliveryAddress(this.mapToAddress(value.deliveryAddress));
@@ -273,9 +310,12 @@ export class AddressPageComponent implements OnInit, OnDestroy {
       this.store.saveTermsAccepted();
       this.store.saveAddressConfirmed();
 
-      this.store.synchronizeAddresses();
+      this.store.addresses.set([this.store.basket().invoiceAddress, this.store.basket().deliveryAddress]);
+      this.store.addresses.update(addrs => [this.store.basket().invoiceAddress, this.store.basket().deliveryAddress]);
 
       this.store.saveAddresses();
+
+//      this.store.synchronizeAddresses();
 
       this.router.navigate(['/betaling']);
     }

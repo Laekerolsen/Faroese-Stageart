@@ -1,4 +1,4 @@
-<div *ngIf="store.order() as o" class="payment-page">
+<div *ngIf="currentOrder() as o" class="payment-page">
 
   <h2 class="text-2xl font-bold">Købsoversigt</h2>
 
@@ -6,7 +6,7 @@
   <div class="box">
     <h3 class="text-1xl font-bold">Varer</h3>
 
-    <div *ngFor="let item of o.lines">
+    <div *ngFor="let item of o.lines" class="order-item order-line">
       <div class="pap gap-4 flex flex-row">
         <div class="pname">
           {{ item.productName }}

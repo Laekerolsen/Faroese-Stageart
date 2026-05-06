@@ -15,6 +15,7 @@ export class BasketStore {
   private readonly storageKeyIsConfirmed = 'isconfirmed';
   private readonly storageKeyHasAddress = 'hasaddress';
   private readonly storageOrderKey = 'order';
+  public readonly storageOrdersListKey = 'orderslist';
   private readonly storageAddressesKey = 'addresses';
 
   public TermsAccepted = signal(false);
@@ -320,6 +321,54 @@ export class BasketStore {
     };
 
     return order;
+  }
+
+  get OldOrdersList(): Order[] {
+    const raw = localStorage.getItem(this.storageOrdersListKey);
+
+    //this.OldOrdersListAsSignal.set(raw ? JSON.parse(raw) : []);
+
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  //OldOrdersListAsSignal = signal<Order[]>(this.OldOrdersList) || signal<Order[]>([]);
+
+  get orderListSortedByDateDesc(): Order[] {
+    const orders = this.OldOrdersList;
+    return orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  get orderListSortedByDateAsc(): Order[] {
+    const orders = this.OldOrdersList;
+    return orders.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+  }
+
+  get orderList(): Order[] {
+    return this.orderListSortedByDateDesc;
+  }
+
+  setOldOrdersList(orders: Order[]) {
+    localStorage.setItem(this.storageOrdersListKey, JSON.stringify(orders));
+  }
+
+  updateOldOrdersList(order: Order) {
+    const orders = this.OldOrdersList;
+    if (orders.some(o => o.id === order.id)) return;
+    orders.push(order);
+    this.setOldOrdersList(orders);
+  }
+
+  updateOrderInOldOrdersList(updatedOrder: Order) {
+    const orders = this.OldOrdersList;
+    const index = orders.findIndex(o => o.id === updatedOrder.id);
+    if (index !== -1) {
+      orders[index] = updatedOrder;
+      this.setOldOrdersList(orders);
+    }
+  }
+
+  clearOldOrders() {
+    localStorage.removeItem(this.storageOrdersListKey);
   }
 
 

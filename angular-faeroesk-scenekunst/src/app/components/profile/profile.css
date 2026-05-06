@@ -1,0 +1,108 @@
+.crop {
+  width: 200px;
+  height: 280px;
+  object-fit: cover;       /* fills the box, crops overflow */
+  object-position: center; /* change to top, left, etc. */
+}
+
+.text-1xl {
+  font-size: 0.85rem;
+}
+
+.pap {
+    display: flex;
+    width: stretch;
+    flex-direction: row;
+}
+
+.price, 
+div.price,
+.p-price,
+.total-result {
+  text-align: right;
+  width: stretch;
+}
+
+.pname {
+  width: stretch;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: var(--red-to-pink-to-purple-vertical-gradient);
+  margin-block: 1.5rem;
+}
+
+.enter-animation {
+  animation: slide-fade 1s;
+}
+
+.leaving {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 500ms ease-out,
+    transform 500ms ease-out;
+}
+
+@keyframes slide-fade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 650px) {
+    .text-1xl {
+        font-size: 1.25rem;
+    }
+    .content {
+      flex-direction: column;
+      /*width: max-content;*/
+    }
+    .container {
+        flex-direction: column;
+    }
+
+    .left-side, .right-side {
+        max-width: 100%;
+    }
+
+    .divider {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .p-8 {
+    padding-top: 2rem;
+    padding-right: 0rem;
+    padding-bottom: 0rem;
+    padding-left: 0rem;
+    }
+
+    app-post {
+        padding-top: 0rem;
+        padding-right: 0rem;
+        padding-bottom: 0rem;
+        padding-left: 0rem;
+    }
+
+    .breadcrumb {
+        padding-top: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 0rem;
+        padding-left: 1rem;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: var(--red-to-pink-to-purple-horizontal-gradient);
+      margin-block: 1.5rem;
+    }
+  }

@@ -1,0 +1,12 @@
+
+<h1 class="text-3xl font-bold mb-4">Se dine tidligere ordrer</h1>
+<app-profile-component [showOrdersListPageLink]="false" [showDivider]="false"></app-profile-component>
+
+ <div *ngIf="showComponent && showList()" class="flex flex-col gap-4">
+    <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" (click)="clearOldOrders()">Slet gamle ordrer</button>
+
+    <div role="separator" aria-label="Divider" class="divider"></div>
+</div>
+
+<app-orderslist-component *ngIf="showComponent"></app-orderslist-component>
+<div *ngIf="!showComponent" class="text-1xl">Der er ingen tidligere ordrer, der kan vises.</div>

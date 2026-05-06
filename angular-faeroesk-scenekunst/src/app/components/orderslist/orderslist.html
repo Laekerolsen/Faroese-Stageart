@@ -1,0 +1,24 @@
+<div *ngIf="currentOrdersList() as olist" class="payment-page flex flex-col gap-4">
+
+  <h2 class="text-2xl font-bold">Tidligere ordrer/køb i shoppen</h2>
+
+  <input
+    type="search"
+    placeholder="Søg efter ordre ID eller status..."
+    class="border rounded px-3 py-2 w-full max-w-md"
+    [value]="searchTerm()"
+    (input)="searchTerm.set($any($event.target).value)"
+  />
+
+  <div *ngFor="let o of olist" class="box mb-4 flex flex-col gap-4">
+    <div class="order-container flex flex-row gap-4">
+      <div class="orderid-column"><h3 class="font-bold">Ordre ID: {{ o.id }}</h3></div>
+      <div class="orderstatus-column"><p>Ordre status: {{ o.orderStatus }}</p></div>
+      <div class="orderdate-column"><p>Ordre dato: {{ o.createdAt | date:'medium' }}</p></div>
+      <div class="ordertotal-column"><p>Ordre total: {{ o.totalInclVat | number:'1.2-2' }} {{ o.currency }}</p></div>
+      <div class="orderlink-column"><a [routerLink]="['/ordre', o.id]" class="text-blue-500 hover:underline">Se detaljer</a></div>
+    </div>
+    <div role="separator" aria-label="Divider" class="divider"></div>
+  </div>
+
+</div>

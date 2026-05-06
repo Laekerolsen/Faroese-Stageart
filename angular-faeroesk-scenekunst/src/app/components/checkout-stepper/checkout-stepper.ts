@@ -74,8 +74,6 @@ export class CheckoutStepperComponent {
     const path = currentRoute.snapshot.routeConfig?.path;
     const isConfirmation = path === '/betalt' || path === 'betalt';
 
-    //console.log('Current path:', path, 'Is confirmation route:', isConfirmation);
-
     return isConfirmation;
   }
 }

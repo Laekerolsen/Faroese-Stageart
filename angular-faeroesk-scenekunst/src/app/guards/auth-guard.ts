@@ -38,17 +38,28 @@ export class AuthGuard implements CanActivate {
       const IsLoginRequired = requiredPermissions.filter(permission => permission === 'islogin')?.length > 0;
       const IsHasLinesRequired = requiredPermissions.filter(permission => permission === 'haslines')?.length > 0;
       const IsHasPaymentRequired = requiredPermissions.filter(permission => permission === 'haspayment')?.length > 0;
+      const IsHasOrdersRequired = requiredPermissions.filter(permission => permission === 'hasorders')?.length > 0;
+      const IsHasOrderIdRequired = requiredPermissions.filter(permission => permission === 'hasorderid')?.length > 0;
+      const IsHasAddressesRequired = requiredPermissions.filter(permission => permission === 'hasaddresses')?.length > 0;
 
+      const hasOrderId = !!route.paramMap.get('id');
+      const hasOrders = this.store.order() !== null;
+      const hasAddresses = this.store.addresses().length > 0 || false;
+      
       const hasLines = this.store.basket().lines.length > 0 || false;
       const hasPayment = this.store.order().orderStatus === 'confirmed' || false;
-
-      console.log(this.store.TermsAccepted(), this.store.AddressConfirmed(), hasLines, hasPayment);
 
       if (IsLoginRequired && this.isLoggedIn)
       {
         if (this.isLoggedIn)
         {
-          if ((IsConfirmedRequired && !this.store.TermsAccepted()) || (IsHasAddressRequired && !this.store.AddressConfirmed()) || (IsHasLinesRequired && !hasLines) || (IsHasPaymentRequired && !hasPayment))
+          if ((IsConfirmedRequired && !this.store.TermsAccepted()) 
+            || (IsHasAddressRequired && !this.store.AddressConfirmed()) 
+            || (IsHasLinesRequired && !hasLines) 
+            || (IsHasPaymentRequired && !hasPayment)
+            || (IsHasOrdersRequired && !hasOrders)
+            || (IsHasOrderIdRequired && !hasOrderId)
+            || (IsHasAddressesRequired && !hasAddresses))
           {
             this.router.navigate([RedirectUrl]);
             return false;
@@ -79,7 +90,13 @@ export class AuthGuard implements CanActivate {
       }
       else
       {
-        if ((IsConfirmedRequired && !this.store.TermsAccepted()) || (IsHasAddressRequired && !this.store.AddressConfirmed()) || (IsHasLinesRequired && !this.store.basket().lines.length) || (IsHasPaymentRequired && !hasPayment))
+        if ((IsConfirmedRequired && !this.store.TermsAccepted()) 
+            || (IsHasAddressRequired && !this.store.AddressConfirmed()) 
+            || (IsHasLinesRequired && !this.store.basket().lines.length) 
+            || (IsHasPaymentRequired && !hasPayment)
+            || (IsHasOrdersRequired && !hasOrders)
+            || (IsHasOrderIdRequired && !hasOrderId)
+            || (IsHasAddressesRequired && !hasAddresses))
           {
             this.router.navigate([RedirectUrl]);
             return false;

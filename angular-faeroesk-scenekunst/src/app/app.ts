@@ -109,7 +109,7 @@ export class App implements OnInit {
     }
 
     const path = currentRoute.snapshot.routeConfig?.path;
-    const isKurv = path === 'kurv' || path === 'adresse' || path === 'betaling' || path === 'betalt' || path === 'bekræftelse';
+    const isKurv = path === 'kurv' || path === 'adresse' || path === 'betaling' || path === 'betalt' || path === 'bekræftelse' || path === 'min-side' || path === 'ordrer' || path === 'ordre/:id';
 
     //if (!isKurv)
       //this.store.clearOrder();

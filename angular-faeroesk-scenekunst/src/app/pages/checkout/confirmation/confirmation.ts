@@ -34,12 +34,28 @@ export class ConfirmationPageComponent implements OnInit {
     this.store.order.update(o => ({ ...o, deliveryAddress: this.store.basket().deliveryAddress }));
     this.store.order.update(o => ({ ...o, orderStatus: 'confirmed' }));
 
-    this.store.clearOnOrderConfirmation();
+    const orderlines: OrderLine[] = [];
+    
+    if (this.store.basket().lines) this.store.basket().lines.forEach(bline => {
+      const oline: OrderLine = {
+            product: bline.product,
+            productId: bline.productId,
+            productName: bline.productName,
+            quantity: bline.quantity,
+            totalPrice: bline.totalPrice,
+            unitPrice: bline.unitPriceExclVat,
+          };
+      orderlines.push(oline);
+    });
+
+    this.store.order.update(o => ({ ...o, lines: orderlines }));
   }
 
   ngOnInit(): void {
     if (this.store.order().orderStatus !== 'confirmed')
       this.router.navigate(['/betaling']);
+
+    this.store.clearOnOrderConfirmation();
   }
 
   orderConfirmed()

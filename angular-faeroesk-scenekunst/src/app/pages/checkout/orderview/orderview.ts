@@ -15,13 +15,13 @@ const urlFor = (source: any) => builder.image(source);
 
 
 @Component({
-  selector: 'app-payment',
+  selector: 'app-orderview',
   standalone: false,
-  templateUrl: './payment.html',
-  styleUrl: './payment.css',
+  templateUrl: './orderview.html',
+  styleUrl: './orderview.css',
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class PaymentPageComponent implements OnInit {
+export class OrderViewPageComponent implements OnInit {
 
   public store: BasketStore;
   private router: Router;
@@ -29,34 +29,19 @@ export class PaymentPageComponent implements OnInit {
   constructor(private _store: BasketStore, _router: Router) {
     this.store = _store;
     this.router = _router;
-
-    //this.store.clearOrder();
   }
+
+  readonly currentOrder = computed(() => {
+    const orderid = this.router.url.split('/').pop() || '';
+
+    return this.store.OldOrdersList.find(o => o.id === orderid) ?? null;
+  });
 
   ngOnInit(): void {
-    if (!this.store.basket().lines || this.store.basket().lines.length == 0 || !this.store.TermsAccepted())
-      this.router.navigate(['/kurv']);
-    else if (this.store.TermsAccepted() && !this.store.AddressConfirmed())
-      this.router.navigate(['/adresse']);
-  }
-
-  orderConfirmed()
-  {
-    this.store.order().orderStatus = 'confirmed';
-  }
-
-  orderPending()
-  {
-    this.store.order().orderStatus = 'pending';
-  }
-
-  orderApproved()
-  {
-    this.store.order().orderStatus = 'approved';
-  }
-  
-  submit() {
-    //  Go to PaymentProvider!!! =>
+    if (this.currentOrder() &&this.currentOrder()?.orderStatus !== 'confirmed')
+      this.router.navigate(['/ordrer']);
+    else if (!this.currentOrder())
+      this.router.navigate(['/ordrer']);
   }
 
   get shipping()
@@ -82,10 +67,8 @@ export class PaymentPageComponent implements OnInit {
   createOrder() {
     const orderlines: OrderLine[] = [];
     
-    if (this.store.basket().lines) 
-    {
-      this.store.basket().lines.forEach(bline => {
-        const oline: OrderLine = {
+    if (this.store.basket().lines) this.store.basket().lines.forEach(bline => {
+      const oline: OrderLine = {
             product: bline.product,
             productId: bline.productId,
             productName: bline.productName,
@@ -93,9 +76,8 @@ export class PaymentPageComponent implements OnInit {
             totalPrice: bline.totalPrice,
             unitPrice: bline.unitPriceExclVat,
           };
-        orderlines.push(oline);
-      });
-    }
+      orderlines.push(oline);
+    });
 
     const order: Order = {
       createdAt: new Date().toISOString(),
@@ -103,7 +85,7 @@ export class PaymentPageComponent implements OnInit {
       invoiceAddress: this.store.basket().invoiceAddress,
       deliveryAddress: this.store.basket().deliveryAddress,
       id: this.store.basket().id,
-      orderStatus: 'confirmed',
+      orderStatus: 'initialized',
       lines: orderlines,
       shippingExclVat: this.store.basket().shippingExclVat,
       shippingVat: this.store.basket().shippingVat,
@@ -117,18 +99,6 @@ export class PaymentPageComponent implements OnInit {
     };
 
     this.store.order.set(order);
-
-    this.store.updateOldOrdersList(order);
-  }
-
-  payWithViva() {
-    this.createOrder();
-    this.router.navigate(['/betalt']);
-  }
-
-  backToAddress()
-  {
-    this.router.navigate(['/adresse']);
   }
 
   public urlFor = urlFor;

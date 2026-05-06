@@ -11,7 +11,7 @@
         <p class="text-1xl">Vi behandler din ordre og sender dig endnu en bekræftelse på e-mail, når vi afsender den.</p>
         <p class="text-1xl">Hvis du har spørgsmål til din ordre, er du velkommen til at kontakte os på <a href="mailto:nielsjuel.njp@gmail.com">nielsjuel.njp@gmail.com</a>.</p>
       </div>
-      <app-confirmed-orderoverview-component></app-confirmed-orderoverview-component>      
+      <app-confirmed-orderoverview-component [OrderId]="o.id" [order]="o"></app-confirmed-orderoverview-component>      
     </div>
 
   </div>

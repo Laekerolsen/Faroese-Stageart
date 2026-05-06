@@ -28,11 +28,15 @@ import { DynamicModalComponent } from './components/dynamic-modal/dynamic-modal'
 import { GlobalErrorHandler } from './handlers/global-error-handler';
 import { ConfirmationPageComponent } from './pages/checkout/confirmation/confirmation';
 import { ConfirmedOrderOverviewComponent } from './components/confirmed-orderoverview/confirmed-orderoverview';
+import { OrdersListPageComponent } from './pages/checkout/orderslist/orderslist';
+import { OrderViewPageComponent } from './pages/checkout/orderview/orderview';
+import { ProfileComponent } from './components/profile/profile';
+import { OrdersListComponent } from './components/orderslist/orderslist';
 
 @NgModule({
-  declarations: [App, HomeComponent, PostComponent, BasketPageComponent, AddressPageComponent, PaymentPageComponent, ConfirmationPageComponent],
+  declarations: [App, HomeComponent, PostComponent, BasketPageComponent, AddressPageComponent, PaymentPageComponent, ConfirmationPageComponent, OrdersListPageComponent, OrderViewPageComponent],
   imports: [BrowserModule, CommonModule, RouterModule.forRoot(routes, {enableViewTransitions: true, scrollPositionRestoration: 'enabled'}), 
-    RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, ConfirmedOrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent, VivaPaymentIconsComponent, TermsModalComponent, DynamicModalComponent],
+    RouterOutlet, ReactiveFormsModule, BasketComponent, BasketSmallComponent, ShippingComponent, DiscountComponent, CheckoutComponent, OrderOverviewComponent, ConfirmedOrderOverviewComponent, CheckoutStepperComponent, DeliveryModalComponent, VivaPaymentIconsComponent, TermsModalComponent, DynamicModalComponent, ProfileComponent, OrdersListComponent],
   providers: [SeoMetadata, provideClientHydration(withEventReplay()), BasketStore, provideAnimations(), { provide: ErrorHandler, useClass: GlobalErrorHandler }],
   bootstrap: [App],
 })

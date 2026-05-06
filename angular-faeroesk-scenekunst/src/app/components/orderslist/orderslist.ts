@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ErrorHandler, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ErrorHandler, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { client } from '../../sanity/client';
@@ -7,6 +7,7 @@ import { firstValueFrom, from, Observable } from 'rxjs';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { BasketStore } from '../../services/basket';
 import { GlobalErrorHandler } from '../../handlers/global-error-handler';
+import { Order } from '../../Models/order.model';
 
 const builder = createImageUrlBuilder(client);
 const urlFor = (source: any) => builder.image(source);
@@ -22,17 +23,17 @@ interface Post {
 }
 
 @Component({
-  selector: 'app-orderoverview-component',
+  selector: 'app-orderslist-component',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './orderoverview.html',
-  styleUrl: './orderoverview.css',
+  imports: [CommonModule, RouterModule],
+  templateUrl: './orderslist.html',
+  styleUrl: './orderslist.css',
   changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ]
 })
-export class OrderOverviewComponent implements OnInit {
+export class OrdersListComponent implements OnInit {
   public store = inject(BasketStore);
   basket = this.store.basket$;
 
@@ -50,6 +51,18 @@ export class OrderOverviewComponent implements OnInit {
     this.router = _router;
   }
 
+  readonly searchTerm = signal('');
+
+  readonly currentOrdersList = computed(() => {
+    const confirmed: Order[] = this.store.orderList.filter(order => order.orderStatus === 'confirmed');
+    const term = this.searchTerm().toLowerCase().trim();
+    if (!term) return confirmed;
+    return confirmed.filter(o =>
+      o.id.toLowerCase().includes(term) ||
+      o.orderStatus.toLowerCase().includes(term)
+    );
+  });
+
   ngOnInit() {
     this.zone.run(() => {
 
@@ -64,7 +77,7 @@ export class OrderOverviewComponent implements OnInit {
       let subtotal: number = 0;
 
       this.store.basket().lines.forEach(line =>{
-        subtotal = subtotal + (line.totalInclVat);
+        subtotal = subtotal + (line.totalInclVat * line.quantity);
       });
 
       return subtotal;
