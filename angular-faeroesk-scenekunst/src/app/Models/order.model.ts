@@ -38,5 +38,5 @@ export interface Order {
   deliveryAddress: Address;
   useSameAddress: boolean;
 
-  comments?: string;
+  comments: string;
 }

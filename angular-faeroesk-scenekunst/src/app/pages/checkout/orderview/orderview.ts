@@ -95,7 +95,8 @@ export class OrderViewPageComponent implements OnInit {
       totalVat: this.store.basket().totalVat,
       userId: this.store.basket().userId || '',
       useSameAddress: this.store.basket().useSameAddress,
-      discount: this.store.basket().discount
+      discount: this.store.basket().discount,
+      comments: this.store.basket().comments
     };
 
     this.store.order.set(order);

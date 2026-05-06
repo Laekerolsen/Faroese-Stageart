@@ -25,7 +25,7 @@ export interface Basket {
     deliveryAddress: Address;
     useSameAddress: boolean;
   
-  comments?: string;
+  comments: string;
 }
 
 export class BasketModel {

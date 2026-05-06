@@ -34,7 +34,7 @@
       </p>
     </div>
 
-    <div *ngIf="o.comments && o.comments?.trim() !== ''" class="box">
+    <div *ngIf="o.comments && o.comments.trim() !== ''" class="box">
       <h3 class="text-1xl font-bold">Kommentarer til ordren</h3>
       {{ o.comments }}
     </div>
