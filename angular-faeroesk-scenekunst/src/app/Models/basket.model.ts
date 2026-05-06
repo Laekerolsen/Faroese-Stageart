@@ -24,6 +24,8 @@ export interface Basket {
     invoiceAddress: Address;
     deliveryAddress: Address;
     useSameAddress: boolean;
+  
+  comments?: string;
 }
 
 export class BasketModel {

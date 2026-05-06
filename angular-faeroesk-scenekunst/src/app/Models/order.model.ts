@@ -37,4 +37,6 @@ export interface Order {
   invoiceAddress: Address;
   deliveryAddress: Address;
   useSameAddress: boolean;
+
+  comments?: string;
 }

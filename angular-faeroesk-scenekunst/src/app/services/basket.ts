@@ -262,7 +262,8 @@ export class BasketStore {
       totalInclVat: 0,
       useSameAddress: true,
       invoiceAddress: this.createEmptyAddress(),
-      deliveryAddress: this.createEmptyAddress()
+      deliveryAddress: this.createEmptyAddress(),
+      comments: ''
     };
   }
 
@@ -317,7 +318,8 @@ export class BasketStore {
       totalVat: this.basket().totalVat,
       userId: this.basket().userId || '',
       useSameAddress: this.basket().useSameAddress,
-      discount: this.basket().discount
+      discount: this.basket().discount,
+      comments: this.basket().comments
     };
 
     return order;

@@ -39,6 +39,7 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
   form!: FormGroup<{
     useSameAddress: FormControl<boolean>;
+    comments: FormControl<string>;
     invoiceAddress: FormGroup<AddressForm>;
     deliveryAddress: FormGroup<AddressForm>;
   }>;
@@ -73,6 +74,7 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
         useSameAddress: this.fb.control(this.store.basket().useSameAddress, { nonNullable: true }),
+        comments: this.fb.control(this.store.basket().comments || '', { nonNullable: true }),
         invoiceAddress: this.createAddressGroup(true),
         deliveryAddress: this.createAddressGroup(false)
       });
@@ -147,11 +149,13 @@ export class AddressPageComponent implements OnInit, OnDestroy {
   sameSubscription: Subscription | null = null;
   invoiceSubscription: Subscription | null = null;
   deliverySubscription: Subscription | null = null;
+  commentsSubscription: Subscription | null = null;
 
   handleAddressSync() {
     const invoice = this.form.get('invoiceAddress')!;
     const delivery = this.form.get('deliveryAddress')!;
     const same = this.form.get('useSameAddress')!;
+    const comments = this.form.get('comments')!;
 
     const invoiceFromBasket = this.store.basket().invoiceAddress;
     const deliveryFromBasket = this.store.basket().deliveryAddress;
@@ -160,6 +164,11 @@ export class AddressPageComponent implements OnInit, OnDestroy {
       same.disable();
     else
       same.enable();
+
+    this.commentsSubscription = comments.valueChanges.subscribe(commentsValue => {
+      this.store.basket().comments = commentsValue;
+      //this.store.basket.update(b => ({ ...b, comments: commentsValue }));
+    });
 
     this.sameSubscription = same.valueChanges.subscribe(isSame => {
       //this.store.basket().useSameAddress = isSame;
@@ -274,7 +283,7 @@ export class AddressPageComponent implements OnInit, OnDestroy {
     this.sameSubscription?.unsubscribe();
     this.invoiceSubscription?.unsubscribe();
     this.deliverySubscription?.unsubscribe();
-
+    this.commentsSubscription?.unsubscribe();
     //this.store.saveTermsAccepted();
     //this.store.saveAddressConfirmed();
 
@@ -299,6 +308,9 @@ export class AddressPageComponent implements OnInit, OnDestroy {
 
       this.store.setInvoiceAddress(this.mapToAddress(value.invoiceAddress));
       this.store.setDeliveryAddress(this.mapToAddress(value.deliveryAddress));
+
+      this.store.basket().comments = value.comments;
+      this.store.basket.update(b => ({ ...b, comments: value.comments }));
 
       this.store.TermsAccepted.set(true);
       this.store.TermsAccepted.update(v => true);

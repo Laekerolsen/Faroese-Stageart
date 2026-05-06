@@ -35,6 +35,8 @@
     </div>
   </div>
 
+  <textarea formControlName="comments" placeholder="Kommentarer til din bestilling (valgfrit)"></textarea>
+
   <label class="same" *ngIf="this.store.basket().shippingExclVat > 0">
     <input type="checkbox" formControlName="useSameAddress" />
     Leveringsadresse er samme som faktura adresse
